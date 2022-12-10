@@ -30,7 +30,7 @@ function SW.LoadWeathers()
 
 		if CLIENT and WEATHER.ConVar then
 
-			CreateClientConVar( WEATHER.ConVar[1], "1" )
+			--CreateClientConVar( WEATHER.ConVar[1], "1" )
 			table.insert( SW.ConVars, table.Copy( WEATHER.ConVar ) )
 
 		end
@@ -120,7 +120,7 @@ function SW.Think()
 
 	if LocalPlayer():GetViewEntity() == LocalPlayer() then
 
-		local s = hook.Call( "CalcView", GAMEMODE, LocalPlayer(), LocalPlayer():EyePos(), LocalPlayer():EyeAngles() , 75 )
+		local s = hook.Call( "CalcView" , GAMEMODE , LocalPlayer() , LocalPlayer():EyePos() , LocalPlayer():EyeAngles() , 75 )
 		if s and s.origin and s.angles then
 
 			SW.ViewPos = s.origin
@@ -347,7 +347,7 @@ end
 
 function SW.SirenSoundThink()
 
-	if GetConVarNumber( "sw_cl_sound" ) == 0 or GetConVarNumber( "sw_cl_sound_siren" ) == 0 then
+	if GetConVarNumber( "sw_cl_sound" ) == 0 then
 
 		if SW.SirenSound and SW.SirenSoundVolume != 0 then
 

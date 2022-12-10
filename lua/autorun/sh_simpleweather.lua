@@ -3,111 +3,113 @@ AddCSLuaFile( )
 
 SW = SW or { }
 
+local IsSinglePlayer = game.SinglePlayer()
+
 -- What maps to not run the skybox functions on
 SW.MapBlacklist = { 
-    "rp_bad_map_name_here",
-    "gm_another_bad_map",
-    "map_that_you_dont_want_sw_on" ,
+	"rp_bad_map_name_here",
+	"gm_another_bad_map",
+	"map_that_you_dont_want_sw_on" ,
  
-    -- A short list I know of to get you started -V92
-    -- Ideally, keep them alphabetical to preserve your sanity.
-    "act_airport" , -- Indoor
-    "act_city" , -- Night
-    "act_corp" , -- Night
-    "act_crash" , -- Rain
-    "act_metro" , -- Indoor
-    "act_plaza" , -- Indoor
-    "act_rails" , -- Indoor
-    "act_snowmax" , -- Snow
-    "ahl2_580plaza" , -- Indoor
-    "ahl2_airport" , -- Indoor
-    "ahl2_amuse" , -- Night
-    "ahl2_canalwar" , -- Night
-    "ahl2_killacorp" , -- Night
-    "ahl2_icetown" , -- Snow
-    "ancientdust_thc16c2" , -- Indoor
-    "credits" , -- Special
-    "d1_town_04" , -- Indoor
-    "d3_citadel_02" , -- Indoor
-    "d3_citadel_03" , -- Indoor
-    "d3_citadel_04" , -- Indoor
-    "d3_citadel_05" , -- Indoor
-    "de_crookcounty" , -- Fog
-    "de_nightfever" , -- Night
-    "de_shanty_v3_fix" , -- Rain
-    "de_vangogh_s" , -- Special
-    "dod_colmar" , -- Snow
-    "dod_wn71" , -- Special
-    "dm_agoge_b2" , -- Night
-    "dm_arctic_vendetta_sun_v3" , -- Snow
-    "dm_arctic_vendetta_snow_v3" , -- Night
-    "dm_zeus_redux" , -- Night
-    "ep1_c17_00" , -- Indoor
-    "ep1_c17_00a" , -- Indoor
-    "ep1_citadel_01" , -- Indoor
-    "ep1_citadel_02" , -- Indoor
-    "ep1_citadel_02b" , -- Indoor
-    "ep1_citadel_03" , -- Indoor
-    "ep1_citadel_04" , -- Indoor
-    "ep2_outland_02" , -- Indoor
-    "ep2_outland_03" , -- Indoor
-    "ep2_outland_04" , -- Indoor
-    "gm_arid_valley_v2_night" , -- Night
-    "gm_arena_submerge" , -- Indoor
-    "gm_adventurers" , -- Night
-    "gm_black" , -- Special
-    "gm_black_v2" , -- Special
-    "gm_black_v2_reflective" , -- Special
-    "gm_black_v3" , -- Special
-    "gm_black_v3_reflective" , -- Special
-    "gm_black_v3_colourable" , -- Special
-    "gm_blackmesasigma_night" , -- Night
-    "gm_downtown" , -- Night
-    "gm_dddustbowl_night" , -- Night
-    "gm_dddustbowl2night" , -- Night
-    "gm_excess_island_night" , -- Night
-    "gm_galactic_rc1" , -- Special
-    "gm_geekroom_v2" , -- Indoor
-    "gm_greenland" , -- Indoor
-    "gm_floatingworlds_ii_night" , -- Night
-    "gm_holygarden" , -- Night
-    "gm_holygarden_cataclysm" , -- Night
-    "gm_longentrepot" , -- Indoor
-    "gm_mallparking" , -- Indoor
-    "gm_skylife_v1" , -- Special
-    "gm_stormfront" , -- Rain
-    "gm_sunsetgulch_night" , -- Night
-    "gm_traincity_v2_rain" , -- Rain
-    "gm_traincity_v2_night" , -- Night
-    "fs_gs-teamspeak" , -- Indoor
-    "fs_shining" , -- Indoor
-    "haj_vinoridge" , -- Night
-    "holo_wreck_v3" , -- Special
-    "intro" , -- Special
-    "proxy_museum" , -- Special
-    "rp_cc_caves_01" , -- Indoor
-    "rp_ineu_pass_v1b_night" , -- Night
-    "rp_junglestorm" , -- Night
-    "rp_necro_torrington_v2" , -- Night
-    "rp_necro_urban_v1" , -- Snow
-    "rp_necro_urban_v2" , -- Snow
-    "rp_necro_urban_v3a" , -- Rain
-    "rp_necro_urban_v3b" , -- Rain
-    "rp_wildwest_sup" , -- Night
-    "steamclub_v1" , -- Indoor
-    "tetsu0_comp33" , -- Night
-    "trp_coastal-sub-facility_v2" , -- Night
-    "v92_airship" , -- Indoor
-    "v92_auditorium" , -- Indoor
-    "v92_basementdweller" , -- Indoor
-    "v92_brainarchives" , -- Indoor
-    "v92_cyberapartment" , -- Indoor
-    "v92_cyberapartment_blue" , -- Indoor
-    "v92_cyberapartment_green" , -- Indoor
-    "v92_ratloft" , -- Indoor
-    "v92_steptest" , -- Special
-    "v92_toysoldiers" , -- Indoor
-    "v92_toyhouse_night" , -- Night
+	-- A short list I know of to get you started -V92
+	-- Ideally, keep them alphabetical to preserve your sanity.
+	"act_airport" , -- Indoor
+	"act_city" , -- Night
+	"act_corp" , -- Night
+	"act_crash" , -- Rain
+	"act_metro" , -- Indoor
+	"act_plaza" , -- Indoor
+	"act_rails" , -- Indoor
+	"act_snowmax" , -- Snow
+	"ahl2_580plaza" , -- Indoor
+	"ahl2_airport" , -- Indoor
+	"ahl2_amuse" , -- Night
+	"ahl2_canalwar" , -- Night
+	"ahl2_killacorp" , -- Night
+	"ahl2_icetown" , -- Snow
+	"ancientdust_thc16c2" , -- Indoor
+	"credits" , -- Special
+	"d1_town_04" , -- Indoor
+	"d3_citadel_02" , -- Indoor
+	"d3_citadel_03" , -- Indoor
+	"d3_citadel_04" , -- Indoor
+	"d3_citadel_05" , -- Indoor
+	"de_crookcounty" , -- Fog
+	"de_nightfever" , -- Night
+	"de_shanty_v3_fix" , -- Rain
+	"de_vangogh_s" , -- Special
+	"dod_colmar" , -- Snow
+	"dod_wn71" , -- Special
+	"dm_agoge_b2" , -- Night
+	"dm_arctic_vendetta_sun_v3" , -- Snow
+	"dm_arctic_vendetta_snow_v3" , -- Night
+	"dm_zeus_redux" , -- Night
+	"ep1_c17_00" , -- Indoor
+	"ep1_c17_00a" , -- Indoor
+	"ep1_citadel_01" , -- Indoor
+	"ep1_citadel_02" , -- Indoor
+	"ep1_citadel_02b" , -- Indoor
+	"ep1_citadel_03" , -- Indoor
+	"ep1_citadel_04" , -- Indoor
+	"ep2_outland_02" , -- Indoor
+	"ep2_outland_03" , -- Indoor
+	"ep2_outland_04" , -- Indoor
+	"gm_arid_valley_v2_night" , -- Night
+	"gm_arena_submerge" , -- Indoor
+	"gm_adventurers" , -- Night
+	"gm_black" , -- Special
+	"gm_black_v2" , -- Special
+	"gm_black_v2_reflective" , -- Special
+	"gm_black_v3" , -- Special
+	"gm_black_v3_reflective" , -- Special
+	"gm_black_v3_colourable" , -- Special
+	"gm_blackmesasigma_night" , -- Night
+	"gm_downtown" , -- Night
+	"gm_dddustbowl_night" , -- Night
+	"gm_dddustbowl2night" , -- Night
+	"gm_excess_island_night" , -- Night
+	"gm_galactic_rc1" , -- Special
+	"gm_geekroom_v2" , -- Indoor
+	"gm_greenland" , -- Indoor
+	"gm_floatingworlds_ii_night" , -- Night
+	"gm_holygarden" , -- Night
+	"gm_holygarden_cataclysm" , -- Night
+	"gm_longentrepot" , -- Indoor
+	"gm_mallparking" , -- Indoor
+	"gm_skylife_v1" , -- Special
+	"gm_stormfront" , -- Rain
+	"gm_sunsetgulch_night" , -- Night
+	"gm_traincity_v2_rain" , -- Rain
+	"gm_traincity_v2_night" , -- Night
+	"fs_gs-teamspeak" , -- Indoor
+	"fs_shining" , -- Indoor
+	"haj_vinoridge" , -- Night
+	"holo_wreck_v3" , -- Special
+	"intro" , -- Special
+	"proxy_museum" , -- Special
+	"rp_cc_caves_01" , -- Indoor
+	"rp_ineu_pass_v1b_night" , -- Night
+	"rp_junglestorm" , -- Night
+	"rp_necro_torrington_v2" , -- Night
+	"rp_necro_urban_v1" , -- Snow
+	"rp_necro_urban_v2" , -- Snow
+	"rp_necro_urban_v3a" , -- Rain
+	"rp_necro_urban_v3b" , -- Rain
+	"rp_wildwest_sup" , -- Night
+	"steamclub_v1" , -- Indoor
+	"tetsu0_comp33" , -- Night
+	"trp_coastal-sub-facility_v2" , -- Night
+	"v92_airship" , -- Indoor
+	"v92_auditorium" , -- Indoor
+	"v92_basementdweller" , -- Indoor
+	"v92_brainarchives" , -- Indoor
+	"v92_cyberapartment" , -- Indoor
+	"v92_cyberapartment_blue" , -- Indoor
+	"v92_cyberapartment_green" , -- Indoor
+	"v92_ratloft" , -- Indoor
+	"v92_steptest" , -- Special
+	"v92_toysoldiers" , -- Indoor
+	"v92_toyhouse_night" , -- Night
 }
 
 ----------------------------------------
@@ -117,6 +119,7 @@ SW.MapBlacklist = {
 ----------------------------------------
 
 -- What weather to automatically start.
+-- NOTE: This isn't actually used!
 SW.AutoWeatherTypes = {
 	-- "acidrain" ,
 	-- "blizzard" ,
@@ -132,64 +135,73 @@ SW.AutoWeatherTypes = {
 	-- "heavystorm" ,
 }
 
-if SERVER then
 
-	----------------------------------------
-	----------------------------------------
-	-- CIRCUIT BREAKER
-	----------------------------------------
-	----------------------------------------
+local tab = file.Find( "simpleweather/weather/*.lua", "LUA" )
 
-	CreateConVar( "sw_func_master" , "1" , { FCVAR_ARCHIVE } , "(BOOL) Enable SimpleWeather mod." , "0" , "1" )
-	CreateConVar( "sw_func_lighting" , "1" , { FCVAR_ARCHIVE } , "(BOOL) Enable map lighting updates.\nTurn this off if the map's a night map already!" , "0" , "1" )
-	CreateConVar( "sw_func_sun" , "1" , { FCVAR_ARCHIVE } , "(BOOL) Enable sun moving through the sky." , "0" , "1" )
-	CreateConVar( "sw_func_skybox" , "1" , { FCVAR_ARCHIVE } , "(BOOL) Enable the skybox to change color through the day." , "0" , "1" )
-	CreateConVar( "sw_func_fog" , "1" , { FCVAR_ARCHIVE } , "(BOOL) Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , "0" , "1" )
-	CreateConVar( "sw_func_wind" , "1" , { FCVAR_ARCHIVE } , "(BOOL) Enable wind functions.\nTurn it off if weird stuff happens." , "0" , "1" )
-	CreateConVar( "sw_func_maplogic" , "1" , { FCVAR_ARCHIVE } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , "0" , "1" )
+for _, v in pairs( tab ) do
+	AddCSLuaFile( "simpleweather/weather/" .. v )
+	include( "simpleweather/weather/" .. v )
 
-	CreateConVar( "sw_autoweather" , "1" , { FCVAR_ARCHIVE } , "(BOOL) Enable auto-weather starting." , "0" , "1" )
-	CreateConVar( "sw_autoweather_minstart" , "1" , { FCVAR_ARCHIVE } , "(FLOAT) Minimum time in hours before weather begins." , "0" , "16" )
-	CreateConVar( "sw_autoweather_maxstart" , "3" , { FCVAR_ARCHIVE } , "(FLOAT) Maximum time in hours before weather begins." , "0" , "16" )
-	CreateConVar( "sw_autoweather_minstop" , "0.2" , { FCVAR_ARCHIVE } , "(FLOAT) Minimum time in hours before weather stops." , "0" , "16" )
-	CreateConVar( "sw_autoweather_maxstop" , "8" , { FCVAR_ARCHIVE } , "(FLOAT) Maximum time in hours before weather stops." , "0" , "16" )
-
-	CreateConVar( "sw_weather_eas" , "1" , { FCVAR_ARCHIVE } , "(BOOL) Toggle radio models playing the EAS broadcasting tones when severe weather starts." , "0" , "1" )
-	CreateConVar( "sw_weather_alwaysoutside" , "0" , { FCVAR_ARCHIVE } , "(BOOL) Should players be considered outside at all times?\n(ie. if you want snow in an indoor map) " , "0" , "1" )
-
-	CreateConVar( "sw_fog_densityday" , "1" , { FCVAR_ARCHIVE } , "(FLOAT) Fog max density during the day." , "0" , "1" )
-	CreateConVar( "sw_fog_densitynight" , "0.4" , { FCVAR_ARCHIVE } , "(FLOAT) Fog max density during the night." , "0" , "1" )
-	CreateConVar( "sw_fog_indoors" , "0" , { FCVAR_ARCHIVE } , "(INT) Enable fog when you have a roof over your head." , "0" , "1" )
-	CreateConVar( "sw_fog_speed" , "0.01" , { FCVAR_ARCHIVE } , "(FLOAT) Speed at which fog appears and disappears.\nDecrease to make fog changes slower." , "0" , "1" )
-
-	----------------------------------------
-	----------------------------------------
-	-- DAY/NIGHT SETTINGS
-	----------------------------------------
-	----------------------------------------
-
-	CreateConVar( "sw_time_pause" , "0" , { FCVAR_ARCHIVE } , "(BOOL) Change the passage of time on or off." , "0" , "1" )
-	CreateConVar( "sw_time_start" , "10" , { FCVAR_ARCHIVE } , "(INT) Set start time." , "0" , "23" )
-	CreateConVar( "sw_time_real" , "0" , { FCVAR_ARCHIVE } , "(BOOL) Set real-time on or off." , "0" , "1" )
-	CreateConVar( "sw_time_real_offset" , "0" , { FCVAR_ARCHIVE } , "(INT) If realtime is on, add this many timezones.\nFor example, if the server was GMT and you set this to -5, it'd be EST ingame." , "-12" , "12" )
-	CreateConVar( "sw_time_speed_day" , "0.01" , { FCVAR_ARCHIVE } , "(FLOAT) Multiplier of time during the day.\nMake this bigger for time to go faster, and smaller for time to go slower." , "0" , "1" )
-	CreateConVar( "sw_time_speed_night" , "0.02" , { FCVAR_ARCHIVE } , "(FLOAT) Multiplier of time during the night.\nMake this bigger for time to go faster, and smaller for time to go slower." , "0" , "1" )
-	CreateConVar( "sw_time_speed_stars" , "0.01" , { FCVAR_ARCHIVE } , "(FLOAT) Set the rotation speed of stars" , "0.01" , "5" )
-
-	-- CreateConVar( "sw_time_dawn" , "6" , { FCVAR_ARCHIVE } , "(INT) Hour to consider Dawn." , "0" , "23" )
-	-- CreateConVar( "sw_time_afternoon" , "12" , { FCVAR_ARCHIVE } , "(INT) Hour to consider Afternoon." , "0" , "23" )
-	-- CreateConVar( "sw_time_dusk" , "18" , { FCVAR_ARCHIVE } , "(INT) Hour to consider Dusk." , "0" , "23" )
-	-- CreateConVar( "sw_time_night" , "24" , { FCVAR_ARCHIVE } , "(INT) Hour to consider Night." , "0" , "23" )
-
-	CreateConVar( "sw_perf_updatedelay_client" , "1" , { FCVAR_ARCHIVE } , "(INT) Delay in seconds between updating the time on the client." , "1" , "60" )
-	CreateConVar( "sw_perf_updatedelay_sun" , "1" , { FCVAR_ARCHIVE } , "(FLOAT) Delay in seconds between updating the sun position.\nSetting this to a smaller number will allow smoother sun movement, but doing this also causes lag." , "0" , "15" )
-	CreateConVar( "sw_perf_updatedelay_sky" , "0.1" , { FCVAR_ARCHIVE } , "(FLOAT) Delay in seconds between updating the sky colors.\nSetting this to a smaller number will allow smoother transitions, but doing this also causes lag." , "0" , "15" )
-
-	CreateConVar( "sw_light_max_night" , "b" , { FCVAR_ARCHIVE , FCVAR_DONTRECORD } , "(a-z) Maximum darkness level during night.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
-	CreateConVar( "sw_light_max_day" , "y" , { FCVAR_ARCHIVE , FCVAR_DONTRECORD } , "(a-z) Maximum lightness level at noon on a clear day.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
-	CreateConVar( "sw_light_max_storm" , "j" , { FCVAR_ARCHIVE , FCVAR_DONTRECORD } , "(a-z) Maximum lightness level at noon on a stormy day.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
-
+	if WEATHER.ConVar then
+		CreateConVar( WEATHER.ConVar[1] , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , WEATHER.ConVar[2] , "0" , "1" )
+	end
+	
 end
+
+----------------------------------------
+----------------------------------------
+-- CIRCUIT BREAKER
+----------------------------------------
+----------------------------------------
+
+CreateConVar( "sw_func_master" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable SimpleWeather mod." , "0" , "1" )
+CreateConVar( "sw_func_lighting" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable map lighting updates.\nTurn this off if the map's a night map already!" , "0" , "1" )
+CreateConVar( "sw_func_sun" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable sun moving through the sky." , "0" , "1" )
+CreateConVar( "sw_func_skybox" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the skybox to change color through the day." , "0" , "1" )
+CreateConVar( "sw_func_fog" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , "0" , "1" )
+CreateConVar( "sw_func_wind" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable wind functions.\nTurn it off if weird stuff happens." , "0" , "1" )
+CreateConVar( "sw_func_maplogic" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , "0" , "1" )
+
+CreateConVar( "sw_autoweather" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , "0" , "1" )
+CreateConVar( "sw_autoweather_minstart" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , "0" , "16" )
+CreateConVar( "sw_autoweather_maxstart" , "3" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Maximum time in hours before weather begins." , "0" , "16" )
+CreateConVar( "sw_autoweather_minstop" , "0.2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather stops." , "0" , "16" )
+CreateConVar( "sw_autoweather_maxstop" , "8" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Maximum time in hours before weather stops." , "0" , "16" )
+
+CreateConVar( "sw_weather_eas" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle radio models playing the EAS broadcasting tones when severe weather starts." , "0" , "1" )
+CreateConVar( "sw_weather_alwaysoutside" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should players be considered outside at all times?\n(ie. if you want snow in an indoor map) " , "0" , "1" )
+
+CreateConVar( "sw_fog_densityday" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Fog max density during the day." , "0" , "1" )
+CreateConVar( "sw_fog_densitynight" , "0.4" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Fog max density during the night." , "0" , "1" )
+CreateConVar( "sw_fog_indoors" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Enable fog when you have a roof over your head." , "0" , "1" )
+CreateConVar( "sw_fog_speed" , "0.01" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Speed at which fog appears and disappears.\nDecrease to make fog changes slower." , "0" , "1" )
+
+----------------------------------------
+----------------------------------------
+-- DAY/NIGHT SETTINGS
+----------------------------------------
+----------------------------------------
+
+CreateConVar( "sw_time_pause" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Change the passage of time on or off." , "0" , "1" )
+CreateConVar( "sw_time_start" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Set start time." , "0" , "23" )
+CreateConVar( "sw_time_real" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Set real-time on or off." , "0" , "1" )
+CreateConVar( "sw_time_real_offset" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) If realtime is on, add this many timezones.\nFor example, if the server was GMT and you set this to -5, it'd be EST ingame." , "-12" , "12" )
+CreateConVar( "sw_time_speed_day" , "0.01" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Multiplier of time during the day.\nMake this bigger for time to go faster, and smaller for time to go slower." , "0" , "1" )
+CreateConVar( "sw_time_speed_night" , "0.02" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Multiplier of time during the night.\nMake this bigger for time to go faster, and smaller for time to go slower." , "0" , "1" )
+CreateConVar( "sw_time_speed_stars" , "0.01" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Set the rotation speed of stars" , "0.01" , "5" )
+
+-- CreateConVar( "sw_time_dawn" , "6" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Dawn." , "0" , "23" )
+-- CreateConVar( "sw_time_afternoon" , "12" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Afternoon." , "0" , "23" )
+-- CreateConVar( "sw_time_dusk" , "18" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Dusk." , "0" , "23" )
+-- CreateConVar( "sw_time_night" , "24" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Night." , "0" , "23" )
+
+CreateConVar( "sw_perf_updatedelay_client" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay in seconds between updating the time on the client." , "1" , "60" )
+CreateConVar( "sw_perf_updatedelay_sun" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sun position.\nSetting this to a smaller number will allow smoother sun movement, but doing this also causes lag." , "0" , "15" )
+CreateConVar( "sw_perf_updatedelay_sky" , "0.1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sky colors.\nSetting this to a smaller number will allow smoother transitions, but doing this also causes lag." , "0" , "15" )
+
+CreateConVar( "sw_light_max_night" , "b" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(a-z) Maximum darkness level during night.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
+CreateConVar( "sw_light_max_day" , "y" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(a-z) Maximum lightness level at noon on a clear day.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
+CreateConVar( "sw_light_max_storm" , "j" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(a-z) Maximum lightness level at noon on a stormy day.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
 
 if CLIENT then
 
@@ -230,6 +242,13 @@ if CLIENT then
 
 end
 
+if SERVER then
+	resource.AddWorkshop( "531458635" ) -- SimpleWeather https://steamcommunity.com/sharedfiles/filedetails/?id=531458635
+	include( "simpleweather/sv_init.lua" )
+else
+	include( "simpleweather/cl_init.lua" )
+end
+
 sound.Add( {
 	["name"] = "SW.EAS.Alert" ,
 	["channel"] = CHAN_STATIC ,
@@ -257,12 +276,24 @@ end
 
 local function Weather( ply, cmd, args )
 
+	-- If we're on a server, then check if ply is admin, and make a network call to run this function on the server instead.
+	if( not IsSinglePlayer and CLIENT) then
+		if not LocalPlayer():IsAdmin() then return end
+
+		net.Start("SW_SetWeatherCommand")
+		net.WriteString(cmd)
+		net.WriteTable(args)
+		net.SendToServer()
+
+		return
+	end
+
 	if( CLIENT ) then return end
 	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return end
 
 	if( ply and ply:IsValid( ) and !ply:IsAdmin( ) ) then
 
-		ply:PrintMessage( 2 , "You need to be admin to do this!" )
+		SWAdminMessage( ply , "You need to be admin to do this!" )
 		return
 
 	end
@@ -287,7 +318,7 @@ end
 
 concommand.Add( "sw_weather", Weather, function( )
 
-	if( CLIENT ) then return end
+	--if( CLIENT ) then return end
 	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return { } end
 
 	local tab = { }
@@ -308,29 +339,32 @@ end , "Change the weather." , { FCVAR_DONTRECORD } )
 
 local function StopWeather( ply, cmd, args )
 
-	if( CLIENT ) then return end
-	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return end
-
-	if( ply and ply:IsValid() and !ply:IsAdmin( ) ) then
-
-		ply:PrintMessage( 2 , "You need to be admin to do this!" )
-		return
-
-	end
-
-	SW.SetWeather( "" )
+	Weather( ply, "sw_weather", { "none" } )
 
 end
 concommand.Add( "sw_stopweather" , StopWeather , function( ) return { } end , "Stop the weather." , { FCVAR_DONTRECORD } )
 
+------------------------------
+
 local function SetTime( ply, cmd, args )
+
+	if( not IsSinglePlayer and CLIENT) then
+		if not LocalPlayer():IsAdmin() then return end
+
+		net.Start("SW_SetTimeCommand")
+		net.WriteString(cmd)
+		net.WriteTable(args)
+		net.SendToServer()
+
+		return
+	end
 
 	if( CLIENT ) then return end
 	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return end
 
 	if( ply and ply:IsValid() and !ply:IsAdmin() ) then
 
-		ply:PrintMessage( 2, "You need to be admin to do this!" )
+		SWAdminMessage( ply , "You need to be admin to do this!" )
 		return
 
 	end
@@ -349,9 +383,9 @@ end
 
 concommand.Add( "sw_settime", SetTime, function() return { "sw_settime (0-24)" } end , "Set the time of day." , { FCVAR_NEVER_AS_STRING , FCVAR_DONTRECORD } )
 
+------------------------------
+
 if CLIENT then
-	
-	include( "simpleweather/cl_init.lua" )
 
 	--------------------------------------------------
 	-- Test code stolen from TFA base
@@ -379,6 +413,99 @@ if CLIENT then
 			end
 
 			newpanel.OnChange = function(_self, _bVal)
+				if not LocalPlayer():IsAdmin() then return end
+				if _bVal == gconvar:GetBool() then return end
+
+				net.Start("SW_SetServerCommand")
+				net.WriteString(convar)
+				net.WriteString(_bVal and "1" or "0")
+				net.SendToServer()
+			end
+		end
+
+		return newpanel
+
+	end
+
+	-- --Panel:AddControl( "slider" , { ["Label"] = "Min. Before Start" , ["Command"] = "sw_autoweather_minstart" , ["Min"] = "0" , ["Max"] = "8" , ["Type"] = "int" } )
+	function SW.NumSliderNet(_parent, label, convar, min, max, type1, ...)
+		local gconvar = assert(GetConVar(convar), "Unknown ConVar: " .. convar .. "!")
+		local newpanel
+	
+		if IsSinglePlayer then
+			--newpanel = _parent:NumSlider(label, convar, min, max, type1, ...)
+			newpanel = _parent:AddControl( "slider" , { ["Label"] = label , ["Command"] = convar , ["Min"] = min , ["Max"] = max , ["Type"] = type1 } )
+		else
+			--newpanel = _parent:NumSlider(label, nil, min, max, type1, ...)
+			newpanel = _parent:AddControl( "slider" , { ["Label"] = label , ["Command"] = nil , ["Min"] = min , ["Max"] = max , ["Type"] = type1 } )
+		end
+	
+		local decimals = 2
+		local sf = "%." .. decimals .. "f"
+	
+		if not IsSinglePlayer then
+			local ignore = false
+	
+			newpanel.Think = function(_self)
+				if _self._wait_for_update and _self._wait_for_update > RealTime() then return end
+				local float = gconvar:GetFloat()
+	
+				if _self:GetValue() ~= float then
+					ignore = true
+					_self:SetValue(float)
+					ignore = false
+				end
+			end
+	
+			newpanel.OnValueChanged = function(_self, _newval)
+				if ignore then return end
+	
+				if not LocalPlayer():IsAdmin() then return end
+				_self._wait_for_update = RealTime() + 1
+	
+				timer.Create("sw_vgui_" .. convar, 0.5, 1, function()
+					if not LocalPlayer():IsAdmin() then return end
+	
+					net.Start("SW_SetServerCommand")
+					net.WriteString(convar)
+					net.WriteString(string.format(sf, _newval))
+					net.SendToServer()
+				end)
+			end
+		end
+	
+		return newpanel
+	end
+
+	function SW.AddCVarNet(_parent, label, convar, ...)
+		print("Bar button set!")
+		local gconvar = assert(GetConVar(convar), "Unknown ConVar: " .. convar .. "!")
+		local newpanel
+
+		if IsSinglePlayer then
+			--newpanel = _parent:CheckBox(label, convar, ...)
+			newpanel = _parent:AddCVar( label, convar, ... )
+		else
+			--newpanel = _parent:CheckBox(label, nil, ...) 
+			newpanel = _parent:AddCVar( label, nil, ... )
+		end
+
+		if not IsSinglePlayer then
+			--print(newpanel.Think)
+			--PrintTable( debug.getmetatable(newpanel.Panel) )
+			if not IsValid(newpanel) then return newpanel end
+
+
+			newpanel.Panel.Think = function(_self)
+				local bool = gconvar:GetBool()
+
+				if _self:GetChecked() ~= bool then
+					_self:SetChecked(bool)
+				end
+			end
+
+			newpanel.OnChecked = function(_self, _bVal)
+				print("OnChange")
 				if not LocalPlayer():IsAdmin() then return end
 				if _bVal == gconvar:GetBool() then return end
 
@@ -449,28 +576,36 @@ if CLIENT then
 
 			Panel:Help( "These commands toggle entire parts of the mod. Use on more troublesome maps. Reloading the map might be required." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Enable Mod" , ["Command"] = "sw_func_master" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Enable Mod" , ["Command"] = "sw_func_master" } )
+			SW.CheckBoxNet(Panel, "Enable Mod", "sw_func_master")
 			Panel:ControlHelp( "Toggle entire SimpleWeather mod - all functionality will be disabled." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Update Skybox" , ["Command"] = "sw_func_skybox" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Skybox" , ["Command"] = "sw_func_skybox" } )
+			SW.CheckBoxNet(Panel, "Update Skybox", "sw_func_skybox")
 			Panel:ControlHelp( "Enable the skybox to change color through the day. Probably should disable on maps with special skyboxes." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Update Lighting" , ["Command"] = "sw_func_lighting" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Lighting" , ["Command"] = "sw_func_lighting" } )
+			SW.CheckBoxNet(Panel, "Update Lighting", "sw_func_lighting")
 			Panel:ControlHelp( "Enable map lighting updates.\nTurn this off if the map's a night map already!" , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Update Sun" , ["Command"] = "sw_func_sun" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Sun" , ["Command"] = "sw_func_sun" } )
+			SW.CheckBoxNet(Panel, "Update Sun", "sw_func_sun")
 			Panel:ControlHelp( "Enable sun moving through the sky." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Update Fog" , ["Command"] = "sw_func_fog" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Fog" , ["Command"] = "sw_func_fog" } )
+			SW.CheckBoxNet(Panel, "Update Fog", "sw_func_fog")
 			Panel:ControlHelp( "Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Update Wind" , ["Command"] = "sw_func_wind" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Wind" , ["Command"] = "sw_func_wind" } )
+			SW.CheckBoxNet(Panel, "Update Wind", "sw_func_wind")
 			Panel:ControlHelp( "Enable wind functions.\nTurn it off if weird stuff happens." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Map Outputs" , ["Command"] = "sw_func_maplogic" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Map Outputs" , ["Command"] = "sw_func_maplogic" } )
+			SW.CheckBoxNet(Panel, "Map Outputs", "sw_func_maplogic")
 			Panel:ControlHelp( "Enabled map-specific outputs, like streetlights.\n(Situtational. Only works on select maps. Needs to be improved.)" , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Emergency Alerts" , ["Command"] = "sw_weather_eas" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Emergency Alerts" , ["Command"] = "sw_weather_eas" } )
+			SW.CheckBoxNet(Panel, "Emergency Alerts", "sw_weather_eas")
 			Panel:ControlHelp( "Toggle radio models playing the EAS broadcasting tones when severe weather starts." , {} )
 
 		end)
@@ -586,6 +721,7 @@ if CLIENT then
 			Panel:ControlHelp( "Toggle siren sounds." , {} )
 
 			Panel:AddControl( "slider" , { ["Label"] = "Volume" , ["Command"] = "sw_cl_sound_volume" , ["Min"] = "0" , ["Max"] = "1" , ["Type"] = "float" } )
+			--SW.NumSliderNet(Panel, "Volume", "sw_cl_sound_volume", "0", "1", "float")
 			Panel:ControlHelp( "Sound effect volume." , {} )
 
 			Panel:AddControl( "checkbox" , { ["Label"] = "Screen Effects" , ["Command"] = "sw_cl_screenfx" } )
@@ -598,6 +734,7 @@ if CLIENT then
 			Panel:ControlHelp( "Lightning makes the screen flash. Recommend turning off at high frequency." )
 
 			Panel:AddControl( "slider" , { ["Label"] = "Max Particles" , ["Command"] = "sw_cl_particles_max" , ["Min"] = "0" , ["Max"] = "10000" , ["Type"] = "int" } )
+			--SW.NumSliderNet(Panel, "Max Particles", "sw_cl_particles_max", "0", "10000", "int")
 			Panel:ControlHelp( "Max amount of particles to draw." , {} )
 
 			Panel:AddControl( "checkbox" , { ["Label"] = "Show Startup Message" , ["Command"] = "sw_cl_startupdisplay" } )
@@ -711,30 +848,48 @@ if CLIENT then
 
 			} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Auto-Weather" , ["Command"] = "sw_autoweather" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Auto-Weather" , ["Command"] = "sw_autoweather" } )
+			SW.CheckBoxNet(Panel, "Auto-Weather", "sw_autoweather")
 			Panel:ControlHelp( "Random weathers start over time." , {} )
 
 			Panel:Help( "Minimum and maximum time before a weather will start." , {} )
-			Panel:AddControl( "slider" , { ["Label"] = "Min. Before Start" , ["Command"] = "sw_autoweather_minstart" , ["Min"] = "0" , ["Max"] = "8" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Max Before Start" , ["Command"] = "sw_autoweather_maxstart" , ["Min"] = "1" , ["Max"] = "8" , ["Type"] = "int" } )
+			----Panel:AddControl( "slider" , { ["Label"] = "Min. Before Start" , ["Command"] = "sw_autoweather_minstart" , ["Min"] = "0" , ["Max"] = "8" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Min. Before Start", "sw_autoweather_minstart", "0", "8", "int")
+			SW.NumSliderNet(Panel, "Min. Before Start", "sw_autoweather_minstart", "0", "8", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Max Before Start" , ["Command"] = "sw_autoweather_maxstart" , ["Min"] = "1" , ["Max"] = "8" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Max Before Start", "sw_autoweather_maxstart", "1", "8", "int")
 
 			Panel:Help( "Minimum and maximum time before a weather will stop." , {} )
-			Panel:AddControl( "slider" , { ["Label"] = "Min. Before Stopping" , ["Command"] = "sw_autoweather_minstop" , ["Min"] = "0" , ["Max"] = "8" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Max Before Stopping" , ["Command"] = "sw_autoweather_maxstop" , ["Min"] = "1" , ["Max"] = "8" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Min. Before Stopping" , ["Command"] = "sw_autoweather_minstop" , ["Min"] = "0" , ["Max"] = "8" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Min. Before Stopping", "sw_autoweather_minstop", "0", "8", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Max Before Stopping" , ["Command"] = "sw_autoweather_maxstop" , ["Min"] = "1" , ["Max"] = "8" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Max Before Stopping", "sw_autoweather_maxstop", "1", "8", "int")
 
 			Panel:Help( "Which weathers will play randomly.\nMore extreme weathers would best be kept off unless desired." , {} )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Fog" , ["Command"] = "sw_fog" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Smog" , ["Command"] = "sw_smog" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Sandstorm" , ["Command"] = "sw_sandstorm" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Rain" , ["Command"] = "sw_rain" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Hail" , ["Command"] = "sw_hail" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Thunderstorm" , ["Command"] = "sw_thunderstorm" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Heavy Storm" , ["Command"] = "sw_heavystorm" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Lightning" , ["Command"] = "sw_lightning" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Snow" , ["Command"] = "sw_snow" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Blizzard" , ["Command"] = "sw_blizzard" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Acid Rain" , ["Command"] = "sw_acidrain" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Meteor Storm" , ["Command"] = "sw_meteor" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Fog" , ["Command"] = "sw_fog" } )
+			SW.CheckBoxNet(Panel, "Fog", "sw_fog")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Smog" , ["Command"] = "sw_smog" } )
+			SW.CheckBoxNet(Panel, "Smog", "sw_smog")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Sandstorm" , ["Command"] = "sw_sandstorm" } )
+			SW.CheckBoxNet(Panel, "Sandstorm", "sw_sandstorm")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Rain" , ["Command"] = "sw_rain" } )
+			SW.CheckBoxNet(Panel, "Rain", "sw_rain")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Hail" , ["Command"] = "sw_hail" } )
+			SW.CheckBoxNet(Panel, "Hail", "sw_hail")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Thunderstorm" , ["Command"] = "sw_thunderstorm" } )
+			SW.CheckBoxNet(Panel, "Thunderstorm", "sw_thunderstorm")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Heavy Storm" , ["Command"] = "sw_heavystorm" } )
+			SW.CheckBoxNet(Panel, "Heavy Storm", "sw_heavystorm")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Lightning" , ["Command"] = "sw_lightning" } )
+			SW.CheckBoxNet(Panel, "Lightning", "sw_lightning")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Snow" , ["Command"] = "sw_snow" } )
+			SW.CheckBoxNet(Panel, "Snow", "sw_snow")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Blizzard" , ["Command"] = "sw_blizzard" } )
+			SW.CheckBoxNet(Panel, "Blizzard", "sw_blizzard")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Acid Rain" , ["Command"] = "sw_acidrain" } )
+			SW.CheckBoxNet(Panel, "Acid Rain", "sw_acidrain")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Meteor Storm" , ["Command"] = "sw_meteor" } )
+			SW.CheckBoxNet(Panel, "Meteor Storm", "sw_meteor")
 
 		end)
 
@@ -762,12 +917,16 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Fog" , ["Command"] = "sw_weather fog" } )
 			Panel:ControlHelp( "Fog.\nHampers visibility." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Fog Indoors" , ["Command"] = "sw_fog_indoors" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Fog Indoors" , ["Command"] = "sw_fog_indoors" } )
+			SW.CheckBoxNet(Panel, "Fog Indoors", "sw_fog_indoors")
 			Panel:ControlHelp( "Toggle fog being force-rendered while indoors." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Day Fog Density" , ["Command"] = "sw_fog_densityday" , ["Min"] = "0" , ["Max"] = "1" , ["Type"] = "float" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Night Fog Density" , ["Command"] = "sw_fog_densitynight" , ["Min"] = "0" , ["Max"] = "1" , ["Type"] = "float" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Fog Speed" , ["Command"] = "sw_fog_speed" , ["Min"] = "0" , ["Max"] = "1" , ["Type"] = "float" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Day Fog Density" , ["Command"] = "sw_fog_densityday" , ["Min"] = "0" , ["Max"] = "1" , ["Type"] = "float" } )
+			SW.NumSliderNet(Panel, "Day Fog Density", "sw_fog_densityday", "0", "1", "float")
+			--Panel:AddControl( "slider" , { ["Label"] = "Night Fog Density" , ["Command"] = "sw_fog_densitynight" , ["Min"] = "0" , ["Max"] = "1" , ["Type"] = "float" } )
+			SW.NumSliderNet(Panel, "Night Fog Density", "sw_fog_densitynight", "0", "1", "float")
+			--Panel:AddControl( "slider" , { ["Label"] = "Fog Speed" , ["Command"] = "sw_fog_speed" , ["Min"] = "0" , ["Max"] = "1" , ["Type"] = "float" } )
+			SW.NumSliderNet(Panel, "Fog Speed", "sw_fog_speed", "0", "1", "float")
 
 		end)
 
@@ -804,18 +963,23 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Smog" , ["Command"] = "sw_weather smog" } )
 			Panel:ControlHelp( "Smog.\nHampers visibility.\nInflicts DOT from noxious air." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Coughing" , ["Command"] = "sw_smog_dmg_sound_toggle" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Coughing" , ["Command"] = "sw_smog_dmg_sound_toggle" } )
+			SW.CheckBoxNet(Panel, "Toggle Coughing", "sw_smog_dmg_sound_toggle")
 			Panel:ControlHelp( "Toggle coughing sounds." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Damage Delay" , ["Command"] = "sw_smog_dmg_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Damage Delay" , ["Command"] = "sw_smog_dmg_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Damage Delay", "sw_smog_dmg_delay", "1", "30", "int")
 			Panel:ControlHelp( "Delay between damage." , {} )
-			Panel:AddControl( "slider" , { ["Label"] = "Delay Offset" , ["Command"] = "sw_smog_dmg_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Delay Offset" , ["Command"] = "sw_smog_dmg_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Delay Offset", "sw_smog_dmg_delayoffset", "1", "30", "int")
 			Panel:ControlHelp( "Random delay offset between damage." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Damage" , ["Command"] = "sw_smog_dmg_toggle" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Damage" , ["Command"] = "sw_smog_dmg_toggle" } )
+			SW.CheckBoxNet(Panel, "Toggle Damage", "sw_smog_dmg_toggle")
 			Panel:ControlHelp( "Toggle smog damage." , {} )
-			
-			Panel:AddControl( "slider" , { ["Label"] = "Damage Amount" , ["Command"] = "sw_smog_dmg_amount" , ["Min"] = "1" , ["Max"] = "100" , ["Type"] = "int" } )
+
+			--Panel:AddControl( "slider" , { ["Label"] = "Damage Amount" , ["Command"] = "sw_smog_dmg_amount" , ["Min"] = "1" , ["Max"] = "100" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Damage Amount", "sw_smog_dmg_amount", "1", "100", "int")
 			Panel:ControlHelp( "How much damage per hit the smog does." , {} )
 
 		end)
@@ -865,15 +1029,24 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Rain" , ["Command"] = "sw_weather rain" } )
 			Panel:ControlHelp( "Rain.\nOvercast skies." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Rain Puffs" , ["Command"] = "sw_rain_showsmoke" } )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Rain Impacts" , ["Command"] = "sw_rain_showimpact" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Quality" , ["Command"] = "sw_rain_quality" , ["Min"] = "1" , ["Max"] = "4" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Drop Size Minimum" , ["Command"] = "sw_rain_dropsize_min" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Drop Size Maximum" , ["Command"] = "sw_rain_dropsize_max" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Height" , ["Command"] = "sw_rain_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Radius" , ["Command"] = "sw_rain_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Amount" , ["Command"] = "sw_rain_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Lifetime" , ["Command"] = "sw_rain_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Rain Puffs" , ["Command"] = "sw_rain_showsmoke" } )
+			SW.CheckBoxNet(Panel, "Rain Puffs", "sw_rain_showsmoke")
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Rain Impacts" , ["Command"] = "sw_rain_showimpact" } )
+			SW.CheckBoxNet(Panel, "Rain Impacts", "sw_rain_showimpact")
+			--Panel:AddControl( "slider" , { ["Label"] = "Rain Quality" , ["Command"] = "sw_rain_quality" , ["Min"] = "1" , ["Max"] = "4" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Rain Quality", "sw_rain_quality", "1", "4", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Drop Size Minimum" , ["Command"] = "sw_rain_dropsize_min" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Drop Size Minimum", "sw_rain_dropsize_min", "10", "1000", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Drop Size Maximum" , ["Command"] = "sw_rain_dropsize_max" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Drop Size Maximum", "sw_rain_dropsize_max", "10", "1000", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Rain Height" , ["Command"] = "sw_rain_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Rain Height", "sw_rain_height", "0", "2500", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Rain Radius" , ["Command"] = "sw_rain_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Rain Radius", "sw_rain_radius", "0", "2500", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Rain Amount" , ["Command"] = "sw_rain_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Rain Amount", "sw_rain_count", "0", "100", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Rain Lifetime" , ["Command"] = "sw_rain_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Rain Lifetime", "sw_rain_dietime", "0", "16", "int")
 
 		end )
 
@@ -899,13 +1072,16 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Acid Rain" , ["Command"] = "sw_weather acidrain" } )
 			Panel:ControlHelp( "Acid Rain.\nOvercast skies. Hampers visibility.\nInflicts DOT due to caustic rain." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Damage" , ["Command"] = "sw_acidrain_dmg_toggle" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Damage" , ["Command"] = "sw_acidrain_dmg_toggle" } )
+			SW.CheckBoxNet(Panel, "Toggle Damage", "sw_acidrain_dmg_toggle")
 			Panel:ControlHelp( "Toggle acid rain damage." , {} )
 			
-			Panel:AddControl( "slider" , { ["Label"] = "Damage Amount" , ["Command"] = "sw_acidrain_dmg_amount" , ["Min"] = "1" , ["Max"] = "100" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Damage Amount" , ["Command"] = "sw_acidrain_dmg_amount" , ["Min"] = "1" , ["Max"] = "100" , ["Type"] = "int" } )
+SW.NumSliderNet(Panel, "Damage Amount", "sw_acidrain_dmg_amount", "1", "100", "int")
 			Panel:ControlHelp( "How much damage per hit the acid rain does." , {} )
 			
-			Panel:AddControl( "slider" , { ["Label"] = "Damage Delay" , ["Command"] = "sw_acidrain_dmg_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Damage Delay" , ["Command"] = "sw_acidrain_dmg_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int")
 			Panel:ControlHelp( "How long between damage hits." , {} )
 
 		end )
@@ -943,12 +1119,17 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Thunderstorm" , ["Command"] = "sw_thunderstorm" } )
 			Panel:ControlHelp( "Thunderstorm.\nOvercast skies. Hampers visibility.\nLightning may strike you for significant damage." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Radius" , ["Command"] = "sw_storm_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Amount" , ["Command"] = "sw_storm_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Lifetime" , ["Command"] = "sw_storm_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Radius" , ["Command"] = "sw_storm_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Thunderstorm Radius", "sw_storm_radius", "0", "2500", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Amount" , ["Command"] = "sw_storm_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Thunderstorm Amount", "sw_storm_count", "0", "100", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Lifetime" , ["Command"] = "sw_storm_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Thunderstorm Lifetime", "sw_storm_dietime", "0", "16", "int")
 
-			-- Panel:AddControl( "slider" , { ["Label"] = "Thunder Minimum Delay" , ["Command"] = "sw_thunder_mindelay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
-			-- Panel:AddControl( "slider" , { ["Label"] = "Thunder Maximum Delay" , ["Command"] = "sw_thunder_maxdelay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			-- --Panel:AddControl( "slider" , { ["Label"] = "Thunder Minimum Delay" , ["Command"] = "sw_thunder_mindelay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--SW.NumSliderNet(Panel, "Thunder Minimum Delay", "sw_thunder_mindelay", "1", "30", "int")
+			-- --Panel:AddControl( "slider" , { ["Label"] = "Thunder Maximum Delay" , ["Command"] = "sw_thunder_maxdelay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--SW.NumSliderNet(Panel, "Thunder Maximum Delay", "sw_thunder_maxdelay", "1", "30", "int")
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Heavy Storm" , ["Command"] = "sw_weather heavystorm" } )
 			Panel:ControlHelp( "Heavy Storm.\nOvercast skies. Hampers visibility.\nHail may cause damage to struck objects. Lightning may strike you for significant damage." , {} )
@@ -1023,39 +1204,53 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Lightning" , ["Command"] = "sw_weather lightning" } )
 			Panel:ControlHelp( "Lightning.\nOvercast skies.\nLightning may strike you for significant damage." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Lightning Delay" , ["Command"] = "sw_lightning_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Lightning Delay" , ["Command"] = "sw_lightning_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Lightning Delay", "sw_lightning_delay", "1", "30", "int")
 			Panel:ControlHelp( "Delay between lightning." , {} )
-			Panel:AddControl( "slider" , { ["Label"] = "Lightning Delay Offset" , ["Command"] = "sw_lightning_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Lightning Delay Offset" , ["Command"] = "sw_lightning_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Lightning Delay Offset", "sw_lightning_delayoffset", "1", "30", "int")
 			Panel:ControlHelp( "Random delay offset between lightning." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Chance Ratio" , ["Command"] = "sw_lightning_target_chance" , ["Min"] = "1" , ["Max"] = "100" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Chance Ratio" , ["Command"] = "sw_lightning_target_chance" , ["Min"] = "1" , ["Max"] = "100" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Chance Ratio", "sw_lightning_target_chance", "1", "100", "int")
 			Panel:ControlHelp( "Chance out of 100 for lightning to strike ground vs. targets." )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Targets World" , ["Command"] = "sw_lightning_target_world" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Targets World" , ["Command"] = "sw_lightning_target_world" } )
+			SW.CheckBoxNet(Panel, "Targets World", "sw_lightning_target_world")
 			Panel:ControlHelp( "Lightning will also strike world instead of purely targets." )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Targets Props" , ["Command"] = "sw_lightning_target_prop" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Targets Props" , ["Command"] = "sw_lightning_target_prop" } )
+			SW.CheckBoxNet(Panel, "Targets Props", "sw_lightning_target_prop")
 			Panel:ControlHelp( "Lightning target props." )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Targets Players" , ["Command"] = "sw_lightning_target_player" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Targets Players" , ["Command"] = "sw_lightning_target_player" } )
+			SW.CheckBoxNet(Panel, "Targets Players", "sw_lightning_target_player")
 			Panel:ControlHelp( "Lightning target players." )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Targets NPCs" , ["Command"] = "sw_lightning_target_npc" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Targets NPCs" , ["Command"] = "sw_lightning_target_npc" } )
+			SW.CheckBoxNet(Panel, "Targets NPCs", "sw_lightning_target_npc")
 			Panel:ControlHelp( "Lightning target NPCs." )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Damage Amount" , ["Command"] = "sw_lightning_damage" , ["Min"] = "1" , ["Max"] = "150" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Damage Amount" , ["Command"] = "sw_lightning_damage" , ["Min"] = "1" , ["Max"] = "150" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Damage Amount", "sw_lightning_damage", "1", "150", "int")
 			Panel:ControlHelp( "Lightning strike damage." )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Inflicts Physics Force" , ["Command"] = "sw_lightning_force" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Inflicts Physics Force" , ["Command"] = "sw_lightning_force" } )
+			SW.CheckBoxNet(Panel, "Inflicts Physics Force", "sw_lightning_force")
 			Panel:ControlHelp( "Lightning inflicts physics force on objects." )
-			Panel:AddControl( "slider" , { ["Label"] = "Force Amount" , ["Command"] = "sw_lightning_force_amount" , ["Min"] = "1" , ["Max"] = "200" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Force Amount" , ["Command"] = "sw_lightning_force_amount" , ["Min"] = "1" , ["Max"] = "200" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Force Amount", "sw_lightning_force_amount", "1", "200", "int")
 			Panel:ControlHelp( "Physics force amount." )
 
 			-- Panel:AddControl( "checkbox" , { ["Label"] = "Ignites Ground" , ["Command"] = "sw_lightning_ignite_world" } )
 			-- Panel:ControlHelp( "Lightning ignites world." )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Ignites Targets" , ["Command"] = "sw_lightning_ignite_target" } )
+
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Ignites Targets" , ["Command"] = "sw_lightning_ignite_target" } )
+			SW.CheckBoxNet(Panel, "Ignites Targets", "sw_lightning_ignite_target")
 			Panel:ControlHelp( "Lightning ignites targets." )
-			Panel:AddControl( "slider" , { ["Label"] = "Burn Duration" , ["Command"] = "sw_lightning_ignite_duration" , ["Min"] = "1" , ["Max"] = "15" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Burn Duration" , ["Command"] = "sw_lightning_ignite_duration" , ["Min"] = "1" , ["Max"] = "15" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Burn Duration", "sw_lightning_ignite_duration", "1", "15", "int")
 			Panel:ControlHelp( "Lighting strike burn duration." )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Fancy Effects" , ["Command"] = "sw_lightning_fancyfx" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Fancy Effects" , ["Command"] = "sw_lightning_fancyfx" } )
+			SW.CheckBoxNet(Panel, "Fancy Effects", "sw_lightning_fancyfx")
 			Panel:ControlHelp( "Show fancy effects for lightning." )
 
 		end)
@@ -1090,15 +1285,19 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Hail" , ["Command"] = "sw_weather hail" } )
 			Panel:ControlHelp( "Hail.\nOvercast skies. Hampers visibility.\nHail may cause damage to struck objects." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Hail Delay" , ["Command"] = "sw_hail_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Hail Delay" , ["Command"] = "sw_hail_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Hail Delay", "sw_hail_delay", "1", "30", "int")
 			Panel:ControlHelp( "Delay between hail." , {} )
-			Panel:AddControl( "slider" , { ["Label"] = "Hail Delay Offset" , ["Command"] = "sw_hail_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Hail Delay Offset" , ["Command"] = "sw_hail_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Hail Delay Offset", "sw_hail_delayoffset", "1", "30", "int")
 			Panel:ControlHelp( "Random delay offset between hail." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Hail Lifetime" , ["Command"] = "sw_hail_lifetime" , ["Min"] = "-1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Hail Lifetime" , ["Command"] = "sw_hail_lifetime" , ["Min"] = "-1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Hail Lifetime", "sw_hail_lifetime", "-1", "30", "int")
 			Panel:ControlHelp( "Time for hail to fade after hitting the ground. -1 for never (not recommended)." )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Hail Drag" , ["Command"] = "sw_hail_drag" , ["Min"] = "0" , ["Max"] = "20" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Hail Drag" , ["Command"] = "sw_hail_drag" , ["Min"] = "0" , ["Max"] = "20" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Hail Drag", "sw_hail_drag", "0", "20", "int")
 			Panel:ControlHelp( "Amount of drag to add to hail. Higher = slower decent." )
 
 		end)
@@ -1147,21 +1346,27 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Meteor Storm" , ["Command"] = "sw_weather meteor" } )
 			Panel:ControlHelp( "Meteor Storm.\nOvercast skies.\nMeteor strike will cause significant damage." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Meteor Delay" , ["Command"] = "sw_meteor_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Meteor Delay" , ["Command"] = "sw_meteor_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Meteor Delay", "sw_meteor_delay", "1", "30", "int")
 			Panel:ControlHelp( "Delay between meteors." , {} )
-			Panel:AddControl( "slider" , { ["Label"] = "Meteor Delay Offset" , ["Command"] = "sw_meteor_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Meteor Delay Offset" , ["Command"] = "sw_meteor_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Meteor Delay Offset", "sw_meteor_delayoffset", "1", "30", "int")
 			Panel:ControlHelp( "Random delay offset between meteors." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Meteor Lifetime" , ["Command"] = "sw_meteor_lifetime" , ["Min"] = "-1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Meteor Lifetime" , ["Command"] = "sw_meteor_lifetime" , ["Min"] = "-1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Meteor Lifetime", "sw_meteor_lifetime", "-1", "30", "int")
 			Panel:ControlHelp( "Time for meteor shards to fade after hitting the ground. -1 for never (not recommended)." )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Meteor Drag" , ["Command"] = "sw_meteor_drag" , ["Min"] = "0" , ["Max"] = "50" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Meteor Drag" , ["Command"] = "sw_meteor_drag" , ["Min"] = "0" , ["Max"] = "50" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Meteor Drag", "sw_meteor_drag", "0", "50", "int")
 			Panel:ControlHelp( "Amount of drag to add to the meteors. Higher = slower decent." )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Impact Sounds" , ["Command"] = "sw_meteor_whoosh" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Impact Sounds" , ["Command"] = "sw_meteor_whoosh" } )
+			SW.CheckBoxNet(Panel, "Impact Sounds", "sw_meteor_whoosh")
 			Panel:ControlHelp( "Meteors play a whoosh sound when near the ground." )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Fancy Effects" , ["Command"] = "sw_meteor_fancyfx" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Fancy Effects" , ["Command"] = "sw_meteor_fancyfx" } )
+			SW.CheckBoxNet(Panel, "Fancy Effects", "sw_meteor_fancyfx")
 			Panel:ControlHelp( "Show fancy effects for meteors." )
 
 		end)
@@ -1210,34 +1415,48 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Snow" , ["Command"] = "sw_weather snow" } )
 			Panel:ControlHelp( "Snow.\nOvercast skies. Hampers visibility." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Snow Stays" , ["Command"] = "sw_snow_stay" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Snow Stays" , ["Command"] = "sw_snow_stay" } )
+			SW.CheckBoxNet(Panel, "Snow Stays", "sw_snow_stay")
 			Panel:ControlHelp( "Snow particles stick to ground." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Snow Height" , ["Command"] = "sw_snow_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Snow Radius" , ["Command"] = "sw_snow_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Snow Amount" , ["Command"] = "sw_snow_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Snow Lifetime" , ["Command"] = "sw_snow_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Snow Height" , ["Command"] = "sw_snow_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Snow Height", "sw_snow_height", "0", "2500", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Snow Radius" , ["Command"] = "sw_snow_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Snow Radius", "sw_snow_radius", "0", "2500", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Snow Amount" , ["Command"] = "sw_snow_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Snow Amount", "sw_snow_count", "0", "100", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Snow Lifetime" , ["Command"] = "sw_snow_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Snow Lifetime", "sw_snow_dietime", "0", "16", "int")
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Blizzard" , ["Command"] = "sw_weather blizzard" } )
 			Panel:ControlHelp( "Blizzard.\nOvercast skies. Hampers visibility and hearing.\nInflicts DOT from noxious air." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Blizzard Height" , ["Command"] = "sw_blizzard_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Blizzard Radius" , ["Command"] = "sw_blizzard_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Blizzard Amount" , ["Command"] = "sw_blizzard_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Blizzard Lifetime" , ["Command"] = "sw_blizzard_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Height" , ["Command"] = "sw_blizzard_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Blizzard Height", "sw_blizzard_height", "0", "2500", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Radius" , ["Command"] = "sw_blizzard_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Blizzard Radius", "sw_blizzard_radius", "0", "2500", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Amount" , ["Command"] = "sw_blizzard_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Blizzard Amount", "sw_blizzard_count", "0", "100", "int")
+			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Lifetime" , ["Command"] = "sw_blizzard_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Blizzard Lifetime", "sw_blizzard_dietime", "0", "16", "int")
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Coughing" , ["Command"] = "sw_blizzard_dmg_sound_toggle" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Coughing" , ["Command"] = "sw_blizzard_dmg_sound_toggle" } )
+			SW.CheckBoxNet(Panel, "Toggle Coughing", "sw_blizzard_dmg_sound_toggle")
 			Panel:ControlHelp( "Toggle coughing sounds." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Damage Delay" , ["Command"] = "sw_blizzard_dmg_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Damage Delay" , ["Command"] = "sw_blizzard_dmg_delay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Damage Delay", "sw_blizzard_dmg_delay", "1", "30", "int")
 			Panel:ControlHelp( "Delay between damage." , {} )
-			Panel:AddControl( "slider" , { ["Label"] = "Damage Delay Offset" , ["Command"] = "sw_blizzard_dmg_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Damage Delay Offset" , ["Command"] = "sw_blizzard_dmg_delayoffset" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Damage Delay Offset", "sw_blizzard_dmg_delayoffset", "1", "30", "int")
 			Panel:ControlHelp( "Random delay offset between damage." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Damage" , ["Command"] = "sw_blizzard_dmg_toggle" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Damage" , ["Command"] = "sw_blizzard_dmg_toggle" } )
+			SW.CheckBoxNet(Panel, "Toggle Damage", "sw_blizzard_dmg_toggle")
 			Panel:ControlHelp( "Toggle Blizzard damage." , {} )
 			
-			Panel:AddControl( "slider" , { ["Label"] = "Damage Amount" , ["Command"] = "sw_blizzard_dmg_amount" , ["Min"] = "1" , ["Max"] = "100" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Damage Amount" , ["Command"] = "sw_blizzard_dmg_amount" , ["Min"] = "1" , ["Max"] = "100" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Damage Amount", "sw_blizzard_dmg_amount", "1", "100", "int")
 			Panel:ControlHelp( "How much damage per hit the Blizzard does." , {} )
 
 		end)
@@ -1296,37 +1515,48 @@ if CLIENT then
 
 			} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Pause Time" , ["Command"] = "sw_time_pause" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Pause Time" , ["Command"] = "sw_time_pause" } )
+			SW.CheckBoxNet(Panel, "Pause Time", "sw_time_pause")
 			Panel:ControlHelp( "Pause the current time." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Start Time" , ["Command"] = "sw_time_start" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Start Time" , ["Command"] = "sw_time_start" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Start Time", "sw_time_start", "0", "23", "int")
 			Panel:ControlHelp( "Time the server will start at on load." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Real-Time Clock" , ["Command"] = "sw_time_real" } )
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Real-Time Clock" , ["Command"] = "sw_time_real" } )
+			SW.CheckBoxNet(Panel, "Real-Time Clock", "sw_time_real")
 			Panel:ControlHelp( "Use the system clock time instead." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Real-Time Offset" , ["Command"] = "sw_time_real_offset" , ["Min"] = "-12" , ["Max"] = "12" , ["Type"] = "int" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Real-Time Offset" , ["Command"] = "sw_time_real_offset" , ["Min"] = "-12" , ["Max"] = "12" , ["Type"] = "int" } )
+			SW.NumSliderNet(Panel, "Real-Time Offset", "sw_time_real_offset", "-12", "12", "int")
 			Panel:ControlHelp( "Real time clock time zone offset." , {} )
 
 			Panel:Help( "Rate at which day or night passes.\nWARNING: Higher numbers increase system chug. RAISE AT OWN RISK." , {} )
-			Panel:AddControl( "slider" , { ["Label"] = "Day Speed" , ["Command"] = "sw_time_speed_day" , ["Min"] = "0.01" , ["Max"] = "0.2" , ["Type"] = "float" } )
-			Panel:AddControl( "slider" , { ["Label"] = "Night Speed" , ["Command"] = "sw_time_speed_night" , ["Min"] = "0.01" , ["Max"] = "0.2" , ["Type"] = "float" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Day Speed" , ["Command"] = "sw_time_speed_day" , ["Min"] = "0.01" , ["Max"] = "0.2" , ["Type"] = "float" } )
+			SW.NumSliderNet(Panel, "Day Speed", "sw_time_speed_day", "0.01", "0.2", "float")
+			--Panel:AddControl( "slider" , { ["Label"] = "Night Speed" , ["Command"] = "sw_time_speed_night" , ["Min"] = "0.01" , ["Max"] = "0.2" , ["Type"] = "float" } )
+			SW.NumSliderNet(Panel, "Night Speed", "sw_time_speed_night", "0.01", "0.2", "float")
 
-			Panel:AddControl( "slider" , { ["Label"] = "Star Rotate Speed" , ["Command"] = "sw_time_speed_stars" , ["Min"] = "0.01" , ["Max"] = "3" , ["Type"] = "float" } )
+			--Panel:AddControl( "slider" , { ["Label"] = "Star Rotate Speed" , ["Command"] = "sw_time_speed_stars" , ["Min"] = "0.01" , ["Max"] = "3" , ["Type"] = "float" } )
+			SW.NumSliderNet(Panel, "Star Rotate Speed", "sw_time_speed_stars", "0.01", "3", "float")
 			Panel:ControlHelp( "Rate at which stars rotate at night." , {} )
 
 			-- There's some jank ass math involved with this, so for now it's not enabled -V92
 
 			-- Panel:AddControl( "slider" , { ["Label"] = "Dawn Time" , ["Command"] = "sw_time_dawn" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
+			-- SW.NumSliderNet(Panel, "Dawn Time", "sw_time_dawn", "0", "23", "int")
 			-- Panel:ControlHelp( "Time to consider Dawn.\nControls when map inputs runs the day_events entity." , {} )
 
 			-- Panel:AddControl( "slider" , { ["Label"] = "Afternoon Time" , ["Command"] = "sw_time_afternoon" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
+			-- SW.NumSliderNet(Panel, "Afternoon Time", "sw_time_afternoon", "0", "23", "int")
 			-- Panel:ControlHelp( "Time to consider Afternoon." , {} )
 
 			-- Panel:AddControl( "slider" , { ["Label"] = "Dusk Time" , ["Command"] = "sw_time_dusk" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
+			-- SW.NumSliderNet(Panel, "Dusk Time", "sw_time_dusk", "0", "23", "int")
 			-- Panel:ControlHelp( "Time to consider Dusk.\nControls when map inputs runs the night_events entity." , {} )
 
 			-- Panel:AddControl( "slider" , { ["Label"] = "Night Time" , ["Command"] = "sw_time_night" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
+			-- SW.NumSliderNet(Panel, "Night Time", "sw_time_night", "0", "23", "int")
 			-- Panel:ControlHelp( "Time to consider Night." , {} )
 
 		end)
@@ -1337,9 +1567,13 @@ if CLIENT then
 	-- Context Menu Bar
 	--------------------------------------------------
 
-	hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
+hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
 
 		local m = menubar:AddOrGetMenu( "Simple Weather" )
+
+		SW.AddCVarNet( m, "Enable Mod" , "sw_func_master" , "1" , "0" )
+
+		m:AddSpacer( )
 
 		local hud = m:AddSubMenu( "Client..." )
 
@@ -1363,8 +1597,10 @@ if CLIENT then
 
 		times:SetDeleteSelf( false )
 
-		times:AddCVar( "Pause Time", "sw_time_pause" , "1" , "0" )
-		times:AddCVar( "Real Time", "sw_time_real" , "1" , "0" )
+		--times:AddCVar( "Pause Time", "sw_time_pause" , "1" , "0" )
+		SW.AddCVarNet( times, "Pause Time" , "sw_time_pause" , "1" , "0" )
+		--times:AddCVar( "Real Time", "sw_time_real" , "1" , "0" )
+		SW.AddCVarNet( times, "Real Time" , "sw_time_real" , "1" , "0" )
 		times:AddOption( "0000", function( ) RunConsoleCommand( "sw_settime" , "0" ) end )
 		times:AddOption( "0200", function( ) RunConsoleCommand( "sw_settime" , "2" ) end )
 		times:AddOption( "0400", function( ) RunConsoleCommand( "sw_settime" , "4" ) end )
@@ -1408,7 +1644,7 @@ if CLIENT then
 		timeoffset:AddOption( "11", function( ) RunConsoleCommand( "sw_time_real_offset" , "11" ) end )
 		timeoffset:AddOption( "12", function( ) RunConsoleCommand( "sw_time_real_offset" , "12" ) end )
 
-		m:AddCVar( "Map Outputs", "sw_func_maplogic" , "1" , "0" )
+		SW.AddCVarNet( m, "Map Outputs", "sw_func_maplogic" , "1" , "0" )
 
 		m:AddSpacer( )
 
@@ -1416,8 +1652,8 @@ if CLIENT then
 
 		volume:SetDeleteSelf( false )
 
-		volume:AddCVar( "Sounds" , "sw_cl_sound" , "1" , "0" )
-		volume:AddCVar( "Sirens" , "sw_cl_sound_siren" , "1" , "0" )
+		SW.AddCVarNet( volume, "Sounds" , "sw_cl_sound" , "1" , "0" )
+		SW.AddCVarNet( volume, "Sirens" , "sw_cl_sound_siren" , "1" , "0" )
 		volume:AddOption( "Volume 33%", function( ) RunConsoleCommand( "sw_cl_sound_volume" , "0.3" ) end )
 		volume:AddOption( "Volume 66%", function( ) RunConsoleCommand( "sw_cl_sound_volume" , "0.6" ) end )
 		volume:AddOption( "Volume 100%", function( ) RunConsoleCommand( "sw_cl_sound_volume" , "1" ) end )
@@ -1426,9 +1662,9 @@ if CLIENT then
 
 		perf:SetDeleteSelf( false )
 
-		perf:AddCVar( "Rain Impacts" , "sw_rain_showimpact" , "1" , "0" )
-		perf:AddCVar( "Rain Puffs" , "sw_rain_showsmoke" , "1" , "0" )
-		perf:AddCVar( "Snow Stays" , "sw_snow_stay" , "1" , "0" )
+		SW.AddCVarNet( perf, "Rain Impacts" , "sw_rain_showimpact" , "1" , "0" )
+		SW.AddCVarNet( perf, "Rain Puffs" , "sw_rain_showsmoke" , "1" , "0" )
+		SW.AddCVarNet( perf, "Snow Stays" , "sw_snow_stay" , "1" , "0" )
 
 		local rainquality = perf:AddSubMenu( "Rain Quality..." )
 
@@ -1473,31 +1709,32 @@ if CLIENT then
 
 		rng:SetDeleteSelf( false )
 
-		rng:AddCVar( "Enable", "sw_autoweather" , "1" , "0" )
+		--rng:AddCVar( "Enable", "sw_autoweather" , "1" , "0" )
+		SW.AddCVarNet( rng, "Enable", "sw_autoweather", "1" , "0"  )
 
 		rng:AddSpacer( )
 
-		rng:AddCVar( "Fog", "sw_fog" , "1" , "0" )
-		rng:AddCVar( "Smog", "sw_smog" , "1" , "0" )
-		rng:AddCVar( "Sandstorm", "sw_sandstorm" , "1" , "0" )
+		SW.AddCVarNet( rng, "Fog", "sw_fog" , "1" , "0" )
+		SW.AddCVarNet( rng, "Smog", "sw_smog" , "1" , "0" )
+		SW.AddCVarNet( rng, "Sandstorm", "sw_sandstorm" , "1" , "0" )
 
 		rng:AddSpacer( )
 
-		rng:AddCVar( "Rain", "sw_rain" , "1" , "0" )
-		rng:AddCVar( "Hail", "sw_hail" , "1" , "0" )
-		rng:AddCVar( "Thunderstorm", "sw_thunderstorm" , "1" , "0" )
-		rng:AddCVar( "Heavy Storm", "sw_heavystorm" , "1" , "0" )
-		rng:AddCVar( "Lightning", "sw_lightning" , "1" , "0" )
+		SW.AddCVarNet( rng, "Rain", "sw_rain" , "1" , "0" )
+		SW.AddCVarNet( rng, "Hail", "sw_hail" , "1" , "0" )
+		SW.AddCVarNet( rng, "Thunderstorm", "sw_thunderstorm" , "1" , "0" )
+		SW.AddCVarNet( rng, "Heavy Storm", "sw_heavystorm" , "1" , "0" )
+		SW.AddCVarNet( rng, "Lightning", "sw_lightning" , "1" , "0" )
 		
 		rng:AddSpacer( )
 
-		rng:AddCVar( "Snow", "sw_snow" , "1" , "0" )
-		rng:AddCVar( "Blizzard", "sw_blizzard" , "1" , "0" )
+		SW.AddCVarNet( rng, "Snow", "sw_snow" , "1" , "0" )
+		SW.AddCVarNet( rng, "Blizzard", "sw_blizzard" , "1" , "0" )
 
 		rng:AddSpacer( )
 
-		rng:AddCVar( "Acid Rain", "sw_acidrain" , "1" , "0" )
-		rng:AddCVar( "Meteor Storm", "sw_meteor" , "1" , "0" )
+		SW.AddCVarNet( rng, "Acid Rain", "sw_acidrain" , "1" , "0" )
+		SW.AddCVarNet( rng, "Meteor Storm", "sw_meteor" , "1" , "0" )
 
 	end )
 
@@ -1505,17 +1742,13 @@ end
 
 if SERVER then
 
-	resource.AddWorkshop( "531458635" ) -- SimpleWeather https://steamcommunity.com/sharedfiles/filedetails/?id=531458635
-
-	include( "simpleweather/sv_init.lua" )
-
 	--------------------------------------------------
 	-- Test code stolen from TFA base
 	--------------------------------------------------
 
-	local IsSinglePlayer = game.SinglePlayer()
-
 	util.AddNetworkString("SW_SetServerCommand")
+	util.AddNetworkString("SW_SetWeatherCommand")
+	util.AddNetworkString("SW_SetTimeCommand")
 
 	local function QueueConVarChange(convarname, convarvalue)
 		if not convarname or not convarvalue then return end
@@ -1538,5 +1771,25 @@ if SERVER then
 	end
 
 	net.Receive("SW_SetServerCommand", ChangeServerOption)
+
+	------------------------------
+
+	local function ChangeWeatherOption(_length, _player)
+		local cmd = net.ReadString()
+		local args = net.ReadTable()
+
+		Weather( _player, cmd, args )
+	end
+	net.Receive("SW_SetWeatherCommand", ChangeWeatherOption)
+
+	------------------------------
+
+	local function ChangeWeatherOption(_length, _player)
+		local cmd = net.ReadString()
+		local args = net.ReadTable()
+
+		SetTime( _player, cmd, args )
+	end
+	net.Receive("SW_SetTimeCommand", ChangeWeatherOption)
 
 end

@@ -9,6 +9,8 @@ AddCSLuaFile( "sh_weathereffects.lua" )
 include( "sv_daynight.lua" )
 include( "sh_weathereffects.lua" )
 
+local IsSinglePlayer = game.SinglePlayer()
+
 function SW.LoadWeathers()
 
 	if !SW.Weathers then
@@ -28,12 +30,20 @@ function SW.LoadWeathers()
 		include( "simpleweather/weather/" .. v )
 		
 		SW.Weathers[WEATHER.ID] = WEATHER
+
+		if SERVER and WEATHER.ConVar and not IsSinglePlayer then
+
+			--CreateClientConVar( WEATHER.ConVar[1], "1" )
+			--CreateConVar( WEATHER.ConVar[1] , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , WEATHER.ConVar[0] , "0" , "1" )
+
+		end
 		
 		WEATHER = nil
 		
 	end
 
 end
+SW.LoadWeathers()
 
 function SW.GetCurrentWeather()
 	
