@@ -1,6 +1,5 @@
 
 SW = SW or { }
--- include( "cl_clock.lua" )
 include( "cl_daynight.lua" )
 include( "cl_texture.lua" )
 include( "sh_weathereffects.lua" )
@@ -76,7 +75,7 @@ local function nSetWeather()
 
 	if SW.GetCurrentWeather().Announcement and GetConVarNumber("sw_cl_announcement") != 0 then
 
-		chat.AddText( Color( 255, 255, 255, 255 ), SW.GetCurrentWeather().Announcement )
+		chat.AddText( Color( 255 , 255 , 255 , 255 ), SW.GetCurrentWeather().Announcement )
 
 	end
 
@@ -121,7 +120,7 @@ function SW.Think()
 
 	if LocalPlayer():GetViewEntity() == LocalPlayer() then
 
-		local s = hook.Call( "CalcView", GAMEMODE, LocalPlayer(), LocalPlayer():EyePos(), LocalPlayer():EyeAngles(), 75 )
+		local s = hook.Call( "CalcView" , GAMEMODE , LocalPlayer() , LocalPlayer():EyePos() , LocalPlayer():EyeAngles() , 75 )
 		if s and s.origin and s.angles then
 
 			SW.ViewPos = s.origin
