@@ -210,7 +210,11 @@ function ENT:PhysicsCollide( data, phys )
 	trace.filter = self
 	local tr = util.TraceLine( trace )
 
-	if ( tr.HitSky ) then return end
+	if tr.HitSky then 
+
+		return 
+
+	end
 
 	if ( data.DeltaTime > 0.2 ) then
 
@@ -253,19 +257,42 @@ function ENT:PhysicsCollide( data, phys )
 
 		self:EmitSound( Sound("weapons/mortar/mortar_explode" .. math.random( 1 , 3 ) .. ".wav") , 140 , math.random( 90 , 110 ) , 1 , CHAN_BODY )
 
-		self:GibBreakClient( Vector( 50 , 50 , 50 ) )
+		-- self:GibBreakClient( Vector( 50 , 50 , 50 ) )
 
-		-- local craterENT = ents.Create("prop_dynamic")
-		-- craterENT:SetPos( tr.HitPos )
-		-- craterENT:SetModel( Model("models/props_wasteland/antlionhill.mdl") )
-		-- craterENT:SetModelScale( 0.1 , 0 )
-		-- craterENT:Spawn()
-		-- craterENT:Activate()
-		-- timer.Simple( 5 , function()
+		local craterENT = ents.Create("prop_dynamic")
+		craterENT:SetPos( tr.HitPos + Vector( 0 , 50 , 0 ) )
+		craterENT:SetModel( Model("models/themask/sbmp/nature/rocks/rockcliffgscrater02.mdl") )
+		craterENT:SetModelScale( 0.1 , 0 )
+		craterENT:DrawShadow( false )
+		craterENT:Spawn()
+		craterENT:Activate()
 
-			-- craterENT:Remove()
+		local craterENT2 = ents.Create("prop_dynamic")
+		craterENT2:SetPos( tr.HitPos + Vector( -50 , 0 , 0 ) )
+		craterENT2:SetModel( Model("models/themask/sbmp/nature/rocks/rockcliffgscrater02.mdl") )
+		craterENT2:SetAngles( Angle( 0 , 90 , 0 ) )
+		craterENT2:SetModelScale( 0.1 , 0 )
+		craterENT2:SetParent( craterENT )
 
-		-- end)
+		local craterENT3 = ents.Create("prop_dynamic")
+		craterENT3:SetPos( tr.HitPos + Vector( 0 , -50 , 0 ) )
+		craterENT3:SetModel( Model("models/themask/sbmp/nature/rocks/rockcliffgscrater02.mdl") )
+		craterENT3:SetAngles( Angle( 0 , 180 , 0 ) )
+		craterENT3:SetModelScale( 0.1 , 0 )
+		craterENT3:SetParent( craterENT )
+
+		local craterENT4 = ents.Create("prop_dynamic")
+		craterENT4:SetPos( tr.HitPos + Vector( 50 , 0 , 0 ) )
+		craterENT4:SetModel( Model("models/themask/sbmp/nature/rocks/rockcliffgscrater02.mdl") )
+		craterENT4:SetAngles( Angle( 0 , 270 , 0 ) )
+		craterENT4:SetModelScale( 0.1 , 0 )
+		craterENT4:SetParent( craterENT )
+
+		timer.Simple( 5 , function()
+
+			if IsValid( craterENT ) then craterENT:Remove() end
+
+		end)
 
 	end
 
