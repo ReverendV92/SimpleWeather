@@ -75,7 +75,7 @@ local function nSetWeather()
 
 	if SW.GetCurrentWeather().Announcement and GetConVarNumber("sw_cl_announcement") != 0 then
 
-		chat.AddText( Color( 255 , 255 , 255 , 255 ), SW.GetCurrentWeather().Announcement )
+		chat.AddText( Color( 255, 255, 255, 255 ), SW.GetCurrentWeather().Announcement )
 
 	end
 
@@ -120,7 +120,7 @@ function SW.Think()
 
 	if LocalPlayer():GetViewEntity() == LocalPlayer() then
 
-		local s = hook.Call( "CalcView" , GAMEMODE , LocalPlayer() , LocalPlayer():EyePos() , LocalPlayer():EyeAngles() , 75 )
+		local s = hook.Call( "CalcView", GAMEMODE, LocalPlayer(), LocalPlayer():EyePos(), LocalPlayer():EyeAngles(), 75 )
 		if s and s.origin and s.angles then
 
 			SW.ViewPos = s.origin
@@ -347,7 +347,7 @@ end
 
 function SW.SirenSoundThink()
 
-	if GetConVarNumber( "sw_cl_sound" ) == 0 then
+	if GetConVarNumber( "sw_cl_sound" ) == 0 or GetConVarNumber("sw_cl_sound_siren") == 0 then
 
 		if SW.SirenSound and SW.SirenSoundVolume != 0 then
 
@@ -416,7 +416,7 @@ function SW.SoundThink()
 		SW.Sound:ChangeVolume( 0, 1 )
 		SW.SoundVolume = 0
 
-	elseif SW.SirenSoundVolume and SW.SirenSoundVolume > 0 and SW.SirenSound then
+	elseif SW.SirenSoundVolume and SW.SirenSoundVolume > 0 and SW.SirenSound and GetConVarNumber("sw_cl_sound_siren") == 1 then
 
 		SW.SirenSound:ChangeVolume( 0, 1 )
 		SW.SirenSoundVolume = 0
