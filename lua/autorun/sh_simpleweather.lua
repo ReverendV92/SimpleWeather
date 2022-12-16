@@ -478,7 +478,6 @@ if CLIENT then
 	end
 
 	function SW.AddCVarNet(_parent, label, convar, ...)
-		print("Bar button set!")
 		local gconvar = assert(GetConVar(convar), "Unknown ConVar: " .. convar .. "!")
 		local newpanel
 
@@ -505,7 +504,6 @@ if CLIENT then
 			end
 
 			newpanel.OnChecked = function(_self, _bVal)
-				print("OnChange")
 				if not LocalPlayer():IsAdmin() then return end
 				if _bVal == gconvar:GetBool() then return end
 
