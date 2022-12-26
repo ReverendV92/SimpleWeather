@@ -272,40 +272,21 @@ function SW.InitPostEntity()
 
 	end
 
-	if GetConVarNumber("sw_func_wind") == 1 then
-	
-		if !SW.EnvWind or !SW.EnvWind:IsValid() then
+	if !SW.EnvWind or !SW.EnvWind:IsValid() then
 
-			SW.EnvWind = ents.Create( "env_wind" )
-			SW.EnvWind:Spawn()
-			SW.EnvWind:Activate()
+		SW.EnvWind = ents.Create( "env_wind" )
+		SW.EnvWind:Spawn()
+		SW.EnvWind:Activate()
 
-			SW.EnvWind:SetKeyValue( "gustdirchange" , "30" )
-			SW.EnvWind:SetKeyValue( "gustduration" , "2" )
-			SW.EnvWind:SetKeyValue( "minwind" , "16" )
-			SW.EnvWind:SetKeyValue( "maxwind" , "24" )
-			SW.EnvWind:SetKeyValue( "mingust" , "32" )
-			SW.EnvWind:SetKeyValue( "maxgust" , "48" )
-			SW.EnvWind:SetKeyValue( "mingustdelay" , "8" )
-			SW.EnvWind:SetKeyValue( "maxgustdelay" , "16" )
-			SW.EnvWind:SetKeyValue( "targetname" , "sw_windController" )
-
-		-- else
-
-			-- local tab = SW.EnvWind:GetSaveTable()
-
-			-- SW.EnvWind:SetKeyValue( "angles" , tab["angles"] )
-			-- SW.EnvWind:SetKeyValue( "gustdirchange" , tonumber( tab["gustdirchange"] ) )
-			-- SW.EnvWind:SetKeyValue( "gustduration" , tonumber( tab["gustduration"] ) )
-			-- SW.EnvWind:SetKeyValue( "maxgust" , tonumber( tab["maxgust"] ) )
-			-- SW.EnvWind:SetKeyValue( "maxgustdelay" , tonumber( tab["maxgustdelay"] ) )
-			-- SW.EnvWind:SetKeyValue( "maxwind" , tonumber( tab["maxwind"] ) )
-			-- SW.EnvWind:SetKeyValue( "mingust" , tonumber( tab["mingust"] ) )
-			-- SW.EnvWind:SetKeyValue( "mingustdelay" , tonumber( tab["mingustdelay"] ) )
-			-- SW.EnvWind:SetKeyValue( "minwind" , tonumber( tab["minwind"] ) )
-			-- SW.EnvWind:SetKeyValue( "targetname" , "env_wind" )
-
-		end
+		SW.EnvWind:SetKeyValue( "gustdirchange" , "30" )
+		SW.EnvWind:SetKeyValue( "gustduration" , "2" )
+		SW.EnvWind:SetKeyValue( "minwind" , "16" )
+		SW.EnvWind:SetKeyValue( "maxwind" , "24" )
+		SW.EnvWind:SetKeyValue( "mingust" , "32" )
+		SW.EnvWind:SetKeyValue( "maxgust" , "48" )
+		SW.EnvWind:SetKeyValue( "mingustdelay" , "8" )
+		SW.EnvWind:SetKeyValue( "maxgustdelay" , "16" )
+		SW.EnvWind:SetKeyValue( "targetname" , "sw_windController" )
 
 	end
 
