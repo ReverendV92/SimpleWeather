@@ -4,6 +4,7 @@ WEATHER.ID = "blizzard"
 WEATHER.ConVar = { "sw_blizzard", "Blizzard" }
 WEATHER.Sound = "wind"
 WEATHER.WindScale = 2
+WEATHER.ParticleSystem = "v92_weather_snow"
 
 WEATHER.FogStart = -256
 WEATHER.FogEnd = 512
@@ -18,9 +19,6 @@ WEATHER.Broadcast = Sound("SW.EAS.Alert")
 
 function WEATHER:Think()
 
-	-- Client-side Snow VFX
-	SW.SnowThink()
-
 	-- Server-side DOT
 	SW.BlizzardThink()
 
@@ -33,8 +31,6 @@ function WEATHER:OnStart()
 		return false
 
 	end
-
-	ParticleEffect("v92_weather_snow" , Vector( 0 , 0 , 0 ) , Angle( 0 , 0 , 0 ) )
 
 	SW.SetGroundTextures()
 

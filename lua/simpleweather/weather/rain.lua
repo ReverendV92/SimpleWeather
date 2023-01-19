@@ -17,22 +17,3 @@ WEATHER.FogColor = Color( 100 , 100 , 100 , 255 )
 
 WEATHER.Icon = Material( "icon16/weather_rain.png" )
 WEATHER.Announcement = "A Rain Shower is approaching the area."
-
-function WEATHER:Think()
-
-	SW.RainThink()
-
-end
-
-function WEATHER:OnStart()
-
-	if SERVER then
-
-		return false
-
-	end
-
-	SW.StartParticles("v92_weather_rain")
-	-- ParticleEffect( "v92_weather_rain" , Vector( 0 , 0 , 0 ) , Angle( 0 , 0 , 0 ) )
-
-end
