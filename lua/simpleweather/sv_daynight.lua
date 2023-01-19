@@ -172,6 +172,35 @@ function SW.InitPostEntity()
 	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
 	SW.UpdateLightStyle( GetConVarString("sw_light_max_night") )
 
+	if !SW.EnvWind or !SW.EnvWind:IsValid() then
+
+		SW.EnvWind = ents.Create( "env_wind" )
+		SW.EnvWind:Spawn()
+		SW.EnvWind:Activate()
+
+		SW.EnvWind:SetKeyValue( "gustdirchange" , "30" )
+		SW.EnvWind:SetKeyValue( "gustduration" , "2" )
+		SW.EnvWind:SetKeyValue( "minwind" , "16" )
+		SW.EnvWind:SetKeyValue( "maxwind" , "24" )
+		SW.EnvWind:SetKeyValue( "mingust" , "32" )
+		SW.EnvWind:SetKeyValue( "maxgust" , "48" )
+		SW.EnvWind:SetKeyValue( "mingustdelay" , "8" )
+		SW.EnvWind:SetKeyValue( "maxgustdelay" , "16" )
+		SW.EnvWind:SetKeyValue( "targetname" , "sw_windController" )
+
+	end
+
+	-- Find any existing env_wind entities
+	for k , v in pairs( ents.FindByClass( "env_wind" ) ) do
+
+		-- Cache the defaults so we can call upon them later
+		SW.OldWindValues = v:GetKeyValues( )
+		-- PrintTable(SW.OldWindValues)
+		-- print("base minwind " .. tostring( v:GetInternalVariable("minwind") ) )
+		-- print("base maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
+
+	end
+
 	if GetConVarNumber("sw_func_fog") == 1 then
 
 		if SW.EnvFog and SW.EnvFog:IsValid() then
@@ -272,27 +301,8 @@ function SW.InitPostEntity()
 
 	end
 
-	if !SW.EnvWind or !SW.EnvWind:IsValid() then
-
-		SW.EnvWind = ents.Create( "env_wind" )
-		SW.EnvWind:Spawn()
-		SW.EnvWind:Activate()
-
-		SW.EnvWind:SetKeyValue( "gustdirchange" , "30" )
-		SW.EnvWind:SetKeyValue( "gustduration" , "2" )
-		SW.EnvWind:SetKeyValue( "minwind" , "16" )
-		SW.EnvWind:SetKeyValue( "maxwind" , "24" )
-		SW.EnvWind:SetKeyValue( "mingust" , "32" )
-		SW.EnvWind:SetKeyValue( "maxgust" , "48" )
-		SW.EnvWind:SetKeyValue( "mingustdelay" , "8" )
-		SW.EnvWind:SetKeyValue( "maxgustdelay" , "16" )
-		SW.EnvWind:SetKeyValue( "targetname" , "sw_windController" )
-
-	end
-
-	-- Evo City has a jank method of day-night control we need to remove
-	-- if( string.lower( game.GetMap() ) == "rp_evocity_v33x" or string.lower( game.GetMap() ) == "rp_evocity_v4b1" or string.lower( game.GetMap() ) == "rp_evocity2_v5p" ) then
-	if string.lower( game.GetMap() ) == "rp_evocity*" then
+	-- Some maps have a proprietary jank method of day-night control we need to remove
+	if( string.lower( game.GetMap() ) == "rp_evocity_v33x" or string.lower( game.GetMap() ) == "rp_evocity_v4b1" or string.lower( game.GetMap() ) == "rp_evocity2_v5p" or string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
 
 		for _, v in pairs( ents.FindByName( "daynight_brush" ) ) do
 
@@ -453,6 +463,13 @@ function SW.DayNightThink()
 
 				end
 
+				if( string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
+
+					for _, v in pairs( ents.FindByName( "ocrp_sun" ) ) do v:Fire( "TurnOn" ) end
+					for _, v in pairs( ents.FindByName( "ocrp_lights`" ) ) do v:Fire( "TurnOn" ) end
+
+				end
+
 			end
 
 			hook.Call( "WeatherDay", GAMEMODE )
@@ -484,6 +501,13 @@ function SW.DayNightThink()
 					for _, v in pairs( ents.FindByName( "amblol2" ) ) do v:Fire( "TurnOff" ) end
 					for _, v in pairs( ents.FindByName( "1" ) ) do v:Fire( "TurnOff" ) end
 					for _, v in pairs( ents.FindByName( "lamps`" ) ) do v:Fire( "TurnOff" ) end
+
+				end
+
+				if( string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
+
+					for _, v in pairs( ents.FindByName( "ocrp_sun" ) ) do v:Fire( "TurnOff" ) end
+					for _, v in pairs( ents.FindByName( "ocrp_lights`" ) ) do v:Fire( "TurnOff" ) end
 
 				end
 

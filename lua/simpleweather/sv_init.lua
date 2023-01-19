@@ -4,6 +4,7 @@ SW.OldWindValues = SW.OldWindValues or { }
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_daynight.lua" )
+AddCSLuaFile( "cl_texture.lua" )
 AddCSLuaFile( "sh_weathereffects.lua" )
 include( "sv_daynight.lua" )
 include( "sh_weathereffects.lua" )
@@ -58,22 +59,19 @@ function SW.GetCurrentWeather()
 	
 end
 
+function SW.Initialize()
+
+	SW.LoadWeathers()
+
+end
+hook.Add( "InitPostEntity", "SW.Initialize", SW.Initialize )
+
 SW.WeatherMode = ""
 SW.NextRandomWeather = math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
 
 function SW.SetWeather( s )
 
 	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then return end
-
-	SW.WeatherMode = s
-	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
-	SW.ResetSnowTextureSettings()
-
-	---------------------------------------------
-	---------------------------------------------
-	-- Wind Shenanigans
-	---------------------------------------------
-	---------------------------------------------
 
 	-- Clear Weather Reset
 	if s == "" then
@@ -96,7 +94,44 @@ function SW.SetWeather( s )
 
 		end
 
-		SW.ResetSnowTextureSettings()
+	end
+
+	SW.WeatherMode = s
+	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
+
+	-- Run the Broadcast sound
+	if s != "" and SW.GetCurrentWeather().Broadcast and GetConVarNumber("sw_weather_eas") != 0 then
+
+		-- Create our model table
+		local RadioModelTable = {}
+
+		-- Find the common HL2 radio
+		for k , ctr in pairs( ents.FindByModel( "models/props_lab/citizenradio.mdl" ) ) do
+
+			-- print("HL2")
+			-- Add it to the table
+			table.insert( RadioModelTable , ctr )
+
+		end
+
+		-- Find the CS_Office radio
+		for k , ofr in pairs( ents.FindByModel( "models/props/cs_office/radio.mdl" ) ) do
+
+			-- print("office")
+			-- Add it to the table
+			table.insert( RadioModelTable , ofr )
+
+		end
+
+		-- Find our radio models
+		for k , RadioModels in pairs( RadioModelTable ) do
+
+			print(RadioModels:GetModel())
+			-- Give anyone who knows the EAS/EBS a heart attack
+			RadioModels:EmitSound( SW.GetCurrentWeather().Broadcast )
+
+		end
+
 	end
 
 	-- Run the env_wind scaling
@@ -121,89 +156,6 @@ function SW.SetWeather( s )
 
 	end
 
-	-- Run the Broadcast sound
-	if s != "" and SW.GetCurrentWeather().Broadcast and GetConVarNumber("sw_weather_eas") != 0 then
-
-		-- Create our model table
-		local RadioModelTable = {}
-
-		-- Find the common HL2 radio
-		for k , v in pairs( ents.FindByModel( "models/props_lab/citizenradio.mdl" ) ) do
-			table.insert( RadioModelTable , v )
-		end
-
-		-- Find the CS_Office radio
-		for k , v in pairs( ents.FindByModel( "models/props/cs_office/radio.mdl" ) ) do
-			table.insert( RadioModelTable , v )
-		end
-
-		-- Find the DoD:S radio
-		for k , v in pairs( ents.FindByModel( "models/props_misc/german_radio.mdl" ) ) do
-			table.insert( RadioModelTable , v )
-		end
-
-		-- Find the BMS radios
-		for k , v in pairs( ents.FindByModel( "models/props_marines/army_radio.mdl" ) ) do
-			table.insert( RadioModelTable , v )
-		end
-		for k , v in pairs( ents.FindByModel( "models/props_marines/prc77_radio.mdl" ) ) do
-			table.insert( RadioModelTable , v )
-		end
-
-		-- Find the Insurgency: MIC radios
-		for k , v in pairs( ents.FindByModel( "models/props/radio01.mdl" ) ) do
-			table.insert( RadioModelTable , v )
-		end
-		for k , v in pairs( ents.FindByModel( "models/generic/radio.mdl" ) ) do
-			table.insert( RadioModelTable , v )
-		end
-
-		-- Find our radio models
-		for k , RadioModels in pairs( RadioModelTable ) do
-			-- Give anyone who knows the EAS/EBS a heart attack
-			RadioModels:EmitSound( SW.GetCurrentWeather().Broadcast )
-		end
-
-	end
-
-	---------------------------------------------
-	---------------------------------------------
-	-- Particle Shenanigans
-	---------------------------------------------
-	---------------------------------------------
-
-	-- OUT WITH THE OLD
-	for k , v in pairs( ents.FindByName("sw_particlesys") ) do
-
-		if IsValid(v) then
-
-			SafeRemoveEntity(v)
-
-		end
-
-	end
-
-	-- AND IN WITH THE NEW
-	if SW.GetCurrentWeather().ParticleSystem and GetConVarNumber("sw_func_particle_type") == 1 then
-
-		SW.ParticleSys = ents.Create( "info_particle_system" )
-
-		SW.ParticleSys:SetKeyValue( "targetname" , "sw_particlesys" )
-		SW.ParticleSys:SetKeyValue( "flag_as_weather" , "1" )
-		SW.ParticleSys:SetKeyValue( "start_active" , "1" )
-		SW.ParticleSys:SetKeyValue( "effect_name" , tostring(SW.GetCurrentWeather().ParticleSystem) )
-
-		SW.ParticleSys:Spawn()
-		SW.ParticleSys:Activate()
-
-	end
-
-	---------------------------------------------
-	---------------------------------------------
-	-- Weather function calls
-	---------------------------------------------
-	---------------------------------------------
-
 	-- Run the OnStart function
 	if s != "" and SW.GetCurrentWeather().OnStart then
 
@@ -226,14 +178,6 @@ end
 
 util.AddNetworkString( "SW.nSetWeather" )
 util.AddNetworkString( "SW.nRedownloadLightmaps" )
-
-hook.Add( "PostCleanupMap" , "SWCleanupReset" , function() 
-
-	SW.SetWeather("")
-
-	SW.ResetSnowTextureSettings()
-
-end)
 
 function SW.Think()
 
@@ -304,7 +248,7 @@ function SW.Think()
 			-- trace.start = v:EyePos()
 			trace.start = v:GetPos() + v:GetForward() * math.random( -8192 , 8192 ) + v:GetRight() * math.random( -8192 , 8192 )
 			trace.endpos = trace.start + Vector( 0, 0, 32768 )
-			trace.mask = MASK_VISIBLE
+			trace.mask = MASK_PLAYERSOLID_BRUSHONLY
 			local tr = util.TraceLine( trace )
 
 			if tr.HitSky or tr.HitNoDraw or GetConVarNumber("sw_weather_alwaysoutside") == 1 then
@@ -404,24 +348,6 @@ function SW.Initialize()
 end
 hook.Add( "Initialize", "SW.Initialize", SW.Initialize )
 
-function SW.PostInitEntity()
-
-	SW.raincount = ents.FindByClass( "func_precipitation" )
-	print(SW.raincount)
-
-	if GetConVarNumber("sw_func_precip") != 0 then
-		SW.FuncPrecip = ents.FindByClass( "func_precipitation" )
-		for k , v in pairs( SW.FuncPrecip ) do
-			v:Remove()
-		end
-	end
-
-	SW.LoadWeathers()
-	SW.ResetSnowTextureSettings()
-
-end
-hook.Add( "InitPostEntity", "SW.PostInitEntity", SW.PostInitEntity )
-
 function SW.Move( ply, mv )
 
 	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
@@ -480,7 +406,7 @@ function meta:IsOutside()
 	local trace = { }
 	trace.start = self:EyePos()
 	trace.endpos = trace.start + Vector( 0, 0, 32768 )
-	trace.mask = MASK_VISIBLE
+	trace.mask = MASK_SOLID
 	local tr = util.TraceLine( trace )
 	
 	if( tr.StartSolid ) then return false end
