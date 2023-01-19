@@ -134,6 +134,44 @@ function SW.SetWeather( s )
 
 	end
 
+	---------------------------------------------
+	---------------------------------------------
+	-- Particle Shenanigans
+	---------------------------------------------
+	---------------------------------------------
+
+	-- OUT WITH THE OLD
+	for k , v in pairs( ents.FindByName("sw_particlesys") ) do
+
+		if IsValid(v) then
+
+			SafeRemoveEntity(v)
+
+		end
+
+	end
+
+	-- AND IN WITH THE NEW
+	if SW.GetCurrentWeather().ParticleSystem then
+
+		SW.ParticleSys = ents.Create( "info_particle_system" )
+
+		SW.ParticleSys:SetKeyValue( "targetname" , "sw_particlesys" )
+		SW.ParticleSys:SetKeyValue( "flag_as_weather" , "1" )
+		SW.ParticleSys:SetKeyValue( "start_active" , "1" )
+		SW.ParticleSys:SetKeyValue( "effect_name" , tostring(SW.GetCurrentWeather().ParticleSystem) )
+
+		SW.ParticleSys:Spawn()
+		SW.ParticleSys:Activate()
+
+	end
+
+	---------------------------------------------
+	---------------------------------------------
+	-- Wind Shenanigans
+	---------------------------------------------
+	---------------------------------------------
+
 	-- Run the env_wind scaling
 	if s != "" and SW.GetCurrentWeather().WindScale and GetConVarNumber("sw_func_wind") == 1 then
 
@@ -155,6 +193,12 @@ function SW.SetWeather( s )
 		end
 
 	end
+
+	---------------------------------------------
+	---------------------------------------------
+	-- Weather function calls
+	---------------------------------------------
+	---------------------------------------------
 
 	-- Run the OnStart function
 	if s != "" and SW.GetCurrentWeather().OnStart then

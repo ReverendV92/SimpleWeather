@@ -22,7 +22,6 @@ WEATHER.Broadcast = Sound("SW.EAS.Alert")
 
 function WEATHER:Think()
 
-	SW.RainThink()
 	SW.LightningThink()
 
 end

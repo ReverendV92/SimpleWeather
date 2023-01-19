@@ -4,6 +4,7 @@ WEATHER.ID = "acidrain"
 WEATHER.ConVar = { "sw_acidrain" , "Acid Rain" }
 WEATHER.Sound = "rain"
 WEATHER.WindScale = 1
+WEATHER.ParticleSystem = "v92_weather_rain"
 
 WEATHER.Raindrops = true
 WEATHER.RaindropMinDelay = 0.1
@@ -23,17 +24,5 @@ WEATHER.Broadcast = Sound("SW.EAS.Alert")
 function WEATHER:Think()
 
 	SW.AcidRainThink()
-
-end
-
-function WEATHER:OnStart()
-
-	if SERVER then
-
-		return false
-
-	end
-
-	ParticleEffect( "v92_weather_rain" , Vector( 0 , 0 , 0 ) , Angle( 0 , 0 , 0 ) )
 
 end
