@@ -4,7 +4,7 @@ WEATHER.ID = "blizzard"
 WEATHER.ConVar = { "sw_blizzard", "Blizzard" }
 WEATHER.Sound = "wind"
 WEATHER.WindScale = 2
-WEATHER.ParticleSystem = "v92_weather_blizzard"
+-- WEATHER.ParticleSystem = "v92_weather_blizzard"
 
 WEATHER.FogStart = -256
 WEATHER.FogEnd = 512
@@ -19,6 +19,7 @@ WEATHER.Broadcast = Sound("SW.EAS.Alert")
 
 function WEATHER:Think()
 
+	SW.SnowThink()
 	-- Server-side DOT
 	SW.BlizzardThink()
 

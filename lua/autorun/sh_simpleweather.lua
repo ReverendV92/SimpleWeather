@@ -756,6 +756,8 @@ if CLIENT then
 			Panel:ControlHelp( "Smog.\nHampers visibility.\nInflicts DOT from noxious air." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Sandstorm" , ["Command"] = "sw_weather sandstorm" } )
 			Panel:ControlHelp( "Sandstorm.\nHampers visibility and hearing." , {} )
+			Panel:AddControl( "button" , { ["Label"] = "Overcast" , ["Command"] = "sw_weather overcast" } )
+			Panel:ControlHelp( "Overcast skies." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Rain" , ["Command"] = "sw_weather rain" } )
 			Panel:ControlHelp( "Rain.\nOvercast skies." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Thunderstorm" , ["Command"] = "sw_weather thunderstorm" } )
@@ -1665,29 +1667,30 @@ hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
 		volume:AddOption( "Volume 66%", function( ) RunConsoleCommand( "sw_cl_sound_volume" , "0.6" ) end )
 		volume:AddOption( "Volume 100%", function( ) RunConsoleCommand( "sw_cl_sound_volume" , "1" ) end )
 
-		local perf = m:AddSubMenu( "Performance..." )
+		-- local perf = m:AddSubMenu( "Performance..." )
 
-		perf:SetDeleteSelf( false )
+		-- perf:SetDeleteSelf( false )
 
-		SW.AddCVarNet( perf, "Rain Impacts" , "sw_rain_showimpact" , "1" , "0" )
-		SW.AddCVarNet( perf, "Rain Puffs" , "sw_rain_showsmoke" , "1" , "0" )
-		SW.AddCVarNet( perf, "Snow Stays" , "sw_snow_stay" , "1" , "0" )
+		-- SW.AddCVarNet( perf, "Rain Impacts" , "sw_rain_showimpact" , "1" , "0" )
+		-- SW.AddCVarNet( perf, "Rain Puffs" , "sw_rain_showsmoke" , "1" , "0" )
+		-- SW.AddCVarNet( perf, "Snow Stays" , "sw_snow_stay" , "1" , "0" )
 
-		local rainquality = perf:AddSubMenu( "Rain Quality..." )
+		-- local rainquality = perf:AddSubMenu( "Rain Quality..." )
 
-		rainquality:SetDeleteSelf( false )
+		-- rainquality:SetDeleteSelf( false )
 
-		rainquality:AddOption( "Low", function( ) RunConsoleCommand( "sw_rain_quality" , "1" ) end )
-		rainquality:AddOption( "Medium", function( ) RunConsoleCommand( "sw_rain_quality" , "2" ) end )
-		rainquality:AddOption( "High", function( ) RunConsoleCommand( "sw_rain_quality" , "3" ) end )
-		rainquality:AddOption( "Ultra", function( ) RunConsoleCommand( "sw_rain_quality" , "4" ) end )
+		-- rainquality:AddOption( "Low", function( ) RunConsoleCommand( "sw_rain_quality" , "1" ) end )
+		-- rainquality:AddOption( "Medium", function( ) RunConsoleCommand( "sw_rain_quality" , "2" ) end )
+		-- rainquality:AddOption( "High", function( ) RunConsoleCommand( "sw_rain_quality" , "3" ) end )
+		-- rainquality:AddOption( "Ultra", function( ) RunConsoleCommand( "sw_rain_quality" , "4" ) end )
 
-		m:AddSpacer( )
+		-- m:AddSpacer( )
 
 		local rng = m:AddSubMenu( "Start Weather..." )
 
 		rng:SetDeleteSelf( false )
 
+		rng:AddOption( "Overcast", function( ) RunConsoleCommand( "sw_weather" , "overcast" ) end )
 		rng:AddOption( "Fog", function( ) RunConsoleCommand( "sw_weather" , "fog" ) end )
 		rng:AddOption( "Smog", function( ) RunConsoleCommand( "sw_weather" , "smog" ) end )
 		rng:AddOption( "Sandstorm", function( ) RunConsoleCommand( "sw_weather" , "sandstorm" ) end )
@@ -1721,6 +1724,7 @@ hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
 
 		rng:AddSpacer( )
 
+		SW.AddCVarNet( rng, "Overcast", "sw_overcast" , "1" , "0" )
 		SW.AddCVarNet( rng, "Fog", "sw_fog" , "1" , "0" )
 		SW.AddCVarNet( rng, "Smog", "sw_smog" , "1" , "0" )
 		SW.AddCVarNet( rng, "Sandstorm", "sw_sandstorm" , "1" , "0" )

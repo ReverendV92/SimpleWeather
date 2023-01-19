@@ -817,3 +817,21 @@ CreateClientConVar( "sw_snow_height", "200" , true , false , "(INT) Maximum heig
 CreateClientConVar( "sw_snow_radius", "1200" , true , false , "(INT) Radius of snow effect." , "0" , "2500" )
 CreateClientConVar( "sw_snow_count", "20" , true , false , "(INT) Amount of particles in snow effect. Make this smaller to increase performance." , "0" , "100" )
 CreateClientConVar( "sw_snow_dietime", "5" , true , false , "(INT) Time in seconds until snow vanishes." , "0" , "16" )
+
+function SW.SnowThink()
+
+	if SERVER then
+
+		return false
+
+	end
+
+	if GetConVarNumber("sw_cl_weather_toggle") == 1 then
+
+		local drop = EffectData()
+		drop:SetOrigin( SW.ViewPos )
+		util.Effect( "sw_snow", drop )
+
+	end
+
+end
