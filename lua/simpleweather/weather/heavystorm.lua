@@ -4,7 +4,6 @@ WEATHER.ID = "heavystorm"
 WEATHER.ConVar = { "sw_heavystorm", "Heavy Storm" }
 WEATHER.Sound = "rain"
 WEATHER.WindScale = 3
-WEATHER.ParticleSystem = "v92_weather_storm"
 
 WEATHER.Raindrops = true
 WEATHER.RaindropMinDelay = 0.05
@@ -36,5 +35,7 @@ function WEATHER:OnStart()
 		return false
 
 	end
+
+	ParticleEffect( "v92_weather_rain" , Vector( 0 , 0 , 0 ) , Angle( 0 , 0 , 0 ) )
 
 end
