@@ -1247,6 +1247,9 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 			SW.NumSliderNet(Panel, "Burn Duration", "sw_lightning_ignite_duration", "1", "15", "int")
 			Panel:ControlHelp( "Lighting strike burn duration." )
 
+			SW.CheckBoxNet(Panel, "Dissolves Targets", "sw_lightning_dissolve")
+			Panel:ControlHelp( "Lightning dissolves targets on kill." )
+
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Fancy Effects" , ["Command"] = "sw_lightning_fancyfx" } )
 			SW.CheckBoxNet(Panel, "Fancy Effects", "sw_lightning_fancyfx")
 			Panel:ControlHelp( "Show fancy effects for lightning." )

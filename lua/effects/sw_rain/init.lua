@@ -90,6 +90,7 @@ function EFFECT:Init( data )
 					p:SetNextThink( CurTime() + 0.05 )
 					
 				end )
+
 				p:SetNextThink( CurTime() + 0.05 )
 				
 			end

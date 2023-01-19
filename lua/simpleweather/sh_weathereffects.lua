@@ -273,6 +273,7 @@ CreateConVar( "sw_lightning_target_world" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICA
 CreateConVar( "sw_lightning_target_chance" , "85" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Chance lightning will strike the ground vs. targets." , "1" , "100" )
 
 CreateConVar( "sw_lightning_fancyfx" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Show fancy effects for lightning." , "0" , "1" )
+CreateConVar( "sw_lightning_dissolve" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning dissolves target on kill." , "0" , "1" )
 
 --CreateConVar( "sw_thunder_mindelay" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Minimum delay in seconds to cause lightning/thunder while stormy." , "1" , "30" )
 --CreateConVar( "sw_thunder_maxdelay" , "30" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Maximum delay in seconds to cause lightning/thunder while stormy." , "1" , "30" )
@@ -375,7 +376,11 @@ function SW.LightningThink()
 			LightningDMG:SetDamage( GetConVarNumber("sw_lightning_damage") )
 			LightningDMG:SetDamageForce( v * math.random( GetConVarNumber("sw_lightning_force_amount") , GetConVarNumber("sw_lightning_force_amount") * 3 ) + Vector( 0 , 0 , math.random( 0 , GetConVarNumber("sw_lightning_force_amount") ) ) )
 			LightningDMG:SetDamagePosition( pos + Vector( 0 , 0 , 2048 ) )
-			LightningDMG:SetDamageType( DMG_SHOCK )
+			if GetConVarNumber("sw_lightning_dissolve") == 1 then
+				LightningDMG:SetDamageType( DMG_DISSOLVE )
+			else
+				LightningDMG:SetDamageType( DMG_SHOCK )
+			end
 
 			OutsideTarget:TakeDamageInfo( LightningDMG )
 
