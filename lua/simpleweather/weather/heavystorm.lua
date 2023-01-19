@@ -4,7 +4,7 @@ WEATHER.ID = "heavystorm"
 WEATHER.ConVar = { "sw_heavystorm", "Heavy Storm" }
 WEATHER.Sound = "rain"
 WEATHER.WindScale = 3
-WEATHER.ParticleSystem = "v92_weather_rain"
+WEATHER.ParticleSystem = "v92_weather_storm"
 
 WEATHER.Raindrops = true
 WEATHER.RaindropMinDelay = 0.05
