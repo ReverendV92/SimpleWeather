@@ -207,7 +207,9 @@ if CLIENT then
 
 	game.AddParticles("particles/v92_simpleweather.pcf")
 	PrecacheParticleSystem("v92_weather_rain")
+	PrecacheParticleSystem("v92_weather_storm")
 	PrecacheParticleSystem("v92_weather_snow")
+	PrecacheParticleSystem("v92_weather_blizzard")
 
 	CreateClientConVar( "sw_cl_weather_toggle", "1" , true , false , "(BOOL) Display client-side weather effects." , "0" , "1" )
 
@@ -988,67 +990,67 @@ if CLIENT then
 
 		spawnmenu.AddToolMenuOption( "Options" , "Simple Weather" , "SimpleWeather_Rain" , "Rain" , "" , "" , function( Panel )
 
-			Panel:AddControl("ComboBox", {
-				["MenuButton"] = 1 ,
-				["Folder"] = "sw_rain" ,
-				["Options"] = {
-					["default"] = {
-						["sw_rain_showsmoke"] = "1",
-						["sw_rain_showimpact"] = "1",
-						["sw_rain_quality"] = "1",
-						["sw_rain_dropsize_min"] = "20",
-						["sw_rain_dropsize_max"] = "40",
-						["sw_rain_height"] = "300",
-						["sw_rain_radius"] = "500",
-						["sw_rain_count"] = "20",
-						["sw_rain_dietime"] = "3",
-					},
-					["potato"] = {
-						["sw_rain_showsmoke"] = "0",
-						["sw_rain_showimpact"] = "0",
-						["sw_rain_quality"] = "1",
-						["sw_rain_dropsize_min"] = "20",
-						["sw_rain_dropsize_max"] = "40",
-						["sw_rain_height"] = "100",
-						["sw_rain_radius"] = "150",
-						["sw_rain_count"] = "20",
-						["sw_rain_dietime"] = "1",
-					}
-				},
-				["CVars"] = {
-					"sw_rain_showsmoke",
-					"sw_rain_showimpact",
-					"sw_rain_quality",
-					"sw_rain_dropsize_min",
-					"sw_rain_dropsize_max",
-					"sw_rain_height",
-					"sw_rain_radius",
-					"sw_rain_count",
-					"sw_rain_dietime",
-				}
-			} )
+			-- Panel:AddControl("ComboBox", {
+				-- ["MenuButton"] = 1 ,
+				-- ["Folder"] = "sw_rain" ,
+				-- ["Options"] = {
+					-- ["default"] = {
+						-- ["sw_rain_showsmoke"] = "1",
+						-- ["sw_rain_showimpact"] = "1",
+						-- ["sw_rain_quality"] = "1",
+						-- ["sw_rain_dropsize_min"] = "20",
+						-- ["sw_rain_dropsize_max"] = "40",
+						-- ["sw_rain_height"] = "300",
+						-- ["sw_rain_radius"] = "500",
+						-- ["sw_rain_count"] = "20",
+						-- ["sw_rain_dietime"] = "3",
+					-- },
+					-- ["potato"] = {
+						-- ["sw_rain_showsmoke"] = "0",
+						-- ["sw_rain_showimpact"] = "0",
+						-- ["sw_rain_quality"] = "1",
+						-- ["sw_rain_dropsize_min"] = "20",
+						-- ["sw_rain_dropsize_max"] = "40",
+						-- ["sw_rain_height"] = "100",
+						-- ["sw_rain_radius"] = "150",
+						-- ["sw_rain_count"] = "20",
+						-- ["sw_rain_dietime"] = "1",
+					-- }
+				-- },
+				-- ["CVars"] = {
+					-- "sw_rain_showsmoke",
+					-- "sw_rain_showimpact",
+					-- "sw_rain_quality",
+					-- "sw_rain_dropsize_min",
+					-- "sw_rain_dropsize_max",
+					-- "sw_rain_height",
+					-- "sw_rain_radius",
+					-- "sw_rain_count",
+					-- "sw_rain_dietime",
+				-- }
+			-- } )
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Rain" , ["Command"] = "sw_weather rain" } )
 			Panel:ControlHelp( "Rain.\nOvercast skies." , {} )
 
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Rain Puffs" , ["Command"] = "sw_rain_showsmoke" } )
-			SW.CheckBoxNet(Panel, "Rain Puffs", "sw_rain_showsmoke")
+			-- SW.CheckBoxNet(Panel, "Rain Puffs", "sw_rain_showsmoke")
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Rain Impacts" , ["Command"] = "sw_rain_showimpact" } )
-			SW.CheckBoxNet(Panel, "Rain Impacts", "sw_rain_showimpact")
+			-- SW.CheckBoxNet(Panel, "Rain Impacts", "sw_rain_showimpact")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Quality" , ["Command"] = "sw_rain_quality" , ["Min"] = "1" , ["Max"] = "4" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Rain Quality", "sw_rain_quality", "1", "4", "int")
+			-- SW.NumSliderNet(Panel, "Rain Quality", "sw_rain_quality", "1", "4", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Drop Size Minimum" , ["Command"] = "sw_rain_dropsize_min" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Drop Size Minimum", "sw_rain_dropsize_min", "10", "1000", "int")
+			-- SW.NumSliderNet(Panel, "Drop Size Minimum", "sw_rain_dropsize_min", "10", "1000", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Drop Size Maximum" , ["Command"] = "sw_rain_dropsize_max" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Drop Size Maximum", "sw_rain_dropsize_max", "10", "1000", "int")
+			-- SW.NumSliderNet(Panel, "Drop Size Maximum", "sw_rain_dropsize_max", "10", "1000", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Height" , ["Command"] = "sw_rain_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Rain Height", "sw_rain_height", "0", "2500", "int")
+			-- SW.NumSliderNet(Panel, "Rain Height", "sw_rain_height", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Radius" , ["Command"] = "sw_rain_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Rain Radius", "sw_rain_radius", "0", "2500", "int")
+			-- SW.NumSliderNet(Panel, "Rain Radius", "sw_rain_radius", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Amount" , ["Command"] = "sw_rain_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Rain Amount", "sw_rain_count", "0", "100", "int")
+			-- SW.NumSliderNet(Panel, "Rain Amount", "sw_rain_count", "0", "100", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Lifetime" , ["Command"] = "sw_rain_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Rain Lifetime", "sw_rain_dietime", "0", "16", "int")
+			-- SW.NumSliderNet(Panel, "Rain Lifetime", "sw_rain_dietime", "0", "16", "int")
 
 		end )
 
@@ -1090,43 +1092,43 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 
 		spawnmenu.AddToolMenuOption( "Options" , "Simple Weather" , "SimpleWeather_Thunderstorm" , "Thunderstorm" , "" , "" , function( Panel )
 
-			Panel:AddControl("ComboBox", {
-				["MenuButton"] = 1 ,
-				["Folder"] = "sw_thunderstorm" ,
-				["Options"] = {
-					["default"] = {
-						["sw_storm_radius"] = "500",
-						["sw_storm_count"] = "120",
-						["sw_storm_dietime"] = "3",
+			-- Panel:AddControl("ComboBox", {
+				-- ["MenuButton"] = 1 ,
+				-- ["Folder"] = "sw_thunderstorm" ,
+				-- ["Options"] = {
+					-- ["default"] = {
+						-- ["sw_storm_radius"] = "500",
+						-- ["sw_storm_count"] = "120",
+						-- ["sw_storm_dietime"] = "3",
 						-- ["sw_thunder_mindelay"] = "10",
 						-- ["sw_thunder_maxdelay"] = "30",
-					},
-					["potato"] = {
-						["sw_storm_radius"] = "150",
-						["sw_storm_count"] = "25",
-						["sw_storm_dietime"] = "1",
+					-- },
+					-- ["potato"] = {
+						-- ["sw_storm_radius"] = "150",
+						-- ["sw_storm_count"] = "25",
+						-- ["sw_storm_dietime"] = "1",
 						-- ["sw_thunder_mindelay"] = "10",
 						-- ["sw_thunder_maxdelay"] = "30",
-					}
-				},
-				["CVars"] = {
-					"sw_storm_radius",
-					"sw_storm_count",
-					"sw_storm_dietime",
+					-- }
+				-- },
+				-- ["CVars"] = {
+					-- "sw_storm_radius",
+					-- "sw_storm_count",
+					-- "sw_storm_dietime",
 					-- "sw_thunder_mindelay",
 					-- "sw_thunder_maxdelay",
-				}
-			} )
+				-- }
+			-- } )
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Thunderstorm" , ["Command"] = "sw_thunderstorm" } )
 			Panel:ControlHelp( "Thunderstorm.\nOvercast skies. Hampers visibility.\nLightning may strike you for significant damage." , {} )
 
 			--Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Radius" , ["Command"] = "sw_storm_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Thunderstorm Radius", "sw_storm_radius", "0", "2500", "int")
+			-- SW.NumSliderNet(Panel, "Thunderstorm Radius", "sw_storm_radius", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Amount" , ["Command"] = "sw_storm_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Thunderstorm Amount", "sw_storm_count", "0", "100", "int")
+			-- SW.NumSliderNet(Panel, "Thunderstorm Amount", "sw_storm_count", "0", "100", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Lifetime" , ["Command"] = "sw_storm_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Thunderstorm Lifetime", "sw_storm_dietime", "0", "16", "int")
+			-- SW.NumSliderNet(Panel, "Thunderstorm Lifetime", "sw_storm_dietime", "0", "16", "int")
 
 			-- --Panel:AddControl( "slider" , { ["Label"] = "Thunder Minimum Delay" , ["Command"] = "sw_thunder_mindelay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
 			--SW.NumSliderNet(Panel, "Thunder Minimum Delay", "sw_thunder_mindelay", "1", "30", "int")
@@ -1378,72 +1380,72 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 
 		spawnmenu.AddToolMenuOption( "Options" , "Simple Weather" , "SimpleWeather_Snow" , "Snow" , "" , "" , function( Panel )
 
-			Panel:AddControl("ComboBox", {
-				["MenuButton"] = 1 ,
-				["Folder"] = "sw_snow" ,
-				["Options"] = {
-					["default"] = {
-						["sw_snow_stay"] = "1",
-						["sw_snow_height"] = "200",
-						["sw_snow_radius"] = "1200",
-						["sw_snow_count"] = "20",
-						["sw_snow_dietime"] = "5",
-						["sw_blizzard_height"] = "100",
-						["sw_blizzard_radius"] = "1000",
-						["sw_blizzard_count"] = "30",
-						["sw_blizzard_dietime"] = "2",
-					},
-					["potato"] = {
-						["sw_snow_stay"] = "0",
-						["sw_snow_height"] = "100",
-						["sw_snow_radius"] = "250",
-						["sw_snow_count"] = "10",
-						["sw_snow_dietime"] = "1",
-						["sw_blizzard_height"] = "100",
-						["sw_blizzard_radius"] = "500",
-						["sw_blizzard_count"] = "20",
-						["sw_blizzard_dietime"] = "1",
-					}
-				},
-				["CVars"] = {
-					"sw_snow_stay",
-					"sw_snow_height",
-					"sw_snow_radius",
-					"sw_snow_count",
-					"sw_blizzard_height",
-					"sw_blizzard_radius",
-					"sw_blizzard_count",
-					"sw_blizzard_dietime",
-				}
-			} )
+			-- Panel:AddControl("ComboBox", {
+				-- ["MenuButton"] = 1 ,
+				-- ["Folder"] = "sw_snow" ,
+				-- ["Options"] = {
+					-- ["default"] = {
+						-- ["sw_snow_stay"] = "1",
+						-- ["sw_snow_height"] = "200",
+						-- ["sw_snow_radius"] = "1200",
+						-- ["sw_snow_count"] = "20",
+						-- ["sw_snow_dietime"] = "5",
+						-- ["sw_blizzard_height"] = "100",
+						-- ["sw_blizzard_radius"] = "1000",
+						-- ["sw_blizzard_count"] = "30",
+						-- ["sw_blizzard_dietime"] = "2",
+					-- },
+					-- ["potato"] = {
+						-- ["sw_snow_stay"] = "0",
+						-- ["sw_snow_height"] = "100",
+						-- ["sw_snow_radius"] = "250",
+						-- ["sw_snow_count"] = "10",
+						-- ["sw_snow_dietime"] = "1",
+						-- ["sw_blizzard_height"] = "100",
+						-- ["sw_blizzard_radius"] = "500",
+						-- ["sw_blizzard_count"] = "20",
+						-- ["sw_blizzard_dietime"] = "1",
+					-- }
+				-- },
+				-- ["CVars"] = {
+					-- "sw_snow_stay",
+					-- "sw_snow_height",
+					-- "sw_snow_radius",
+					-- "sw_snow_count",
+					-- "sw_blizzard_height",
+					-- "sw_blizzard_radius",
+					-- "sw_blizzard_count",
+					-- "sw_blizzard_dietime",
+				-- }
+			-- } )
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Snow" , ["Command"] = "sw_weather snow" } )
 			Panel:ControlHelp( "Snow.\nOvercast skies. Hampers visibility." , {} )
 
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Snow Stays" , ["Command"] = "sw_snow_stay" } )
-			SW.CheckBoxNet(Panel, "Snow Stays", "sw_snow_stay")
-			Panel:ControlHelp( "Snow particles stick to ground." , {} )
+			-- SW.CheckBoxNet(Panel, "Snow Stays", "sw_snow_stay")
+			-- Panel:ControlHelp( "Snow particles stick to ground." , {} )
 
 			--Panel:AddControl( "slider" , { ["Label"] = "Snow Height" , ["Command"] = "sw_snow_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Snow Height", "sw_snow_height", "0", "2500", "int")
+			-- SW.NumSliderNet(Panel, "Snow Height", "sw_snow_height", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Snow Radius" , ["Command"] = "sw_snow_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Snow Radius", "sw_snow_radius", "0", "2500", "int")
+			-- SW.NumSliderNet(Panel, "Snow Radius", "sw_snow_radius", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Snow Amount" , ["Command"] = "sw_snow_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Snow Amount", "sw_snow_count", "0", "100", "int")
+			-- SW.NumSliderNet(Panel, "Snow Amount", "sw_snow_count", "0", "100", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Snow Lifetime" , ["Command"] = "sw_snow_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Snow Lifetime", "sw_snow_dietime", "0", "16", "int")
+			-- SW.NumSliderNet(Panel, "Snow Lifetime", "sw_snow_dietime", "0", "16", "int")
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Blizzard" , ["Command"] = "sw_weather blizzard" } )
 			Panel:ControlHelp( "Blizzard.\nOvercast skies. Hampers visibility and hearing.\nInflicts DOT from noxious air." , {} )
 
 			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Height" , ["Command"] = "sw_blizzard_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Blizzard Height", "sw_blizzard_height", "0", "2500", "int")
+			-- SW.NumSliderNet(Panel, "Blizzard Height", "sw_blizzard_height", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Radius" , ["Command"] = "sw_blizzard_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Blizzard Radius", "sw_blizzard_radius", "0", "2500", "int")
+			-- SW.NumSliderNet(Panel, "Blizzard Radius", "sw_blizzard_radius", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Amount" , ["Command"] = "sw_blizzard_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Blizzard Amount", "sw_blizzard_count", "0", "100", "int")
+			-- SW.NumSliderNet(Panel, "Blizzard Amount", "sw_blizzard_count", "0", "100", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Lifetime" , ["Command"] = "sw_blizzard_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
-			SW.NumSliderNet(Panel, "Blizzard Lifetime", "sw_blizzard_dietime", "0", "16", "int")
+			-- SW.NumSliderNet(Panel, "Blizzard Lifetime", "sw_blizzard_dietime", "0", "16", "int")
 
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Coughing" , ["Command"] = "sw_blizzard_dmg_sound_toggle" } )
 			SW.CheckBoxNet(Panel, "Toggle Coughing", "sw_blizzard_dmg_sound_toggle")
