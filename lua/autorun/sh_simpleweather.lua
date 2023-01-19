@@ -206,6 +206,8 @@ CreateConVar( "sw_light_max_storm" , "j" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FC
 if CLIENT then
 
 	game.AddParticles("particles/v92_simpleweather.pcf")
+	PrecacheParticleSystem("v92_weather_rain")
+	PrecacheParticleSystem("v92_weather_snow")
 
 	CreateClientConVar( "sw_cl_weather_toggle", "1" , true , false , "(BOOL) Display client-side weather effects." , "0" , "1" )
 

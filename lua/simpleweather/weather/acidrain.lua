@@ -25,3 +25,15 @@ function WEATHER:Think()
 	SW.AcidRainThink()
 
 end
+
+function WEATHER:OnStart()
+
+	if SERVER then
+
+		return false
+
+	end
+
+	ParticleEffect( "v92_weather_rain" , Vector( 0 , 0 , 0 ) , Angle( 0 , 0 , 0 ) )
+
+end

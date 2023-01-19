@@ -34,6 +34,21 @@ local function SWPhysgunPickup( ply , weatherENT )
 end
 hook.Add( "PhysgunPickup", "SW.PhysgunPickup", SWPhysgunPickup )
 
+function SW.StartParticles( sysName )
+
+	print("test")
+	if sysName == "" or GetConVarNumber("sw_cl_weather_toggle") == 0 then
+
+		return false
+
+	end
+
+	print("test2")
+	ParticleEffect( tostring(sysName) , Vector( 0 , 0 , 0 ) , Angle( 0 , 0 , 0 ) )
+	print(tostring(sysName))
+
+end
+
 ----------------------------------------
 ----------------------------------------
 -- ACID RAIN
@@ -49,18 +64,14 @@ CreateConVar( "sw_acidrain_dmg_delay" , "2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED 
 
 function SW.AcidRainThink()
 
-	if CLIENT and GetConVarNumber("sw_cl_weather_toggle") == 1 then
+	-- if CLIENT and GetConVarNumber("sw_cl_weather_toggle") == 1 then
 
-		if GetConVarNumber( "sw_cl_screenfx" ) == 1 then
+		-- local drop = EffectData()
+		-- drop:SetOrigin( SW.ViewPos )
+		-- drop:SetScale( 0 )
+		-- util.Effect( "sw_acidrain", drop )
 
-			local drop = EffectData()
-			drop:SetOrigin( SW.ViewPos )
-			drop:SetScale( 0 )
-			util.Effect( "sw_acidrain", drop )
-
-		end
-
-	end
+	-- end
 
 	if SERVER and GetConVarNumber("sw_acidrain_dmg_toggle") != 0 then
 
@@ -725,27 +736,22 @@ CreateClientConVar( "sw_storm_dietime", "3" , true , false , "(INT) Time in seco
 
 function SW.RainThink()
 
-	if SERVER then
+	-- if SERVER then
 
 		return false
 
-	end
+	-- end
 
 	-- If show weather effects is on...
-	if GetConVarNumber("sw_cl_weather_toggle") then
+	-- if GetConVarNumber("sw_cl_weather_toggle") == 1 then
 
-		-- If show screen effects is on...
-		if GetConVarNumber( "sw_cl_screenfx" ) == 1 then
-			
-			local drop = EffectData()
-				drop:SetOrigin( SW.ViewPos )
-				drop:SetScale( 0 )
-			util.Effect( "sw_rain", drop )
-			
-		end
-		
-	end
-	
+		-- local drop = EffectData()
+			-- drop:SetOrigin( SW.ViewPos )
+			-- drop:SetScale( 0 )
+		-- util.Effect( "sw_rain", drop )
+
+	-- end
+
 end
 
 ----------------------------------------
@@ -765,17 +771,12 @@ function SW.SandstormThink()
 	-- If show weather effects is on...
 	if GetConVarNumber("sw_cl_weather_toggle") then
 
-		-- If show screen effects is on...
-		if GetConVarNumber( "sw_cl_screenfx" ) == 1 then
-			
-			local drop = EffectData()
-				drop:SetOrigin( SW.ViewPos )
-			util.Effect( "sw_sandstorm", drop )
-			
-		end
-		
+		local drop = EffectData()
+			drop:SetOrigin( SW.ViewPos )
+		util.Effect( "sw_sandstorm", drop )
+
 	end
-	
+
 end
 
 ----------------------------------------
@@ -852,24 +853,20 @@ CreateClientConVar( "sw_snow_radius", "1200" , true , false , "(INT) Radius of s
 CreateClientConVar( "sw_snow_count", "20" , true , false , "(INT) Amount of particles in snow effect. Make this smaller to increase performance." , "0" , "100" )
 CreateClientConVar( "sw_snow_dietime", "5" , true , false , "(INT) Time in seconds until snow vanishes." , "0" , "16" )
 
-function SW.SnowThink()
+-- function SW.SnowThink()
 
-	if SERVER then
+	-- if SERVER then
 
-		return false
+		-- return false
 
-	end
+	-- end
 
-	if GetConVarNumber("sw_cl_weather_toggle") then
+	-- if GetConVarNumber("sw_cl_weather_toggle") then
 
-		if GetConVarNumber( "sw_cl_screenfx" ) == 1 then
+		-- local drop = EffectData()
+		-- drop:SetOrigin( SW.ViewPos )
+		-- util.Effect( "sw_snow", drop )
 
-			local drop = EffectData()
-			drop:SetOrigin( SW.ViewPos )
-			util.Effect( "sw_snow", drop )
+	-- end
 
-		end
-
-	end
-
-end
+-- end
