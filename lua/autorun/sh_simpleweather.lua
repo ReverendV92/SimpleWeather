@@ -160,10 +160,7 @@ CreateConVar( "sw_func_sun" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL
 CreateConVar( "sw_func_skybox" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the skybox to change color through the day." , "0" , "1" )
 CreateConVar( "sw_func_fog" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , "0" , "1" )
 CreateConVar( "sw_func_wind" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable wind functions.\nTurn it off if weird stuff happens." , "0" , "1" )
-CreateConVar( "sw_func_precip" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , "0" , "1" )
-CreateConVar( "sw_func_textures" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , "0" , "1" )
 CreateConVar( "sw_func_maplogic" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , "0" , "1" )
-CreateConVar( "sw_func_particle_type" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should weather use PCF (1) or Lua effects (0)? Affects all weather variants. Included for total control, but PCF is recommend for servers." , "0" , "1" )
 
 CreateConVar( "sw_autoweather" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , "0" , "1" )
 CreateConVar( "sw_autoweather_minstart" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , "0" , "16" )
@@ -209,10 +206,6 @@ CreateConVar( "sw_light_max_storm" , "j" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FC
 if CLIENT then
 
 	game.AddParticles("particles/v92_simpleweather.pcf")
-	PrecacheParticleSystem("v92_weather_rain")
-	PrecacheParticleSystem("v92_weather_storm")
-	PrecacheParticleSystem("v92_weather_snow")
-	PrecacheParticleSystem("v92_weather_blizzard")
 
 	CreateClientConVar( "sw_cl_weather_toggle", "1" , true , false , "(BOOL) Display client-side weather effects." , "0" , "1" )
 
@@ -549,7 +542,6 @@ if CLIENT then
 						["sw_func_sun"] = "1" ,
 						["sw_func_fog"] = "1" ,
 						["sw_func_wind"] = "1" ,
-						["sw_func_precip"] = "1" ,
 						["sw_func_maplogic"] = "1" ,
 
 					},
@@ -562,7 +554,6 @@ if CLIENT then
 						["sw_func_sun"] = "0" ,
 						["sw_func_fog"] = "0" ,
 						["sw_func_wind"] = "0" ,
-						["sw_func_precip"] = "0" ,
 						["sw_func_maplogic"] = "0" ,
 
 					}
@@ -577,7 +568,6 @@ if CLIENT then
 					"sw_func_sun" ,
 					"sw_func_fog" ,
 					"sw_func_wind" ,
-					"sw_func_precip" ,
 					"sw_func_maplogic" ,
 
 				}
@@ -586,33 +576,35 @@ if CLIENT then
 
 			Panel:Help( "These commands toggle entire parts of the mod. Use on more troublesome maps. Reloading the map might be required." , {} )
 
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Enable Mod" , ["Command"] = "sw_func_master" } )
 			SW.CheckBoxNet(Panel, "Enable Mod", "sw_func_master")
 			Panel:ControlHelp( "Toggle entire SimpleWeather mod - all functionality will be disabled." , {} )
 
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Skybox" , ["Command"] = "sw_func_skybox" } )
 			SW.CheckBoxNet(Panel, "Update Skybox", "sw_func_skybox")
 			Panel:ControlHelp( "Enable the skybox to change color through the day. Probably should disable on maps with special skyboxes." , {} )
 
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Lighting" , ["Command"] = "sw_func_lighting" } )
 			SW.CheckBoxNet(Panel, "Update Lighting", "sw_func_lighting")
 			Panel:ControlHelp( "Enable map lighting updates.\nTurn this off if the map's a night map already!" , {} )
 
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Sun" , ["Command"] = "sw_func_sun" } )
 			SW.CheckBoxNet(Panel, "Update Sun", "sw_func_sun")
 			Panel:ControlHelp( "Enable sun moving through the sky." , {} )
 
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Fog" , ["Command"] = "sw_func_fog" } )
 			SW.CheckBoxNet(Panel, "Update Fog", "sw_func_fog")
 			Panel:ControlHelp( "Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , {} )
 
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Wind" , ["Command"] = "sw_func_wind" } )
 			SW.CheckBoxNet(Panel, "Update Wind", "sw_func_wind")
 			Panel:ControlHelp( "Enable wind functions.\nTurn it off if weird stuff happens." , {} )
 
-			SW.CheckBoxNet(Panel, "Update Textures", "sw_func_textures")
-			Panel:ControlHelp( "Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , {} )
-
-			SW.CheckBoxNet(Panel, "Remove func_precipitation", "sw_func_precip")
-			Panel:ControlHelp( "Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , {} )
-
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Map Outputs" , ["Command"] = "sw_func_maplogic" } )
 			SW.CheckBoxNet(Panel, "Map Outputs", "sw_func_maplogic")
 			Panel:ControlHelp( "Enabled map-specific outputs, like streetlights.\n(Situtational. Only works on select maps. Needs to be improved.)" , {} )
 
+			--Panel:AddControl( "checkbox" , { ["Label"] = "Emergency Alerts" , ["Command"] = "sw_weather_eas" } )
 			SW.CheckBoxNet(Panel, "Emergency Alerts", "sw_weather_eas")
 			Panel:ControlHelp( "Toggle radio models playing the EAS broadcasting tones when severe weather starts." , {} )
 
@@ -760,8 +752,6 @@ if CLIENT then
 			Panel:ControlHelp( "Smog.\nHampers visibility.\nInflicts DOT from noxious air." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Sandstorm" , ["Command"] = "sw_weather sandstorm" } )
 			Panel:ControlHelp( "Sandstorm.\nHampers visibility and hearing." , {} )
-			Panel:AddControl( "button" , { ["Label"] = "Overcast" , ["Command"] = "sw_weather overcast" } )
-			Panel:ControlHelp( "Overcast skies." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Rain" , ["Command"] = "sw_weather rain" } )
 			Panel:ControlHelp( "Rain.\nOvercast skies." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Thunderstorm" , ["Command"] = "sw_weather thunderstorm" } )
@@ -996,67 +986,67 @@ if CLIENT then
 
 		spawnmenu.AddToolMenuOption( "Options" , "Simple Weather" , "SimpleWeather_Rain" , "Rain" , "" , "" , function( Panel )
 
-			-- Panel:AddControl("ComboBox", {
-				-- ["MenuButton"] = 1 ,
-				-- ["Folder"] = "sw_rain" ,
-				-- ["Options"] = {
-					-- ["default"] = {
-						-- ["sw_rain_showsmoke"] = "1",
-						-- ["sw_rain_showimpact"] = "1",
-						-- ["sw_rain_quality"] = "1",
-						-- ["sw_rain_dropsize_min"] = "20",
-						-- ["sw_rain_dropsize_max"] = "40",
-						-- ["sw_rain_height"] = "300",
-						-- ["sw_rain_radius"] = "500",
-						-- ["sw_rain_count"] = "20",
-						-- ["sw_rain_dietime"] = "3",
-					-- },
-					-- ["potato"] = {
-						-- ["sw_rain_showsmoke"] = "0",
-						-- ["sw_rain_showimpact"] = "0",
-						-- ["sw_rain_quality"] = "1",
-						-- ["sw_rain_dropsize_min"] = "20",
-						-- ["sw_rain_dropsize_max"] = "40",
-						-- ["sw_rain_height"] = "100",
-						-- ["sw_rain_radius"] = "150",
-						-- ["sw_rain_count"] = "20",
-						-- ["sw_rain_dietime"] = "1",
-					-- }
-				-- },
-				-- ["CVars"] = {
-					-- "sw_rain_showsmoke",
-					-- "sw_rain_showimpact",
-					-- "sw_rain_quality",
-					-- "sw_rain_dropsize_min",
-					-- "sw_rain_dropsize_max",
-					-- "sw_rain_height",
-					-- "sw_rain_radius",
-					-- "sw_rain_count",
-					-- "sw_rain_dietime",
-				-- }
-			-- } )
+			Panel:AddControl("ComboBox", {
+				["MenuButton"] = 1 ,
+				["Folder"] = "sw_rain" ,
+				["Options"] = {
+					["default"] = {
+						["sw_rain_showsmoke"] = "1",
+						["sw_rain_showimpact"] = "1",
+						["sw_rain_quality"] = "1",
+						["sw_rain_dropsize_min"] = "20",
+						["sw_rain_dropsize_max"] = "40",
+						["sw_rain_height"] = "300",
+						["sw_rain_radius"] = "500",
+						["sw_rain_count"] = "20",
+						["sw_rain_dietime"] = "3",
+					},
+					["potato"] = {
+						["sw_rain_showsmoke"] = "0",
+						["sw_rain_showimpact"] = "0",
+						["sw_rain_quality"] = "1",
+						["sw_rain_dropsize_min"] = "20",
+						["sw_rain_dropsize_max"] = "40",
+						["sw_rain_height"] = "100",
+						["sw_rain_radius"] = "150",
+						["sw_rain_count"] = "20",
+						["sw_rain_dietime"] = "1",
+					}
+				},
+				["CVars"] = {
+					"sw_rain_showsmoke",
+					"sw_rain_showimpact",
+					"sw_rain_quality",
+					"sw_rain_dropsize_min",
+					"sw_rain_dropsize_max",
+					"sw_rain_height",
+					"sw_rain_radius",
+					"sw_rain_count",
+					"sw_rain_dietime",
+				}
+			} )
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Rain" , ["Command"] = "sw_weather rain" } )
 			Panel:ControlHelp( "Rain.\nOvercast skies." , {} )
 
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Rain Puffs" , ["Command"] = "sw_rain_showsmoke" } )
-			-- SW.CheckBoxNet(Panel, "Rain Puffs", "sw_rain_showsmoke")
+			SW.CheckBoxNet(Panel, "Rain Puffs", "sw_rain_showsmoke")
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Rain Impacts" , ["Command"] = "sw_rain_showimpact" } )
-			-- SW.CheckBoxNet(Panel, "Rain Impacts", "sw_rain_showimpact")
+			SW.CheckBoxNet(Panel, "Rain Impacts", "sw_rain_showimpact")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Quality" , ["Command"] = "sw_rain_quality" , ["Min"] = "1" , ["Max"] = "4" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Rain Quality", "sw_rain_quality", "1", "4", "int")
+			SW.NumSliderNet(Panel, "Rain Quality", "sw_rain_quality", "1", "4", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Drop Size Minimum" , ["Command"] = "sw_rain_dropsize_min" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Drop Size Minimum", "sw_rain_dropsize_min", "10", "1000", "int")
+			SW.NumSliderNet(Panel, "Drop Size Minimum", "sw_rain_dropsize_min", "10", "1000", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Drop Size Maximum" , ["Command"] = "sw_rain_dropsize_max" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Drop Size Maximum", "sw_rain_dropsize_max", "10", "1000", "int")
+			SW.NumSliderNet(Panel, "Drop Size Maximum", "sw_rain_dropsize_max", "10", "1000", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Height" , ["Command"] = "sw_rain_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Rain Height", "sw_rain_height", "0", "2500", "int")
+			SW.NumSliderNet(Panel, "Rain Height", "sw_rain_height", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Radius" , ["Command"] = "sw_rain_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Rain Radius", "sw_rain_radius", "0", "2500", "int")
+			SW.NumSliderNet(Panel, "Rain Radius", "sw_rain_radius", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Amount" , ["Command"] = "sw_rain_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Rain Amount", "sw_rain_count", "0", "100", "int")
+			SW.NumSliderNet(Panel, "Rain Amount", "sw_rain_count", "0", "100", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Rain Lifetime" , ["Command"] = "sw_rain_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Rain Lifetime", "sw_rain_dietime", "0", "16", "int")
+			SW.NumSliderNet(Panel, "Rain Lifetime", "sw_rain_dietime", "0", "16", "int")
 
 		end )
 
@@ -1098,43 +1088,43 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 
 		spawnmenu.AddToolMenuOption( "Options" , "Simple Weather" , "SimpleWeather_Thunderstorm" , "Thunderstorm" , "" , "" , function( Panel )
 
-			-- Panel:AddControl("ComboBox", {
-				-- ["MenuButton"] = 1 ,
-				-- ["Folder"] = "sw_thunderstorm" ,
-				-- ["Options"] = {
-					-- ["default"] = {
-						-- ["sw_storm_radius"] = "500",
-						-- ["sw_storm_count"] = "120",
-						-- ["sw_storm_dietime"] = "3",
+			Panel:AddControl("ComboBox", {
+				["MenuButton"] = 1 ,
+				["Folder"] = "sw_thunderstorm" ,
+				["Options"] = {
+					["default"] = {
+						["sw_storm_radius"] = "500",
+						["sw_storm_count"] = "120",
+						["sw_storm_dietime"] = "3",
 						-- ["sw_thunder_mindelay"] = "10",
 						-- ["sw_thunder_maxdelay"] = "30",
-					-- },
-					-- ["potato"] = {
-						-- ["sw_storm_radius"] = "150",
-						-- ["sw_storm_count"] = "25",
-						-- ["sw_storm_dietime"] = "1",
+					},
+					["potato"] = {
+						["sw_storm_radius"] = "150",
+						["sw_storm_count"] = "25",
+						["sw_storm_dietime"] = "1",
 						-- ["sw_thunder_mindelay"] = "10",
 						-- ["sw_thunder_maxdelay"] = "30",
-					-- }
-				-- },
-				-- ["CVars"] = {
-					-- "sw_storm_radius",
-					-- "sw_storm_count",
-					-- "sw_storm_dietime",
+					}
+				},
+				["CVars"] = {
+					"sw_storm_radius",
+					"sw_storm_count",
+					"sw_storm_dietime",
 					-- "sw_thunder_mindelay",
 					-- "sw_thunder_maxdelay",
-				-- }
-			-- } )
+				}
+			} )
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Thunderstorm" , ["Command"] = "sw_thunderstorm" } )
 			Panel:ControlHelp( "Thunderstorm.\nOvercast skies. Hampers visibility.\nLightning may strike you for significant damage." , {} )
 
 			--Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Radius" , ["Command"] = "sw_storm_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Thunderstorm Radius", "sw_storm_radius", "0", "2500", "int")
+			SW.NumSliderNet(Panel, "Thunderstorm Radius", "sw_storm_radius", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Amount" , ["Command"] = "sw_storm_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Thunderstorm Amount", "sw_storm_count", "0", "100", "int")
+			SW.NumSliderNet(Panel, "Thunderstorm Amount", "sw_storm_count", "0", "100", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Thunderstorm Lifetime" , ["Command"] = "sw_storm_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Thunderstorm Lifetime", "sw_storm_dietime", "0", "16", "int")
+			SW.NumSliderNet(Panel, "Thunderstorm Lifetime", "sw_storm_dietime", "0", "16", "int")
 
 			-- --Panel:AddControl( "slider" , { ["Label"] = "Thunder Minimum Delay" , ["Command"] = "sw_thunder_mindelay" , ["Min"] = "1" , ["Max"] = "30" , ["Type"] = "int" } )
 			--SW.NumSliderNet(Panel, "Thunder Minimum Delay", "sw_thunder_mindelay", "1", "30", "int")
@@ -1386,72 +1376,72 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 
 		spawnmenu.AddToolMenuOption( "Options" , "Simple Weather" , "SimpleWeather_Snow" , "Snow" , "" , "" , function( Panel )
 
-			-- Panel:AddControl("ComboBox", {
-				-- ["MenuButton"] = 1 ,
-				-- ["Folder"] = "sw_snow" ,
-				-- ["Options"] = {
-					-- ["default"] = {
-						-- ["sw_snow_stay"] = "1",
-						-- ["sw_snow_height"] = "200",
-						-- ["sw_snow_radius"] = "1200",
-						-- ["sw_snow_count"] = "20",
-						-- ["sw_snow_dietime"] = "5",
-						-- ["sw_blizzard_height"] = "100",
-						-- ["sw_blizzard_radius"] = "1000",
-						-- ["sw_blizzard_count"] = "30",
-						-- ["sw_blizzard_dietime"] = "2",
-					-- },
-					-- ["potato"] = {
-						-- ["sw_snow_stay"] = "0",
-						-- ["sw_snow_height"] = "100",
-						-- ["sw_snow_radius"] = "250",
-						-- ["sw_snow_count"] = "10",
-						-- ["sw_snow_dietime"] = "1",
-						-- ["sw_blizzard_height"] = "100",
-						-- ["sw_blizzard_radius"] = "500",
-						-- ["sw_blizzard_count"] = "20",
-						-- ["sw_blizzard_dietime"] = "1",
-					-- }
-				-- },
-				-- ["CVars"] = {
-					-- "sw_snow_stay",
-					-- "sw_snow_height",
-					-- "sw_snow_radius",
-					-- "sw_snow_count",
-					-- "sw_blizzard_height",
-					-- "sw_blizzard_radius",
-					-- "sw_blizzard_count",
-					-- "sw_blizzard_dietime",
-				-- }
-			-- } )
+			Panel:AddControl("ComboBox", {
+				["MenuButton"] = 1 ,
+				["Folder"] = "sw_snow" ,
+				["Options"] = {
+					["default"] = {
+						["sw_snow_stay"] = "1",
+						["sw_snow_height"] = "200",
+						["sw_snow_radius"] = "1200",
+						["sw_snow_count"] = "20",
+						["sw_snow_dietime"] = "5",
+						["sw_blizzard_height"] = "100",
+						["sw_blizzard_radius"] = "1000",
+						["sw_blizzard_count"] = "30",
+						["sw_blizzard_dietime"] = "2",
+					},
+					["potato"] = {
+						["sw_snow_stay"] = "0",
+						["sw_snow_height"] = "100",
+						["sw_snow_radius"] = "250",
+						["sw_snow_count"] = "10",
+						["sw_snow_dietime"] = "1",
+						["sw_blizzard_height"] = "100",
+						["sw_blizzard_radius"] = "500",
+						["sw_blizzard_count"] = "20",
+						["sw_blizzard_dietime"] = "1",
+					}
+				},
+				["CVars"] = {
+					"sw_snow_stay",
+					"sw_snow_height",
+					"sw_snow_radius",
+					"sw_snow_count",
+					"sw_blizzard_height",
+					"sw_blizzard_radius",
+					"sw_blizzard_count",
+					"sw_blizzard_dietime",
+				}
+			} )
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Snow" , ["Command"] = "sw_weather snow" } )
 			Panel:ControlHelp( "Snow.\nOvercast skies. Hampers visibility." , {} )
 
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Snow Stays" , ["Command"] = "sw_snow_stay" } )
-			-- SW.CheckBoxNet(Panel, "Snow Stays", "sw_snow_stay")
-			-- Panel:ControlHelp( "Snow particles stick to ground." , {} )
+			SW.CheckBoxNet(Panel, "Snow Stays", "sw_snow_stay")
+			Panel:ControlHelp( "Snow particles stick to ground." , {} )
 
 			--Panel:AddControl( "slider" , { ["Label"] = "Snow Height" , ["Command"] = "sw_snow_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Snow Height", "sw_snow_height", "0", "2500", "int")
+			SW.NumSliderNet(Panel, "Snow Height", "sw_snow_height", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Snow Radius" , ["Command"] = "sw_snow_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Snow Radius", "sw_snow_radius", "0", "2500", "int")
+			SW.NumSliderNet(Panel, "Snow Radius", "sw_snow_radius", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Snow Amount" , ["Command"] = "sw_snow_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Snow Amount", "sw_snow_count", "0", "100", "int")
+			SW.NumSliderNet(Panel, "Snow Amount", "sw_snow_count", "0", "100", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Snow Lifetime" , ["Command"] = "sw_snow_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Snow Lifetime", "sw_snow_dietime", "0", "16", "int")
+			SW.NumSliderNet(Panel, "Snow Lifetime", "sw_snow_dietime", "0", "16", "int")
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Blizzard" , ["Command"] = "sw_weather blizzard" } )
 			Panel:ControlHelp( "Blizzard.\nOvercast skies. Hampers visibility and hearing.\nInflicts DOT from noxious air." , {} )
 
 			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Height" , ["Command"] = "sw_blizzard_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Blizzard Height", "sw_blizzard_height", "0", "2500", "int")
+			SW.NumSliderNet(Panel, "Blizzard Height", "sw_blizzard_height", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Radius" , ["Command"] = "sw_blizzard_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Blizzard Radius", "sw_blizzard_radius", "0", "2500", "int")
+			SW.NumSliderNet(Panel, "Blizzard Radius", "sw_blizzard_radius", "0", "2500", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Amount" , ["Command"] = "sw_blizzard_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Blizzard Amount", "sw_blizzard_count", "0", "100", "int")
+			SW.NumSliderNet(Panel, "Blizzard Amount", "sw_blizzard_count", "0", "100", "int")
 			--Panel:AddControl( "slider" , { ["Label"] = "Blizzard Lifetime" , ["Command"] = "sw_blizzard_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
-			-- SW.NumSliderNet(Panel, "Blizzard Lifetime", "sw_blizzard_dietime", "0", "16", "int")
+			SW.NumSliderNet(Panel, "Blizzard Lifetime", "sw_blizzard_dietime", "0", "16", "int")
 
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Coughing" , ["Command"] = "sw_blizzard_dmg_sound_toggle" } )
 			SW.CheckBoxNet(Panel, "Toggle Coughing", "sw_blizzard_dmg_sound_toggle")
@@ -1580,7 +1570,7 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 	-- Context Menu Bar
 	--------------------------------------------------
 
-	hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
+hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
 
 		local m = menubar:AddOrGetMenu( "Simple Weather" )
 
@@ -1610,7 +1600,9 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 
 		times:SetDeleteSelf( false )
 
+		--times:AddCVar( "Pause Time", "sw_time_pause" , "1" , "0" )
 		SW.AddCVarNet( times, "Pause Time" , "sw_time_pause" , "1" , "0" )
+		--times:AddCVar( "Real Time", "sw_time_real" , "1" , "0" )
 		SW.AddCVarNet( times, "Real Time" , "sw_time_real" , "1" , "0" )
 		times:AddOption( "0000", function( ) RunConsoleCommand( "sw_settime" , "0" ) end )
 		times:AddOption( "0200", function( ) RunConsoleCommand( "sw_settime" , "2" ) end )
@@ -1673,7 +1665,6 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 
 		perf:SetDeleteSelf( false )
 
-		SW.AddCVarNet( perf, "Particle Toggle" , "sw_func_particle_type" , "1" , "0" )
 		SW.AddCVarNet( perf, "Rain Impacts" , "sw_rain_showimpact" , "1" , "0" )
 		SW.AddCVarNet( perf, "Rain Puffs" , "sw_rain_showsmoke" , "1" , "0" )
 		SW.AddCVarNet( perf, "Snow Stays" , "sw_snow_stay" , "1" , "0" )
@@ -1693,7 +1684,6 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 
 		rng:SetDeleteSelf( false )
 
-		rng:AddOption( "Overcast", function( ) RunConsoleCommand( "sw_weather" , "overcast" ) end )
 		rng:AddOption( "Fog", function( ) RunConsoleCommand( "sw_weather" , "fog" ) end )
 		rng:AddOption( "Smog", function( ) RunConsoleCommand( "sw_weather" , "smog" ) end )
 		rng:AddOption( "Sandstorm", function( ) RunConsoleCommand( "sw_weather" , "sandstorm" ) end )
@@ -1727,7 +1717,6 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 
 		rng:AddSpacer( )
 
-		SW.AddCVarNet( rng, "Overcast", "sw_overcast" , "1" , "0" )
 		SW.AddCVarNet( rng, "Fog", "sw_fog" , "1" , "0" )
 		SW.AddCVarNet( rng, "Smog", "sw_smog" , "1" , "0" )
 		SW.AddCVarNet( rng, "Sandstorm", "sw_sandstorm" , "1" , "0" )
@@ -1807,119 +1796,3 @@ if SERVER then
 	net.Receive("SW_SetTimeCommand", ChangeWeatherOption)
 
 end
-
-
-------------------------------
--- The following fixes some displacement errors Valve made
-------------------------------
-
-function SW.DisplacementFixes()
-
-	if string.lower( game.GetMap() ) == "de_port" then
-
-		local materialSwap = {
-			"nature/blendrockdirt008d",
-		}
-
-		for k, v in pairs( materialSwap ) do
-
-			v = string.lower( v );
-
-			local m = Material( v );
-
-			if( !SW.TextureResets[v] ) then
-				local t1 = m:GetTexture( "$basetexture" );
-				local t2 = m:GetTexture( "$basetexture2" );
-
-				local m1, m2;
-				if( t1 and t1 != "" ) then
-					m1 = string.lower( t1:GetName() );
-				end
-
-				if( t2 and t2 != "" ) then
-					m2 = string.lower( t2:GetName() );
-				end
-
-				SW.TextureResets[v] = { m1, m2 };
-			end
-			
-			m:SetTexture( "$basetexture", "nature/cliffface001a" );
-			m:SetTexture( "$basetexture2", "nature/cliffface001a" );
-
-		end
-
-	end
-
-	-- if string.lower( game.GetMap() ) == "dod_anzio" then
-
-		-- local materialSwap = {
-			-- "maps/dod_anzio/nature/blendsandsand007a_1460_-1101_-534",
-		-- }
-
-		-- for k, v in pairs( materialSwap ) do
-
-			-- v = string.lower( v );
-
-			-- local m = Material( v );
-
-			-- if( !SW.TextureResets[v] ) then
-				-- local t1 = m:GetTexture( "$basetexture" );
-				-- local t2 = m:GetTexture( "$basetexture2" );
-
-				-- local m1, m2;
-				-- if( t1 and t1 != "" ) then
-					-- m1 = string.lower( t1:GetName() );
-				-- end
-
-				-- if( t2 and t2 != "" ) then
-					-- m2 = string.lower( t2:GetName() );
-				-- end
-
-				-- SW.TextureResets[v] = { m1, m2 };
-			-- end
-			
-			-- m:SetTexture( "$basetexture", m2 );
-			-- m:SetTexture( "$basetexture2", m1 );
-
-		-- end
-
-	-- end
-
-	-- Watch out! You're gonna invert the blend textures! Ah!
-	if string.lower( game.GetMap() ) == "ep2_outland_07" then
-
-		local materialSwap = {
-			"nature/blendgrassgravel003a",
-		}
-
-		for k , v in pairs( materialSwap ) do
-
-			v = string.lower( v )
-
-			local m = Material( v )
-
-			local t1 = m:GetTexture( "$basetexture" )
-			local t2 = m:GetTexture( "$basetexture2" )
-
-			local m1, m2;
-			if( t1 and t1 != "" ) then
-				m1 = string.lower( t1:GetName() )
-			end
-
-			if( t2 and t2 != "" ) then
-				m2 = string.lower( t2:GetName() )
-			end
-
-			m:SetTexture( "$basetexture", "nature/gravelfloor002a" )
-			m:SetTexture( "$surfaceprop", "gravel" )
-			m:SetTexture( "$basetexture2", "nature/forest_grass_01" )
-			m:SetTexture( "$surfaceprop2", "grass" )
-
-			materialSwap = {}
-
-		end
-
-	end
-
-end
-hook.Add( "InitPostEntity", "SW.DisplacementFixes", SW.DisplacementFixes )
