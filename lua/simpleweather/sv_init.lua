@@ -31,12 +31,12 @@ function SW.LoadWeathers()
 		
 		SW.Weathers[WEATHER.ID] = WEATHER
 
-		if SERVER and WEATHER.ConVar and not IsSinglePlayer then
+		-- if SERVER and WEATHER.ConVar and not IsSinglePlayer then
 
 			--CreateClientConVar( WEATHER.ConVar[1], "1" )
 			--CreateConVar( WEATHER.ConVar[1] , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , WEATHER.ConVar[0] , "0" , "1" )
 
-		end
+		-- end
 		
 		WEATHER = nil
 		
@@ -60,17 +60,6 @@ function SW.GetCurrentWeather()
 end
 
 function SW.Initialize()
-
-	-- Find any existing env_wind entities
-	for k , v in pairs( ents.FindByClass( "env_wind" ) ) do
-
-		-- Cache the defaults so we can call upon them later
-		SW.OldWindValues = v:GetKeyValues( )
-		-- PrintTable(SW.OldWindValues)
-		-- print("base minwind " .. tostring( v:GetInternalVariable("minwind") ) )
-		-- print("base maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
-
-	end
 
 	SW.LoadWeathers()
 
