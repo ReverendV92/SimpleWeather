@@ -4,7 +4,6 @@ SW.OldWindValues = SW.OldWindValues or { }
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_daynight.lua" )
-AddCSLuaFile( "cl_texture.lua" )
 AddCSLuaFile( "sh_weathereffects.lua" )
 include( "sv_daynight.lua" )
 include( "sh_weathereffects.lua" )
@@ -73,6 +72,15 @@ function SW.SetWeather( s )
 
 	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then return end
 
+	SW.WeatherMode = s
+	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
+
+	---------------------------------------------
+	---------------------------------------------
+	-- Wind Shenanigans
+	---------------------------------------------
+	---------------------------------------------
+
 	-- Clear Weather Reset
 	if s == "" then
 
@@ -89,15 +97,34 @@ function SW.SetWeather( s )
 			v:SetKeyValue( "maxgustdelay" , SW.OldWindValues["maxgustdelay"] )
 			v:SetKeyValue( "gustduration" , SW.OldWindValues["gustduration"] )
 			v:SetKeyValue( "gustdirchange" , SW.OldWindValues["gustdirchange"] )
-			-- print("reset minwind " .. tostring( v:GetInternalVariable("minwind") ) )
-			-- print("reset maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
+			print("reset minwind " .. tostring( v:GetInternalVariable("minwind") ) )
+			print("reset maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
 
 		end
 
 	end
 
-	SW.WeatherMode = s
-	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
+	-- Run the env_wind scaling
+	if s != "" and SW.GetCurrentWeather().WindScale and GetConVarNumber("sw_func_wind") == 1 then
+
+		for k , v in pairs( ents.FindByClass( "env_wind" ) ) do
+
+			local scale = SW.GetCurrentWeather().WindScale
+
+			v:SetKeyValue( "minwind" , SW.OldWindValues["minwind"] * scale )
+			v:SetKeyValue( "maxwind" , SW.OldWindValues["maxwind"] * scale )
+			v:SetKeyValue( "mingust" , SW.OldWindValues["mingust"] * scale )
+			v:SetKeyValue( "maxgust" , SW.OldWindValues["maxgust"] * scale )
+			v:SetKeyValue( "mingustdelay" , SW.OldWindValues["mingustdelay"] * scale )
+			v:SetKeyValue( "maxgustdelay" , SW.OldWindValues["maxgustdelay"] * scale )
+			v:SetKeyValue( "gustduration" , SW.OldWindValues["gustduration"] * scale )
+			v:SetKeyValue( "gustdirchange" , SW.OldWindValues["gustdirchange"] * scale )
+			-- print("current minwind " .. tostring( v:GetInternalVariable("minwind") ) )
+			-- print("current maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
+
+		end
+
+	end
 
 	-- Run the Broadcast sound
 	if s != "" and SW.GetCurrentWeather().Broadcast and GetConVarNumber("sw_weather_eas") != 0 then
@@ -163,34 +190,6 @@ function SW.SetWeather( s )
 
 		SW.ParticleSys:Spawn()
 		SW.ParticleSys:Activate()
-
-	end
-
-	---------------------------------------------
-	---------------------------------------------
-	-- Wind Shenanigans
-	---------------------------------------------
-	---------------------------------------------
-
-	-- Run the env_wind scaling
-	if s != "" and SW.GetCurrentWeather().WindScale and GetConVarNumber("sw_func_wind") == 1 then
-
-		for k , v in pairs( ents.FindByClass( "env_wind" ) ) do
-
-			local scale = SW.GetCurrentWeather().WindScale
-
-			v:SetKeyValue( "minwind" , SW.OldWindValues["minwind"] * scale )
-			v:SetKeyValue( "maxwind" , SW.OldWindValues["maxwind"] * scale )
-			v:SetKeyValue( "mingust" , SW.OldWindValues["mingust"] * scale )
-			v:SetKeyValue( "maxgust" , SW.OldWindValues["maxgust"] * scale )
-			v:SetKeyValue( "mingustdelay" , SW.OldWindValues["mingustdelay"] * scale )
-			v:SetKeyValue( "maxgustdelay" , SW.OldWindValues["maxgustdelay"] * scale )
-			v:SetKeyValue( "gustduration" , SW.OldWindValues["gustduration"] * scale )
-			v:SetKeyValue( "gustdirchange" , SW.OldWindValues["gustdirchange"] * scale )
-			-- print("current minwind " .. tostring( v:GetInternalVariable("minwind") ) )
-			-- print("current maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
-
-		end
 
 	end
 
