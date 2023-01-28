@@ -35,12 +35,6 @@ end
 
 function WEATHER:OnEnd()
 
-	if SERVER then
-
-		return false
-
-	end
-
 	SW.ResetGroundTextures()
 
 end
