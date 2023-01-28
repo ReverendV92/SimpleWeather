@@ -1,7 +1,6 @@
 
 SW = SW or { }
 include( "cl_daynight.lua" )
-include( "cl_texture.lua" )
 include( "sh_weathereffects.lua" )
 
 function SW.LoadWeathers()
@@ -248,26 +247,20 @@ function SW.IsOutside( pos )
 	local trace = { }
 	trace.start = pos
 	trace.endpos = trace.start + Vector( 0, 0, 32768 )
-	trace.mask = MASK_VISIBLE
+	trace.mask = MASK_ALL --MASK_VISIBLE
 	local tr = util.TraceLine( trace )
 
 	SW.HeightMin = ( tr.HitPos - trace.start ):Length()
 
-	if GetConVarNumber("sw_weather_alwaysoutside") == 1 then 
+	if GetConVarNumber("sw_weather_alwaysoutside") == 1 or tr.HitSky or tr.HitNoDraw then 
 
 		return true 
 
 	end
 
-	if tr.StartSolid then 
+	if tr.StartSolid or tr.HitNonWorld then 
 
 		return false 
-
-	end
-
-	if tr.HitSky or tr.HitNoDraw then 
-
-		return true 
 
 	end
 
@@ -650,7 +643,8 @@ function SW.HUDPaint()
 
 	if SW.GetCurrentWeather().Raindrops and SW.IsOutsideFrame and SW.ViewAng.p < 15 and LocalPlayer():WaterLevel() < 3 then
 
-		if ( LocalPlayer():GetVehicle() and LocalPlayer():GetVehicle():IsValid() and GetConVarNumber("sw_cl_screenfx_vehicle") ) or LocalPlayer():GetVehicle() == NULL then
+		if ( LocalPlayer():GetVehicle() and LocalPlayer():GetVehicle():IsValid() and GetConVarNumber("sw_cl_screenfx_vehicle") ) 
+			or LocalPlayer():GetVehicle() == NULL then
 
 			if CurTime() > SW.NextHUDRain then
 
