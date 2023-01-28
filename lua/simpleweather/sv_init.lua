@@ -97,11 +97,12 @@ function SW.SetWeather( s )
 			v:SetKeyValue( "maxgustdelay" , SW.OldWindValues["maxgustdelay"] )
 			v:SetKeyValue( "gustduration" , SW.OldWindValues["gustduration"] )
 			v:SetKeyValue( "gustdirchange" , SW.OldWindValues["gustdirchange"] )
-			print("reset minwind " .. tostring( v:GetInternalVariable("minwind") ) )
-			print("reset maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
+			-- print("reset minwind " .. tostring( v:GetInternalVariable("minwind") ) )
+			-- print("reset maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
 
 		end
 
+		SW.ResetGroundTextures()
 	end
 
 	-- Run the env_wind scaling
@@ -222,6 +223,12 @@ end
 util.AddNetworkString( "SW.nSetWeather" )
 util.AddNetworkString( "SW.nRedownloadLightmaps" )
 
+hook.Add( "PostCleanupMap" , "SWCleanupReset" , function() 
+
+	SW.SetWeather("")
+
+end)
+
 function SW.Think()
 
 	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
@@ -291,7 +298,7 @@ function SW.Think()
 			-- trace.start = v:EyePos()
 			trace.start = v:GetPos() + v:GetForward() * math.random( -8192 , 8192 ) + v:GetRight() * math.random( -8192 , 8192 )
 			trace.endpos = trace.start + Vector( 0, 0, 32768 )
-			trace.mask = MASK_PLAYERSOLID_BRUSHONLY
+			trace.mask = MASK_ALL -- MASK_PLAYERSOLID_BRUSHONLY
 			local tr = util.TraceLine( trace )
 
 			if tr.HitSky or tr.HitNoDraw or GetConVarNumber("sw_weather_alwaysoutside") == 1 then
@@ -449,7 +456,7 @@ function meta:IsOutside()
 	local trace = { }
 	trace.start = self:EyePos()
 	trace.endpos = trace.start + Vector( 0, 0, 32768 )
-	trace.mask = MASK_SOLID
+	trace.mask = MASK_ALL -- MASK_SOLID
 	local tr = util.TraceLine( trace )
 	
 	if( tr.StartSolid ) then return false end
