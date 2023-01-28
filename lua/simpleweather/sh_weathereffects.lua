@@ -107,9 +107,9 @@ end
 ----------------------------------------
 
 CreateClientConVar( "sw_blizzard_height", "100" , true , false , "(INT) Maximum height to make blizzard." , "0" , "2500" )
-CreateClientConVar( "sw_blizzard_radius", "1000" , true , false , "(INT) Radius of blizzard effect." , "0" , "2500" )
-CreateClientConVar( "sw_blizzard_count", "30" , true , false , "(INT) Amount of particles in blizzard effect. Make this smaller to increase performance." , "0" , "100" )
-CreateClientConVar( "sw_blizzard_dietime", "2" , true , false , "(INT) Time in seconds until blizzard vanishes." , "0" , "16" )
+CreateClientConVar( "sw_blizzard_radius", "400" , true , false , "(INT) Radius of blizzard effect." , "0" , "2500" )
+CreateClientConVar( "sw_blizzard_count", "10" , true , false , "(INT) Amount of particles in blizzard effect. Make this smaller to increase performance." , "0" , "100" )
+CreateClientConVar( "sw_blizzard_dietime", "5" , true , false , "(INT) Time in seconds until blizzard vanishes." , "0" , "16" )
 
 CreateConVar( "sw_blizzard_dmg_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should blizzard cause damage?" , "0" , "1" )
 CreateConVar( "sw_blizzard_dmg_sound_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle blizzard damage sounds." , "0" , "1" )
@@ -812,10 +812,10 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateClientConVar( "sw_snow_stay", "1" , true , false , "(BOOL) Leave snow on the ground." , "0" , "1" )
-CreateClientConVar( "sw_snow_height", "200" , true , false , "(INT) Maximum height to make snow." , "0" , "2500" )
-CreateClientConVar( "sw_snow_radius", "1200" , true , false , "(INT) Radius of snow effect." , "0" , "2500" )
-CreateClientConVar( "sw_snow_count", "20" , true , false , "(INT) Amount of particles in snow effect. Make this smaller to increase performance." , "0" , "100" )
+CreateClientConVar( "sw_snow_stay", "0" , true , false , "(BOOL) Leave snow on the ground." , "0" , "1" )
+CreateClientConVar( "sw_snow_height", "100" , true , false , "(INT) Maximum height to make snow." , "0" , "2500" )
+CreateClientConVar( "sw_snow_radius", "400" , true , false , "(INT) Radius of snow effect." , "0" , "2500" )
+CreateClientConVar( "sw_snow_count", "5" , true , false , "(INT) Amount of particles in snow effect. Make this smaller to increase performance." , "0" , "5000" )
 CreateClientConVar( "sw_snow_dietime", "5" , true , false , "(INT) Time in seconds until snow vanishes." , "0" , "16" )
 
 function SW.SnowThink()
@@ -838,23 +838,21 @@ end
 
 -- WIP! If this appears in a release it's accidental :)
 
-SW.GroundTextures = {
-	
-}
+SW.GroundTextures = {}
 
 function SW.CheckSnowTexture( mat, mattype, norm )
 
 	if( SW.GroundTextures[mat] ) then return end
 	if( norm:Dot( Vector( 0, 0, 1 ) ) < 0.99 ) then return end
 	
-	if( mat != "**displacement**" ) then
-		
-		local m = Material( mat )
-		
-		SW.GroundTextures[mat] = m:GetString( "$basetexture" )
-		m:SetTexture( "$basetexture", Material( "nature/snowfloor002a" ):GetTexture( "$basetexture" ) )
-		
-	end
+	-- if( mat != "**displacement**" ) then
+
+		-- local m = Material( mat )
+
+		-- SW.GroundTextures[mat] = m:GetString( "$basetexture" )
+		-- m:SetTexture( "$basetexture", Material( "nature/snowfloor002a" ):GetTexture( "$basetexture" ) )
+
+	-- end
 
 end
 
