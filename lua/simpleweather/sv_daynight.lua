@@ -158,6 +158,17 @@ end
 
 function SW.InitPostEntity()
 
+	-- Find any existing env_wind entities
+	for k , v in pairs( ents.FindByClass( "env_wind" ) ) do
+
+		-- Cache the defaults so we can call upon them later
+		SW.OldWindValues = v:GetKeyValues( )
+		-- PrintTable(SW.OldWindValues)
+		-- print("base minwind " .. tostring( v:GetInternalVariable("minwind") ) )
+		-- print("base maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
+
+	end
+
 	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
 
 		return
@@ -169,9 +180,9 @@ function SW.InitPostEntity()
 	SW.SkyPaint = ents.FindByClass( "env_skypaint" )[1]
 	SW.EnvFog = ents.FindByClass( "env_fog_controller" )[1]
 	SW.SkyCam = ents.FindByClass( "sky_camera" )[1]
-	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
 	SW.UpdateLightStyle( GetConVarString("sw_light_max_night") )
 
+	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
 	if !SW.EnvWind or !SW.EnvWind:IsValid() then
 
 		SW.EnvWind = ents.Create( "env_wind" )
@@ -187,17 +198,6 @@ function SW.InitPostEntity()
 		SW.EnvWind:SetKeyValue( "mingustdelay" , "8" )
 		SW.EnvWind:SetKeyValue( "maxgustdelay" , "16" )
 		SW.EnvWind:SetKeyValue( "targetname" , "sw_windController" )
-
-	end
-
-	-- Find any existing env_wind entities
-	for k , v in pairs( ents.FindByClass( "env_wind" ) ) do
-
-		-- Cache the defaults so we can call upon them later
-		SW.OldWindValues = v:GetKeyValues( )
-		-- PrintTable(SW.OldWindValues)
-		-- print("base minwind " .. tostring( v:GetInternalVariable("minwind") ) )
-		-- print("base maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
 
 	end
 
