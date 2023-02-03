@@ -112,6 +112,7 @@ CreateClientConVar( "sw_blizzard_count", "10" , true , false , "(INT) Amount of 
 CreateClientConVar( "sw_blizzard_dietime", "5" , true , false , "(INT) Time in seconds until blizzard vanishes." , "0" , "16" )
 
 CreateConVar( "sw_blizzard_dmg_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should blizzard cause damage?" , "0" , "1" )
+CreateConVar( "sw_blizzard_dmg_safeareas" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should fire negate blizzard damage?" , "0" , "1" )
 CreateConVar( "sw_blizzard_dmg_sound_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle blizzard damage sounds." , "0" , "1" )
 CreateConVar( "sw_blizzard_dmg_delay" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between blizzard damage." , "1" , "30" )
 CreateConVar( "sw_blizzard_dmg_delayoffset" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between blizzard damage." , "1" , "30" )
@@ -143,24 +144,39 @@ function SW.BlizzardThink()
 
 			if CurTime() >= BlizzardTarget.NextHit then
 
-				if GetConVarNumber("sw_blizzard_dmg_sound_toggle") == 1 then
+				-- if GetConVarNumber("sw_blizzard_dmg_safeareas") == 1 then
 
-					BlizzardTarget:EmitSound( Sound( "ambient/voices/cough" .. math.random( 1 , 4 ) .. ".wav" ) )
+					-- local HeatCheck = ents.FindInSphere( BlizzardTarget:GetPos() , 128 )
 
-				end
+					-- if table.HasValue( HeatCheck , "env_fire" ) then
+					
+						-- print("fire found")
+						-- table.Empty( HeatCheck )
 
-				if GetConVarNumber("sw_blizzard_dmg_toggle") == 1 then
+					-- end
 
-					local BlizzardDMG = DamageInfo()
-					BlizzardDMG:SetAttacker( game.GetWorld() )
-					BlizzardDMG:SetInflictor( game.GetWorld() )
-					BlizzardDMG:SetDamage( GetConVarNumber("sw_blizzard_dmg_amount") )
-					BlizzardDMG:SetDamageForce( Vector() )
-					BlizzardDMG:SetDamageType( DMG_RADIATION )
+				-- end
 
-					BlizzardTarget:TakeDamageInfo( BlizzardDMG )
+					if GetConVarNumber("sw_blizzard_dmg_sound_toggle") == 1 then
 
-				end
+						BlizzardTarget:EmitSound( Sound( "ambient/voices/cough" .. math.random( 1 , 4 ) .. ".wav" ) )
+
+					end
+
+					if GetConVarNumber("sw_blizzard_dmg_toggle") == 1 then
+
+						local BlizzardDMG = DamageInfo()
+						BlizzardDMG:SetAttacker( game.GetWorld() )
+						BlizzardDMG:SetInflictor( game.GetWorld() )
+						BlizzardDMG:SetDamage( GetConVarNumber("sw_blizzard_dmg_amount") )
+						BlizzardDMG:SetDamageForce( Vector() )
+						BlizzardDMG:SetDamageType( DMG_RADIATION )
+
+						BlizzardTarget:TakeDamageInfo( BlizzardDMG )
+
+					end
+
+				-- end
 
 				BlizzardTarget.NextHit = CurTime() + math.random( GetConVarNumber("sw_blizzard_dmg_delay") , GetConVarNumber("sw_blizzard_dmg_delay") + GetConVarNumber("sw_blizzard_dmg_delayoffset") )
 

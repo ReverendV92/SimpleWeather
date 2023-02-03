@@ -134,27 +134,27 @@ function SW.SetWeather( s )
 		local RadioModelTable = {}
 
 		-- Find the common HL2 radio
-		for k , ctr in pairs( ents.FindByModel( "models/props_lab/citizenradio.mdl" ) ) do
+		for k , v in pairs( ents.FindByModel( "models/props_lab/citizenradio.mdl" ) ) do
 
 			-- print("HL2")
 			-- Add it to the table
-			table.insert( RadioModelTable , ctr )
+			table.insert( RadioModelTable , v )
 
 		end
 
 		-- Find the CS_Office radio
-		for k , ofr in pairs( ents.FindByModel( "models/props/cs_office/radio.mdl" ) ) do
+		for k , v in pairs( ents.FindByModel( "models/props/cs_office/radio.mdl" ) ) do
 
 			-- print("office")
 			-- Add it to the table
-			table.insert( RadioModelTable , ofr )
+			table.insert( RadioModelTable , v )
 
 		end
 
 		-- Find our radio models
 		for k , RadioModels in pairs( RadioModelTable ) do
 
-			print(RadioModels:GetModel())
+			-- print(RadioModels:GetModel())
 			-- Give anyone who knows the EAS/EBS a heart attack
 			RadioModels:EmitSound( SW.GetCurrentWeather().Broadcast )
 
