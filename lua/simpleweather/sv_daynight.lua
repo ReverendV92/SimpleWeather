@@ -159,6 +159,28 @@ end
 function SW.InitPostEntity()
 
 	-- Find any existing env_wind entities
+	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
+	
+	-- If we didn't find an env_wind or it isn't valid, create one
+	if !SW.EnvWind or !SW.EnvWind:IsValid() then
+
+		SW.EnvWind = ents.Create( "env_wind" )
+		SW.EnvWind:Spawn()
+		SW.EnvWind:Activate()
+
+		SW.EnvWind:SetKeyValue( "gustdirchange" , "30" )
+		SW.EnvWind:SetKeyValue( "gustduration" , "2" )
+		SW.EnvWind:SetKeyValue( "minwind" , "16" )
+		SW.EnvWind:SetKeyValue( "maxwind" , "24" )
+		SW.EnvWind:SetKeyValue( "mingust" , "32" )
+		SW.EnvWind:SetKeyValue( "maxgust" , "48" )
+		SW.EnvWind:SetKeyValue( "mingustdelay" , "8" )
+		SW.EnvWind:SetKeyValue( "maxgustdelay" , "16" )
+		SW.EnvWind:SetKeyValue( "targetname" , "sw_windController" )
+
+	end
+
+	-- Cache the default env_wind keyvalues so we can call back to them later and reset them
 	for k , v in pairs( ents.FindByClass( "env_wind" ) ) do
 
 		-- Cache the defaults so we can call upon them later
@@ -181,25 +203,6 @@ function SW.InitPostEntity()
 	SW.EnvFog = ents.FindByClass( "env_fog_controller" )[1]
 	SW.SkyCam = ents.FindByClass( "sky_camera" )[1]
 	SW.UpdateLightStyle( GetConVarString("sw_light_max_night") )
-
-	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
-	if !SW.EnvWind or !SW.EnvWind:IsValid() then
-
-		SW.EnvWind = ents.Create( "env_wind" )
-		SW.EnvWind:Spawn()
-		SW.EnvWind:Activate()
-
-		SW.EnvWind:SetKeyValue( "gustdirchange" , "30" )
-		SW.EnvWind:SetKeyValue( "gustduration" , "2" )
-		SW.EnvWind:SetKeyValue( "minwind" , "16" )
-		SW.EnvWind:SetKeyValue( "maxwind" , "24" )
-		SW.EnvWind:SetKeyValue( "mingust" , "32" )
-		SW.EnvWind:SetKeyValue( "maxgust" , "48" )
-		SW.EnvWind:SetKeyValue( "mingustdelay" , "8" )
-		SW.EnvWind:SetKeyValue( "maxgustdelay" , "16" )
-		SW.EnvWind:SetKeyValue( "targetname" , "sw_windController" )
-
-	end
 
 	if GetConVarNumber("sw_func_fog") == 1 then
 
