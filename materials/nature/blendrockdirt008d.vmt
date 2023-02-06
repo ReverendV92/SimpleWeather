@@ -1,0 +1,38 @@
+
+worldvertextransition
+{
+
+	$basetexture nature/cliffface001a
+	$bumpmap nature/cliffface001a_normal
+	$basetexturetransform "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+	$surfaceprop rock
+
+	$basetexture2 nature/dirtfloor012a
+	$surfaceprop2 dirt
+	$basetexturetransform2 "center .5 .5 scale 2 2 rotate 0 translate 0 0"
+
+	$detail detail/rock_detail_01
+	$detailscale 11
+	$detailblendfactor 1
+	$detailblendmode 0
+
+	%tooltexture nature/blendrockdirt007d_tooltexture
+
+	%detailtype rocks1
+	%keywords coastline
+
+}
+
+//coast bumpmap upgrade. please excuse the hackiness.
+// "lightmappedgeneric"
+// {
+	// "$basetexture" "nature/cliffface001a"
+	// "$surfaceprop" "dirt"
+        // "$basetexturetransform" "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+	// "$bumpmap" "nature/cliffface001a_normal"
+
+	// "$detail" "detail\rock_detail_01"
+	// "$detailscale" "11"
+	// "$detailblendfactor" 1
+	// "$detailblendmode" 0
+// }

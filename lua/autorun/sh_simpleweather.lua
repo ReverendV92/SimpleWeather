@@ -1807,62 +1807,78 @@ end
 
 
 ------------------------------
--- The following fixes the inverted displacement alpha bug GMod has had since 2012
+-- The following fixes some displacement errors Valve made
 ------------------------------
 
--- A list of maps with the inverted alpha bug
-SW.InvertMapList = {
-	"ep2_outland_07" ,
-}
+function SW.DisplacementFixes()
 
--- A list of materials with the inverted alpha bug
-SW.InvertedAlphaFixes = {
-	"nature/blendgrassgravel003a",
-}
+	if string.lower( game.GetMap() ) == "de_port" then
 
-function SW.FixInvertedMaterialAlphas()
+		local materialSwap = {
+			"nature/blendrockdirt008d",
+		}
 
-	if not table.HasValue( SW.InvertMapList , string.lower( game.GetMap() ) ) then
+		for k, v in pairs( materialSwap ) do
 
-		return
+			v = string.lower( v );
 
-	end
+			local m = Material( v );
 
-	local hasRun = false
+			if( !SW.TextureResets[v] ) then
+				local t1 = m:GetTexture( "$basetexture" );
+				local t2 = m:GetTexture( "$basetexture2" );
 
-	print("hasRun 1: " .. tostring(hasRun) )
-	if hasRun == true then
+				local m1, m2;
+				if( t1 and t1 != "" ) then
+					m1 = string.lower( t1:GetName() );
+				end
 
-	print("hasRun 2: " .. tostring(hasRun) )
-		return
+				if( t2 and t2 != "" ) then
+					m2 = string.lower( t2:GetName() );
+				end
 
-	end
+				SW.TextureResets[v] = { m1, m2 };
+			end
+			
+			m:SetTexture( "$basetexture", "nature/cliffface001a" );
+			m:SetTexture( "$basetexture2", "nature/cliffface001a" );
 
-	for k, v in pairs( SW.InvertedAlphaFixes ) do
-
-		v = string.lower( v )
-
-		local m = Material( v )
-
-		local t1 = m:GetTexture( "$basetexture" )
-		local t2 = m:GetTexture( "$basetexture2" )
-
-		local m1, m2;
-		if( t1 and t1 != "" ) then
-			m1 = string.lower( t1:GetName() )
 		end
 
-		if( t2 and t2 != "" ) then
-			m2 = string.lower( t2:GetName() )
-		end
-		
-		m:SetTexture( "$basetexture", m2 )
-		m:SetTexture( "$basetexture2", m1 )
+	end
 
-		hasRun = true
+	if string.lower( game.GetMap() ) == "ep2_outland_07" then
+
+		local materialSwap = {
+			"nature/blendgrassgravel003a",
+		}
+
+		for k , v in pairs( materialSwap ) do
+
+			v = string.lower( v )
+
+			local m = Material( v )
+
+			local t1 = m:GetTexture( "$basetexture" )
+			local t2 = m:GetTexture( "$basetexture2" )
+
+			local m1, m2;
+			if( t1 and t1 != "" ) then
+				m1 = string.lower( t1:GetName() )
+			end
+
+			if( t2 and t2 != "" ) then
+				m2 = string.lower( t2:GetName() )
+			end
+
+			m:SetTexture( "$basetexture", "nature/gravelfloor002a" )
+			m:SetTexture( "$basetexture2", "nature/forest_grass_01" )
+
+			materialSwap = {}
+
+		end
 
 	end
 
-	print("hasRun 3: " .. tostring(hasRun) )
 end
-hook.Add( "InitPostEntity", "SW.FixInvertedMaterialAlphas", SW.FixInvertedMaterialAlphas )
+hook.Add( "InitPostEntity", "SW.DisplacementFixes", SW.DisplacementFixes )

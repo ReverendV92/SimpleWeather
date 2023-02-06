@@ -247,7 +247,7 @@ function SW.IsOutside( pos )
 	local trace = { }
 	trace.start = pos
 	trace.endpos = trace.start + Vector( 0, 0, 32768 )
-	trace.mask = MASK_OPAQUE --MASK_VISIBLE
+	trace.mask = MASK_SOLID --MASK_VISIBLE
 	local tr = util.TraceLine( trace )
 
 	SW.HeightMin = ( tr.HitPos - trace.start ):Length()

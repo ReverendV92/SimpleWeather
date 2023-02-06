@@ -14,6 +14,7 @@ WEATHER.FogColor = Color( 255 , 255 , 255 , 255 )
 WEATHER.Announcement = "Snowfall is expected in the area.\nAdvisory Level: 1"
 WEATHER.Icon = Material( "icon16/weather_snow.png" )
 WEATHER.Advisory = 1
+WEATHER.Broadcast = Sound("SW.EAS.Alert")
 
 function WEATHER:Think()
 

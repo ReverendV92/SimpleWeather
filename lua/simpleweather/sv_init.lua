@@ -128,29 +128,39 @@ function SW.SetWeather( s )
 
 		-- Find the common HL2 radio
 		for k , v in pairs( ents.FindByModel( "models/props_lab/citizenradio.mdl" ) ) do
-
-			-- print("HL2")
-			-- Add it to the table
 			table.insert( RadioModelTable , v )
-
 		end
 
 		-- Find the CS_Office radio
 		for k , v in pairs( ents.FindByModel( "models/props/cs_office/radio.mdl" ) ) do
-
-			-- print("office")
-			-- Add it to the table
 			table.insert( RadioModelTable , v )
+		end
 
+		-- Find the DoD:S radio
+		for k , v in pairs( ents.FindByModel( "models/props_misc/german_radio.mdl" ) ) do
+			table.insert( RadioModelTable , v )
+		end
+
+		-- Find the BMS radios
+		for k , v in pairs( ents.FindByModel( "models/props_marines/army_radio.mdl" ) ) do
+			table.insert( RadioModelTable , v )
+		end
+		for k , v in pairs( ents.FindByModel( "models/props_marines/prc77_radio.mdl" ) ) do
+			table.insert( RadioModelTable , v )
+		end
+
+		-- Find the Insurgency: MIC radios
+		for k , v in pairs( ents.FindByModel( "models/props/radio01.mdl" ) ) do
+			table.insert( RadioModelTable , v )
+		end
+		for k , v in pairs( ents.FindByModel( "models/generic/radio.mdl" ) ) do
+			table.insert( RadioModelTable , v )
 		end
 
 		-- Find our radio models
 		for k , RadioModels in pairs( RadioModelTable ) do
-
-			-- print(RadioModels:GetModel())
 			-- Give anyone who knows the EAS/EBS a heart attack
 			RadioModels:EmitSound( SW.GetCurrentWeather().Broadcast )
-
 		end
 
 	end
@@ -293,7 +303,7 @@ function SW.Think()
 			-- trace.start = v:EyePos()
 			trace.start = v:GetPos() + v:GetForward() * math.random( -8192 , 8192 ) + v:GetRight() * math.random( -8192 , 8192 )
 			trace.endpos = trace.start + Vector( 0, 0, 32768 )
-			trace.mask = MASK_OPAQUE -- MASK_PLAYERSOLID_BRUSHONLY
+			trace.mask = MASK_SOLID -- MASK_PLAYERSOLID_BRUSHONLY
 			local tr = util.TraceLine( trace )
 
 			if tr.HitSky or tr.HitNoDraw or GetConVarNumber("sw_weather_alwaysoutside") == 1 then
@@ -465,7 +475,7 @@ function meta:IsOutside()
 	local trace = { }
 	trace.start = self:EyePos()
 	trace.endpos = trace.start + Vector( 0, 0, 32768 )
-	trace.mask = MASK_OPAQUE -- MASK_SOLID
+	trace.mask = MASK_VISIBLE -- MASK_SOLID
 	local tr = util.TraceLine( trace )
 	
 	if( tr.StartSolid ) then return false end
