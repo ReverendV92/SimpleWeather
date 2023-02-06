@@ -1060,6 +1060,8 @@ SW.GroundTexturesTwo = {
 	"nature/red_grass",
 	"nature/short_red_grass",
 	"statua/nature/rockfordgrass1",
+	"textures/enviroment/blendgrassgravel1",
+	"textures/enviroment/blendsandgrass1",
 	"unioncity/floorground/parkcobbles",
 	"unioncity2/floors/parkdirttograss",
 }
