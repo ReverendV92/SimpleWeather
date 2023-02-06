@@ -58,13 +58,6 @@ function SW.GetCurrentWeather()
 	
 end
 
-function SW.Initialize()
-
-	SW.LoadWeathers()
-
-end
-hook.Add( "InitPostEntity", "SW.Initialize", SW.Initialize )
-
 SW.WeatherMode = ""
 SW.NextRandomWeather = math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
 
@@ -227,6 +220,8 @@ hook.Add( "PostCleanupMap" , "SWCleanupReset" , function()
 
 	SW.SetWeather("")
 
+	SW.ResetGroundTextures()
+
 end)
 
 function SW.Think()
@@ -298,7 +293,7 @@ function SW.Think()
 			-- trace.start = v:EyePos()
 			trace.start = v:GetPos() + v:GetForward() * math.random( -8192 , 8192 ) + v:GetRight() * math.random( -8192 , 8192 )
 			trace.endpos = trace.start + Vector( 0, 0, 32768 )
-			trace.mask = MASK_ALL -- MASK_PLAYERSOLID_BRUSHONLY
+			trace.mask = MASK_OPAQUE -- MASK_PLAYERSOLID_BRUSHONLY
 			local tr = util.TraceLine( trace )
 
 			if tr.HitSky or tr.HitNoDraw or GetConVarNumber("sw_weather_alwaysoutside") == 1 then
@@ -398,6 +393,20 @@ function SW.Initialize()
 end
 hook.Add( "Initialize", "SW.Initialize", SW.Initialize )
 
+function SW.PostInitEntity()
+
+	SW.FuncPrecip = ents.FindByClass( "func_precipitation" )
+	for k , v in pairs( SW.FuncPrecip ) do
+
+		v:Remove()
+
+	end
+
+	SW.LoadWeathers()
+
+end
+hook.Add( "InitPostEntity", "SW.PostInitEntity", SW.PostInitEntity )
+
 function SW.Move( ply, mv )
 
 	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
@@ -456,7 +465,7 @@ function meta:IsOutside()
 	local trace = { }
 	trace.start = self:EyePos()
 	trace.endpos = trace.start + Vector( 0, 0, 32768 )
-	trace.mask = MASK_ALL -- MASK_SOLID
+	trace.mask = MASK_OPAQUE -- MASK_SOLID
 	local tr = util.TraceLine( trace )
 	
 	if( tr.StartSolid ) then return false end
