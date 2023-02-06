@@ -413,6 +413,7 @@ function SW.PostInitEntity()
 	end
 
 	SW.LoadWeathers()
+	SW.ResetGroundTextures()
 
 end
 hook.Add( "InitPostEntity", "SW.PostInitEntity", SW.PostInitEntity )

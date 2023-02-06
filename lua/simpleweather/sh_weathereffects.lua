@@ -1111,7 +1111,7 @@ end
 
 function SW.SetGroundTextures()
 
-	-- if( true ) then return end -- not working too well
+	if GetConVarNumber("sw_func_textures") != 1 then return end
 
 	for k, v in pairs( SW.GroundTextures ) do
 

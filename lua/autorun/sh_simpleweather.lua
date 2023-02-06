@@ -161,6 +161,7 @@ CreateConVar( "sw_func_skybox" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(B
 CreateConVar( "sw_func_fog" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , "0" , "1" )
 CreateConVar( "sw_func_wind" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable wind functions.\nTurn it off if weird stuff happens." , "0" , "1" )
 CreateConVar( "sw_func_precip" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , "0" , "1" )
+CreateConVar( "sw_func_textures" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , "0" , "1" )
 CreateConVar( "sw_func_maplogic" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , "0" , "1" )
 
 CreateConVar( "sw_autoweather" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , "0" , "1" )
@@ -584,38 +585,33 @@ if CLIENT then
 
 			Panel:Help( "These commands toggle entire parts of the mod. Use on more troublesome maps. Reloading the map might be required." , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Enable Mod" , ["Command"] = "sw_func_master" } )
 			SW.CheckBoxNet(Panel, "Enable Mod", "sw_func_master")
 			Panel:ControlHelp( "Toggle entire SimpleWeather mod - all functionality will be disabled." , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Skybox" , ["Command"] = "sw_func_skybox" } )
 			SW.CheckBoxNet(Panel, "Update Skybox", "sw_func_skybox")
 			Panel:ControlHelp( "Enable the skybox to change color through the day. Probably should disable on maps with special skyboxes." , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Lighting" , ["Command"] = "sw_func_lighting" } )
 			SW.CheckBoxNet(Panel, "Update Lighting", "sw_func_lighting")
 			Panel:ControlHelp( "Enable map lighting updates.\nTurn this off if the map's a night map already!" , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Sun" , ["Command"] = "sw_func_sun" } )
 			SW.CheckBoxNet(Panel, "Update Sun", "sw_func_sun")
 			Panel:ControlHelp( "Enable sun moving through the sky." , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Fog" , ["Command"] = "sw_func_fog" } )
 			SW.CheckBoxNet(Panel, "Update Fog", "sw_func_fog")
 			Panel:ControlHelp( "Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Wind" , ["Command"] = "sw_func_wind" } )
 			SW.CheckBoxNet(Panel, "Update Wind", "sw_func_wind")
 			Panel:ControlHelp( "Enable wind functions.\nTurn it off if weird stuff happens." , {} )
+
+			SW.CheckBoxNet(Panel, "Update Textures", "sw_func_textures")
+			Panel:ControlHelp( "Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , {} )
 
 			SW.CheckBoxNet(Panel, "Remove func_precipitation", "sw_func_precip")
 			Panel:ControlHelp( "Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Map Outputs" , ["Command"] = "sw_func_maplogic" } )
 			SW.CheckBoxNet(Panel, "Map Outputs", "sw_func_maplogic")
 			Panel:ControlHelp( "Enabled map-specific outputs, like streetlights.\n(Situtational. Only works on select maps. Needs to be improved.)" , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Emergency Alerts" , ["Command"] = "sw_weather_eas" } )
 			SW.CheckBoxNet(Panel, "Emergency Alerts", "sw_weather_eas")
 			Panel:ControlHelp( "Toggle radio models playing the EAS broadcasting tones when severe weather starts." , {} )
 
