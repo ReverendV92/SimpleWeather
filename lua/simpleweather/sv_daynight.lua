@@ -185,9 +185,6 @@ function SW.InitPostEntity()
 
 		-- Cache the defaults so we can call upon them later
 		SW.OldWindValues = v:GetKeyValues( )
-		-- PrintTable(SW.OldWindValues)
-		-- print("base minwind " .. tostring( v:GetInternalVariable("minwind") ) )
-		-- print("base maxwind " .. tostring( v:GetInternalVariable("maxwind") ) )
 
 	end
 
