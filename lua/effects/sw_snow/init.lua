@@ -36,11 +36,12 @@ function EFFECT:Init( data )
 					trace.filter = { }
 					local tr = util.TraceLine( trace )
 					
-					if( tr.HitWorld ) then
+					-- Laggy
+					-- if( tr.HitWorld ) then
 						
-						SW.CheckSnowTexture( string.lower( tr.HitTexture ), tr.MatType, norm )
+						-- SW.CheckSnowTexture( string.lower( tr.HitTexture ), tr.MatType, norm )
 						
-					end
+					-- end
 					
 					-- if( !SW.LeaveSnowOnGround ) then
 					if( GetConVarNumber("sw_snow_stay") == 0 ) then
@@ -66,7 +67,5 @@ function EFFECT:Think()
 end
 
 function EFFECT:Render()
-	
-	
 	
 end
