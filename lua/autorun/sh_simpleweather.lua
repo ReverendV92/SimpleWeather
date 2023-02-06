@@ -1847,6 +1847,41 @@ function SW.DisplacementFixes()
 
 	end
 
+	-- if string.lower( game.GetMap() ) == "dod_anzio" then
+
+		-- local materialSwap = {
+			-- "maps/dod_anzio/nature/blendsandsand007a_1460_-1101_-534",
+		-- }
+
+		-- for k, v in pairs( materialSwap ) do
+
+			-- v = string.lower( v );
+
+			-- local m = Material( v );
+
+			-- if( !SW.TextureResets[v] ) then
+				-- local t1 = m:GetTexture( "$basetexture" );
+				-- local t2 = m:GetTexture( "$basetexture2" );
+
+				-- local m1, m2;
+				-- if( t1 and t1 != "" ) then
+					-- m1 = string.lower( t1:GetName() );
+				-- end
+
+				-- if( t2 and t2 != "" ) then
+					-- m2 = string.lower( t2:GetName() );
+				-- end
+
+				-- SW.TextureResets[v] = { m1, m2 };
+			-- end
+			
+			-- m:SetTexture( "$basetexture", m2 );
+			-- m:SetTexture( "$basetexture2", m1 );
+
+		-- end
+
+	-- end
+
 	if string.lower( game.GetMap() ) == "ep2_outland_07" then
 
 		local materialSwap = {
