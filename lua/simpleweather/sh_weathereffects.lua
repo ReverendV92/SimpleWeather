@@ -852,34 +852,422 @@ function SW.SnowThink()
 
 end
 
--- WIP! If this appears in a release it's accidental :)
+------------------------------------------------------------
+-- This is some unfinished code from the cancelled 1.36 release of SimpleWeather. 
+-- Disseminate left it unfinished, and right now I'm working on improving it.
+------------------------------------------------------------
 
-SW.GroundTextures = {}
+-- Sticking these here for reference
+-- nature/snowfloor001a
+-- nature/snowwall002a
 
-function SW.CheckSnowTexture( mat, mattype, norm )
+-- Replace BOTH textures with snow
+SW.GroundTextures = {
+	"cs_assault/pavement001a",
+	-- "de_chateau/bush01a",
+	"gm_construct/grass_13",
+	"gpoint/fixedgrass/dirtfloor006a",
+	"gulch/gulch_dirtgrass",
+	"gulch/gulch_sandgrass",
+	-- "maps/terrain/grass_01_day",
+	"models/props_gulch/grassfloor002a",
+	-- "nature/blend_alleydirt_leaves",
+	-- "nature/blend_milltowngrass01wet",
+	-- "nature/blendgrassdirt001a",
+	-- "nature/blendgrassdirt01",
+	-- "nature/blendgrassdirt01_noprop",
+	-- "nature/blendgrassdirt02_noprop",
+	"nature/blendgrassgrass001a",
+	"nature/blendgrassgravel01",
+	"nature/blendgravelgravel01",
+	"nature/blendmilground008_2",
+	"nature/blendmilground008_2_plants",
+	"nature/blendmilground008b_2",
+	-- "nature/blendpavedirt01",
+	"nature/blendsandgrass008a",
+	"nature/blendsandsand008a",
+	"sgtsicktextures/blend_chipsgrass_001",
+	"theprotextures/blendgrassgravel002a_gmfix",
+}
+-- Replace ONLY $basetexture with snow
+SW.GroundTexturesOne = {
+	"ajacks/ajacks_grass01",
+	"cs_havana/groundd01",
+	"de_aztec/ground02_blend_nobump",
+	"de_cbble/grassdirt_blend",
+	"de_cbble/grassfloor01",
+	"de_chateau/brusha",
+	"de_chateau/groundd",
+	"de_chateau/groundd_blend",
+	"de_chateau/groundl",
+	"de_dust/groundsand_blend",
+	"de_dust/groundsand03",
+	"de_piranesi/pi_ground",
+	"de_piranesi/pi_ground_blend",
+	"de_train/blendgrassdirt001a",
+	"gm_construct/flatgrass",
+	"gm_construct/flatgrass_2",
+	"gm_construct/grass-sand_13",
+	"gulch/gulch_rockgrass",
+	"gulch/gulch_rocksand",
+	"lostcoast/nature/blendrockgravel002a",
+	-- "lostcoast/nature/rockwall021b",
+	"maps/de_aztec/de_aztec/ground01_blend_-272_-960_-151",
+	"maps/de_aztec/de_aztec/ground01_blend_-2689_259_-247",
+	"maps/de_aztec/de_aztec/ground01_blend_-2705_-776_-161",
+	"maps/de_aztec/de_aztec/ground02_blend_-272_-960_-151",
+	"maps/de_aztec/de_aztec/ground02_blend_-424_-1484_-157",
+	"maps/de_aztec/de_aztec/ground02_blend_-976_699_-119",
+	-- "maps/de_aztec/de_aztec/swampground_blend_-409_597_-455",
+	"maps/rp_truenorth_v1a/statua/nature/blendgrassdirt01_wvt_patch",
+	"models/statua/shared/blendgrassdirt01",
+	"nature/blendgrassdirt01",
+	"nature/blendgrassdirt01_noprop",
+	"nature/blendgrassdirt02",
+	"nature/blendgrassdirt03",
+	"nature/blendgrassgravel001a",
+	"nature/blendgrassgravel001b",
+	"nature/blendgrassgravel002b",
+	"nature/blendgrassmud01",
+	"nature/blendgrasspave01",
+	"nature/blendgravelconc01",
+	"nature/blendgravelgravel02",
+	"nature/blendgravelmud01",
+	"nature/blendgravelmud02",
+	-- "nature/blendmilground004_12",
+	"nature/blendmilground008_4",
+	"nature/blendmilground008_8b",
+	"nature/dirtfloor006a",
+	"nature/forest_grass_01",
+	"nature/grassfloor001a",
+	"nature/grassfloor002a",
+	"nature/grassfloor003a",
+	"nature/infblendgrassdirt001a",
+	"nature/milground002",
+	"statua/nature/blendforest_01",
+	"statua/nature/blendforest_02",
+	"statua/nature/blendgrassdirt01",
+	"statua/nature/blendgrasssand01",
+	"statua/nature/farmblend1",
+	"statua/nature/farmblend2",
+	"statua/nature/farmblend3",
+	"statua/nature/farmblend4",
+	"statua/nature/rockfordgrass2_noprop",
+	"trakpak/terrain/blendgrassballast",
+}
+-- Replace ONLY $basetexture2 with snow
+SW.GroundTexturesTwo = {
+	"de_chateau/rockf_blend",
+	"de_dust/rockwall_blend",
+	"de_nuke/nukblenddirtgrass",
+	"de_nuke/nukblenddirtgrassb",
+	"de_tides/blendgrassstonepath",
+	"fork/cliff04c",
+	"fork/cliff04c_skybox",
+	"gulch/gulch_cavegrass",
+	"gulch/gulch_cavesand",
+	"gulch/gulch_cavewall" ,
+	"lostcoast/nature/blendpathweeds002a",
+	"lostcoast/nature/blendstonepathweeds001a",
+	"nature/blenddirtgrass008a",
+	"nature/blenddirtgrass008b",
+	"nature/blenddirtgravel01",
+	"nature/blendgrassgravel003a",
+	"nature/blendgravelgravel02b",
+	"nature/blendmilground004_2",
+	-- "nature/blendmilground004_rock2",
+	-- "nature/blendmilground004_rock2b",
+	"nature/blendmilground005_2",
+	"nature/blendmilground011_2",
+	"nature/blendmilrock002_ground002",
+	"nature/blendprodconcgrass",
+	"nature/blendproddirtgrass",
+	"nature/blendsandsand008b",
+	"nature/blendsandsand008b_antlion",
+	"nature/grass_whitemosspebbles_blend",
+	"statua/nature/rockfordgrass1",
+}
 
-	if( SW.GroundTextures[mat] ) then return end
-	if( norm:Dot( Vector( 0, 0, 1 ) ) < 0.99 ) then return end
-	
-	-- if( mat != "**displacement**" ) then
+-- Replace BOTH textures with a cliff
+SW.CliffTextures = {
+	"gulch/gulch_rockwall",
+	"models/props_gulch/gulch_rockwall",
+	-- "nature/blendmilground005_19",
+}
 
-		-- local m = Material( mat )
+-- Replace ONLY $basetexture with cliff
+SW.CliffTexturesOne = {
+	-- "nature/blendmilground016_8",
+	-- "nature/blendmilrock001_2",
+	-- "nature/blendmilrock001_ground008",
+	-- "nature/blendmilrock002_ground002",
+	-- "nature/cliff_path01a",
+	-- "nature/cliff04a",
+	-- "nature/cliffface001a",
+	-- "nature/cliffface002a",
+}
 
-		-- SW.GroundTextures[mat] = m:GetString( "$basetexture" )
-		-- m:SetTexture( "$basetexture", Material( "nature/snowfloor002a" ):GetTexture( "$basetexture" ) )
+-- Replace ONLY $basetexture2 with cliff
+SW.CliffTexturesTwo = {
+}
 
-	-- end
-
-end
+-- The reset table. Don't fucking touch!
+SW.TextureResets = { }
 
 function SW.ResetGroundTextures()
 	
-	for k, v in pairs( SW.GroundTextures ) do
+	for k, v in pairs( SW.TextureResets ) do
 		
-		Material( k ):SetTexture( "$basetexture", v )
+		local m = Material( k )
+		if( v[1] ) then
+			m:SetTexture( "$basetexture", v[1] )
+			-- m:SetTexture( "$bumpmap", v[1] )
+		end
+		if( v[2] ) then
+			m:SetTexture( "$basetexture2", v[2] )
+			-- m:SetTexture( "$bumpmap2", v[2] )
+		end
 		
 	end
 	
-	SW.GroundTextures = { }
-	
 end
+
+-- function SW.CheckSnowTexture( mat, mattype, norm )
+
+	-- if( norm:Dot( Vector( 0, 0, 1 ) ) < 0.99 ) then return end
+
+	-- SW.SetGroundTextures()
+	
+-- end
+
+function SW.SetGroundTextures()
+
+	-- if( true ) then return end -- not working too well
+
+	for k, v in pairs( SW.GroundTextures ) do
+
+		v = string.lower( v );
+
+		local m = Material( v );
+
+		if( !SW.TextureResets[v] ) then
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
+
+			local m1, m2;
+			if( t1 and t1 != "" ) then
+				m1 = string.lower( t1:GetName() );
+			end
+
+			if( t2 and t2 != "" ) then
+				m2 = string.lower( t2:GetName() );
+			end
+
+			SW.TextureResets[v] = { m1, m2 };
+		end
+		
+		m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" );
+		m:SetTexture( "$basetexture2", "realworldtextures/newer/0/snow_0_01" );
+
+	end
+
+	for k, v in pairs( SW.GroundTexturesOne ) do
+
+		v = string.lower( v );
+
+		local m = Material( v );
+
+		if( !SW.TextureResets[v] ) then
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
+
+			local m1, m2;
+			if( t1 and t1 != "" ) then
+				m1 = string.lower( t1:GetName() );
+			end
+
+			if( t2 and t2 != "" ) then
+				m2 = string.lower( t2:GetName() );
+			end
+
+			SW.TextureResets[v] = { m1, m2 };
+		end
+		
+		m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" );
+
+	end
+
+	for k, v in pairs( SW.GroundTexturesTwo ) do
+
+		v = string.lower( v );
+
+		local m = Material( v );
+
+		if( !SW.TextureResets[v] ) then
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
+
+			local m1, m2;
+			if( t1 and t1 != "" ) then
+				m1 = string.lower( t1:GetName() );
+			end
+
+			if( t2 and t2 != "" ) then
+				m2 = string.lower( t2:GetName() );
+			end
+
+			SW.TextureResets[v] = { m1, m2 };
+		end
+
+		m:SetTexture( "$basetexture2", "realworldtextures/newer/0/snow_0_01" );
+
+	end
+
+	for k, v in pairs( SW.CliffTextures ) do
+
+		v = string.lower( v );
+
+		local m = Material( v );
+
+		if( !SW.TextureResets[v] ) then
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
+
+			local m1, m2;
+			if( t1 and t1 != "" ) then
+				m1 = string.lower( t1:GetName() );
+			end
+
+			if( t2 and t2 != "" ) then
+				m2 = string.lower( t2:GetName() );
+			end
+
+			SW.TextureResets[v] = { m1, m2 };
+		end
+		
+		m:SetTexture( "$basetexture", "cncr04s/rock/stonewall1snow" );
+		m:SetTexture( "$basetexture2", "cncr04s/rock/stonewall1snow" );
+
+	end
+
+	for k, v in pairs( SW.CliffTexturesOne ) do
+
+		v = string.lower( v );
+
+		local m = Material( v );
+
+		if( !SW.TextureResets[v] ) then
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
+
+			local m1, m2;
+			if( t1 and t1 != "" ) then
+				m1 = string.lower( t1:GetName() );
+			end
+
+			if( t2 and t2 != "" ) then
+				m2 = string.lower( t2:GetName() );
+			end
+
+			SW.TextureResets[v] = { m1, m2 };
+		end
+		
+		m:SetTexture( "$basetexture", "cncr04s/rock/stonewall1snow" );
+		m:SetTexture( "$basetexture2", "realworldtextures/newer/0/snow_0_01" );
+
+	end
+
+	for k, v in pairs( SW.CliffTexturesTwo ) do
+
+		v = string.lower( v );
+
+		local m = Material( v );
+
+		if( !SW.TextureResets[v] ) then
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
+
+			local m1, m2;
+			if( t1 and t1 != "" ) then
+				m1 = string.lower( t1:GetName() );
+			end
+
+			if( t2 and t2 != "" ) then
+				m2 = string.lower( t2:GetName() );
+			end
+
+			SW.TextureResets[v] = { m1, m2 };
+		end
+		
+		m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" );
+		m:SetTexture( "$basetexture2", "cncr04s/rock/stonewall1snow" );
+
+	end
+
+	if string.lower( game.GetMap() ) == "de_train" then
+
+		local materialSwap = {
+			"de_train/blendgraveldirt001a",
+		}
+
+		for k, v in pairs( materialSwap ) do
+
+			v = string.lower( v );
+
+			local m = Material( v );
+
+			if( !SW.TextureResets[v] ) then
+				local t1 = m:GetTexture( "$basetexture" );
+				local t2 = m:GetTexture( "$basetexture2" );
+
+				local m1, m2;
+				if( t1 and t1 != "" ) then
+					m1 = string.lower( t1:GetName() );
+				end
+
+				if( t2 and t2 != "" ) then
+					m2 = string.lower( t2:GetName() );
+				end
+
+				SW.TextureResets[v] = { m1, m2 };
+
+			end
+
+			m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" )
+			-- m:SetTexture( "$basetexture2", m2 );
+
+			materialSwap = {}
+
+		end
+
+	end
+
+end
+
+function SW.PlayerFootstep( ply, pos, foot, sound, vol, filt )
+
+	local w = SW:GetCurrentWeather();
+
+	if( w and w.SnowFootsteps and false ) then
+		
+		local trace = { };
+		trace.start = ply:GetPos() + Vector( 0, 0, 32 );
+		trace.endpos = trace.start + Vector( 0, 0, -64 );
+		trace.filter = ply;
+		local tr = util.TraceLine( trace );
+
+		if( tr.Hit and tr.HitWorld ) then
+
+			if( tr.HitTexture == "**displacement**" or table.HasValue( SW.GroundTextures, string.lower( tr.HitTexture ) ) ) then
+
+				ply:EmitSound( Sound( "player/footsteps/snow" .. math.random( 1, 6 ) .. ".wav" ) );
+				return true;
+
+			end
+
+		end
+
+	end
+
+end
+hook.Add( "PlayerFootstep", "SW.PlayerFootstep", SW.PlayerFootstep );
