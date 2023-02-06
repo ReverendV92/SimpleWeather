@@ -1804,3 +1804,65 @@ if SERVER then
 	net.Receive("SW_SetTimeCommand", ChangeWeatherOption)
 
 end
+
+
+------------------------------
+-- The following fixes the inverted displacement alpha bug GMod has had since 2012
+------------------------------
+
+-- A list of maps with the inverted alpha bug
+SW.InvertMapList = {
+	"ep2_outland_07" ,
+}
+
+-- A list of materials with the inverted alpha bug
+SW.InvertedAlphaFixes = {
+	"nature/blendgrassgravel003a",
+}
+
+function SW.FixInvertedMaterialAlphas()
+
+	if not table.HasValue( SW.InvertMapList , string.lower( game.GetMap() ) ) then
+
+		return
+
+	end
+
+	local hasRun = false
+
+	print("hasRun 1: " .. tostring(hasRun) )
+	if hasRun == true then
+
+	print("hasRun 2: " .. tostring(hasRun) )
+		return
+
+	end
+
+	for k, v in pairs( SW.InvertedAlphaFixes ) do
+
+		v = string.lower( v )
+
+		local m = Material( v )
+
+		local t1 = m:GetTexture( "$basetexture" )
+		local t2 = m:GetTexture( "$basetexture2" )
+
+		local m1, m2;
+		if( t1 and t1 != "" ) then
+			m1 = string.lower( t1:GetName() )
+		end
+
+		if( t2 and t2 != "" ) then
+			m2 = string.lower( t2:GetName() )
+		end
+		
+		m:SetTexture( "$basetexture", m2 )
+		m:SetTexture( "$basetexture2", m1 )
+
+		hasRun = true
+
+	end
+
+	print("hasRun 3: " .. tostring(hasRun) )
+end
+hook.Add( "InitPostEntity", "SW.FixInvertedMaterialAlphas", SW.FixInvertedMaterialAlphas )
