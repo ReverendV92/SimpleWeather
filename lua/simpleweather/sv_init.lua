@@ -405,11 +405,11 @@ hook.Add( "Initialize", "SW.Initialize", SW.Initialize )
 
 function SW.PostInitEntity()
 
-	SW.FuncPrecip = ents.FindByClass( "func_precipitation" )
-	for k , v in pairs( SW.FuncPrecip ) do
-
-		v:Remove()
-
+	if GetConVarNumber("sw_func_precip") != 0 then
+		SW.FuncPrecip = ents.FindByClass( "func_precipitation" )
+		for k , v in pairs( SW.FuncPrecip ) do
+			v:Remove()
+		end
 	end
 
 	SW.LoadWeathers()

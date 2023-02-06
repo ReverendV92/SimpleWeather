@@ -160,6 +160,7 @@ CreateConVar( "sw_func_sun" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL
 CreateConVar( "sw_func_skybox" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the skybox to change color through the day." , "0" , "1" )
 CreateConVar( "sw_func_fog" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , "0" , "1" )
 CreateConVar( "sw_func_wind" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable wind functions.\nTurn it off if weird stuff happens." , "0" , "1" )
+CreateConVar( "sw_func_precip" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , "0" , "1" )
 CreateConVar( "sw_func_maplogic" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , "0" , "1" )
 
 CreateConVar( "sw_autoweather" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , "0" , "1" )
@@ -546,6 +547,7 @@ if CLIENT then
 						["sw_func_sun"] = "1" ,
 						["sw_func_fog"] = "1" ,
 						["sw_func_wind"] = "1" ,
+						["sw_func_precip"] = "1" ,
 						["sw_func_maplogic"] = "1" ,
 
 					},
@@ -558,6 +560,7 @@ if CLIENT then
 						["sw_func_sun"] = "0" ,
 						["sw_func_fog"] = "0" ,
 						["sw_func_wind"] = "0" ,
+						["sw_func_precip"] = "0" ,
 						["sw_func_maplogic"] = "0" ,
 
 					}
@@ -572,6 +575,7 @@ if CLIENT then
 					"sw_func_sun" ,
 					"sw_func_fog" ,
 					"sw_func_wind" ,
+					"sw_func_precip" ,
 					"sw_func_maplogic" ,
 
 				}
@@ -603,6 +607,9 @@ if CLIENT then
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Update Wind" , ["Command"] = "sw_func_wind" } )
 			SW.CheckBoxNet(Panel, "Update Wind", "sw_func_wind")
 			Panel:ControlHelp( "Enable wind functions.\nTurn it off if weird stuff happens." , {} )
+
+			SW.CheckBoxNet(Panel, "Remove func_precipitation", "sw_func_precip")
+			Panel:ControlHelp( "Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , {} )
 
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Map Outputs" , ["Command"] = "sw_func_maplogic" } )
 			SW.CheckBoxNet(Panel, "Map Outputs", "sw_func_maplogic")
