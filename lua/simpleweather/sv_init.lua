@@ -67,6 +67,7 @@ function SW.SetWeather( s )
 
 	SW.WeatherMode = s
 	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
+	SW.ResetGroundTextures()
 
 	---------------------------------------------
 	---------------------------------------------
