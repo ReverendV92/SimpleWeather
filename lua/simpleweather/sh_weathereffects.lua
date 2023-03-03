@@ -855,11 +855,6 @@ function SW.SnowThink()
 
 	end
 
-<<<<<<< Updated upstream
-	if GetConVarNumber("sw_cl_weather_toggle") then
-
-		if GetConVarNumber( "sw_cl_screenfx" ) == 1 then
-=======
 	if GetConVarNumber("sw_cl_weather_toggle") == 1 then
 
 		local drop = EffectData()
