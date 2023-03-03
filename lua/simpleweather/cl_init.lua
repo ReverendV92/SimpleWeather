@@ -1,7 +1,6 @@
 
 SW = SW or { }
 include( "cl_daynight.lua" )
-include( "cl_texture.lua" )
 include( "sh_weathereffects.lua" )
 
 function SW.LoadWeathers()
@@ -75,7 +74,7 @@ local function nSetWeather()
 
 	if SW.GetCurrentWeather().Announcement and GetConVarNumber("sw_cl_announcement") != 0 then
 
-		chat.AddText( Color( 255 , 255 , 255 , 255 ), SW.GetCurrentWeather().Announcement )
+		chat.AddText( Color( 255, 255, 255, 255 ), SW.GetCurrentWeather().Announcement )
 
 	end
 
@@ -120,7 +119,7 @@ function SW.Think()
 
 	if LocalPlayer():GetViewEntity() == LocalPlayer() then
 
-		local s = hook.Call( "CalcView" , GAMEMODE , LocalPlayer() , LocalPlayer():EyePos() , LocalPlayer():EyeAngles() , 75 )
+		local s = hook.Call( "CalcView", GAMEMODE, LocalPlayer(), LocalPlayer():EyePos(), LocalPlayer():EyeAngles(), 75 )
 		if s and s.origin and s.angles then
 
 			SW.ViewPos = s.origin
@@ -248,26 +247,20 @@ function SW.IsOutside( pos )
 	local trace = { }
 	trace.start = pos
 	trace.endpos = trace.start + Vector( 0, 0, 32768 )
-	trace.mask = MASK_VISIBLE
+	trace.mask = MASK_SOLID --MASK_VISIBLE
 	local tr = util.TraceLine( trace )
 
 	SW.HeightMin = ( tr.HitPos - trace.start ):Length()
 
-	if GetConVarNumber("sw_weather_alwaysoutside") == 1 then 
+	if GetConVarNumber("sw_weather_alwaysoutside") == 1 or tr.HitSky or tr.HitNoDraw then 
 
 		return true 
 
 	end
 
-	if tr.StartSolid then 
+	if tr.StartSolid or tr.HitNonWorld then 
 
 		return false 
-
-	end
-
-	if tr.HitSky or tr.HitNoDraw then 
-
-		return true 
 
 	end
 
@@ -347,7 +340,7 @@ end
 
 function SW.SirenSoundThink()
 
-	if GetConVarNumber( "sw_cl_sound" ) == 0 then
+	if GetConVarNumber( "sw_cl_sound" ) == 0 or GetConVarNumber("sw_cl_sound_siren") == 0 then
 
 		if SW.SirenSound and SW.SirenSoundVolume != 0 then
 
@@ -416,7 +409,7 @@ function SW.SoundThink()
 		SW.Sound:ChangeVolume( 0, 1 )
 		SW.SoundVolume = 0
 
-	elseif SW.SirenSoundVolume and SW.SirenSoundVolume > 0 and SW.SirenSound then
+	elseif SW.SirenSoundVolume and SW.SirenSoundVolume > 0 and SW.SirenSound and GetConVarNumber("sw_cl_sound_siren") == 1 then
 
 		SW.SirenSound:ChangeVolume( 0, 1 )
 		SW.SirenSoundVolume = 0
@@ -650,7 +643,8 @@ function SW.HUDPaint()
 
 	if SW.GetCurrentWeather().Raindrops and SW.IsOutsideFrame and SW.ViewAng.p < 15 and LocalPlayer():WaterLevel() < 3 then
 
-		if ( LocalPlayer():GetVehicle() and LocalPlayer():GetVehicle():IsValid() and GetConVarNumber("sw_cl_screenfx_vehicle") ) or LocalPlayer():GetVehicle() == NULL then
+		if ( LocalPlayer():GetVehicle() and LocalPlayer():GetVehicle():IsValid() and GetConVarNumber("sw_cl_screenfx_vehicle") ) 
+			or LocalPlayer():GetVehicle() == NULL then
 
 			if CurTime() > SW.NextHUDRain then
 

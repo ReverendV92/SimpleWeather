@@ -1,0 +1,6 @@
+lightmappedgeneric
+{
+	$basetexture "cncr04s/rock/stonewall1snow"
+	$surfaceprop "rock"
+	%keywords "rock"
+}

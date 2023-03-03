@@ -51,14 +51,10 @@ function SW.AcidRainThink()
 
 	if CLIENT and GetConVarNumber("sw_cl_weather_toggle") == 1 then
 
-		if GetConVarNumber( "sw_cl_screenfx" ) == 1 then
-
-			local drop = EffectData()
-			drop:SetOrigin( SW.ViewPos )
-			drop:SetScale( 0 )
-			util.Effect( "sw_acidrain", drop )
-
-		end
+		local drop = EffectData()
+		drop:SetOrigin( SW.ViewPos )
+		drop:SetScale( 0 )
+		util.Effect( "sw_acidrain", drop )
 
 	end
 
@@ -111,11 +107,12 @@ end
 ----------------------------------------
 
 CreateClientConVar( "sw_blizzard_height", "100" , true , false , "(INT) Maximum height to make blizzard." , "0" , "2500" )
-CreateClientConVar( "sw_blizzard_radius", "1000" , true , false , "(INT) Radius of blizzard effect." , "0" , "2500" )
-CreateClientConVar( "sw_blizzard_count", "30" , true , false , "(INT) Amount of particles in blizzard effect. Make this smaller to increase performance." , "0" , "100" )
-CreateClientConVar( "sw_blizzard_dietime", "2" , true , false , "(INT) Time in seconds until blizzard vanishes." , "0" , "16" )
+CreateClientConVar( "sw_blizzard_radius", "400" , true , false , "(INT) Radius of blizzard effect." , "0" , "2500" )
+CreateClientConVar( "sw_blizzard_count", "10" , true , false , "(INT) Amount of particles in blizzard effect. Make this smaller to increase performance." , "0" , "100" )
+CreateClientConVar( "sw_blizzard_dietime", "5" , true , false , "(INT) Time in seconds until blizzard vanishes." , "0" , "16" )
 
 CreateConVar( "sw_blizzard_dmg_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should blizzard cause damage?" , "0" , "1" )
+CreateConVar( "sw_blizzard_dmg_safeareas" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should fire negate blizzard damage?" , "0" , "1" )
 CreateConVar( "sw_blizzard_dmg_sound_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle blizzard damage sounds." , "0" , "1" )
 CreateConVar( "sw_blizzard_dmg_delay" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between blizzard damage." , "1" , "30" )
 CreateConVar( "sw_blizzard_dmg_delayoffset" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between blizzard damage." , "1" , "30" )
@@ -147,24 +144,39 @@ function SW.BlizzardThink()
 
 			if CurTime() >= BlizzardTarget.NextHit then
 
-				if GetConVarNumber("sw_blizzard_dmg_sound_toggle") == 1 then
+				-- if GetConVarNumber("sw_blizzard_dmg_safeareas") == 1 then
 
-					BlizzardTarget:EmitSound( Sound( "ambient/voices/cough" .. math.random( 1 , 4 ) .. ".wav" ) )
+					-- local HeatCheck = ents.FindInSphere( BlizzardTarget:GetPos() , 128 )
 
-				end
+					-- if table.HasValue( HeatCheck , "env_fire" ) then
+					
+						-- print("fire found")
+						-- table.Empty( HeatCheck )
 
-				if GetConVarNumber("sw_blizzard_dmg_toggle") == 1 then
+					-- end
 
-					local BlizzardDMG = DamageInfo()
-					BlizzardDMG:SetAttacker( game.GetWorld() )
-					BlizzardDMG:SetInflictor( game.GetWorld() )
-					BlizzardDMG:SetDamage( GetConVarNumber("sw_blizzard_dmg_amount") )
-					BlizzardDMG:SetDamageForce( Vector() )
-					BlizzardDMG:SetDamageType( DMG_RADIATION )
+				-- end
 
-					BlizzardTarget:TakeDamageInfo( BlizzardDMG )
+					if GetConVarNumber("sw_blizzard_dmg_sound_toggle") == 1 then
 
-				end
+						BlizzardTarget:EmitSound( Sound( "ambient/voices/cough" .. math.random( 1 , 4 ) .. ".wav" ) )
+
+					end
+
+					if GetConVarNumber("sw_blizzard_dmg_toggle") == 1 then
+
+						local BlizzardDMG = DamageInfo()
+						BlizzardDMG:SetAttacker( game.GetWorld() )
+						BlizzardDMG:SetInflictor( game.GetWorld() )
+						BlizzardDMG:SetDamage( GetConVarNumber("sw_blizzard_dmg_amount") )
+						BlizzardDMG:SetDamageForce( Vector() )
+						BlizzardDMG:SetDamageType( DMG_RADIATION )
+
+						BlizzardTarget:TakeDamageInfo( BlizzardDMG )
+
+					end
+
+				-- end
 
 				BlizzardTarget.NextHit = CurTime() + math.random( GetConVarNumber("sw_blizzard_dmg_delay") , GetConVarNumber("sw_blizzard_dmg_delay") + GetConVarNumber("sw_blizzard_dmg_delayoffset") )
 
@@ -273,6 +285,7 @@ CreateConVar( "sw_lightning_target_world" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICA
 CreateConVar( "sw_lightning_target_chance" , "85" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Chance lightning will strike the ground vs. targets." , "1" , "100" )
 
 CreateConVar( "sw_lightning_fancyfx" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Show fancy effects for lightning." , "0" , "1" )
+CreateConVar( "sw_lightning_dissolve" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning dissolves target on kill." , "0" , "1" )
 
 --CreateConVar( "sw_thunder_mindelay" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Minimum delay in seconds to cause lightning/thunder while stormy." , "1" , "30" )
 --CreateConVar( "sw_thunder_maxdelay" , "30" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Maximum delay in seconds to cause lightning/thunder while stormy." , "1" , "30" )
@@ -375,7 +388,11 @@ function SW.LightningThink()
 			LightningDMG:SetDamage( GetConVarNumber("sw_lightning_damage") )
 			LightningDMG:SetDamageForce( v * math.random( GetConVarNumber("sw_lightning_force_amount") , GetConVarNumber("sw_lightning_force_amount") * 3 ) + Vector( 0 , 0 , math.random( 0 , GetConVarNumber("sw_lightning_force_amount") ) ) )
 			LightningDMG:SetDamagePosition( pos + Vector( 0 , 0 , 2048 ) )
-			LightningDMG:SetDamageType( DMG_SHOCK )
+			if GetConVarNumber("sw_lightning_dissolve") == 1 then
+				LightningDMG:SetDamageType( DMG_DISSOLVE )
+			else
+				LightningDMG:SetDamageType( DMG_SHOCK )
+			end
 
 			OutsideTarget:TakeDamageInfo( LightningDMG )
 
@@ -718,31 +735,6 @@ CreateClientConVar( "sw_storm_radius", "500" , true , false , "(INT) Radius of s
 CreateClientConVar( "sw_storm_count", "120" , true , false , "(INT) Amount of particles in storm rain effect. Make this smaller to increase performance." , "0" , "100" )
 CreateClientConVar( "sw_storm_dietime", "3" , true , false , "(INT) Time in seconds until storm vanishes." , "0" , "16" )
 
-function SW.RainThink()
-
-	if SERVER then
-
-		return false
-
-	end
-
-	-- If show weather effects is on...
-	if GetConVarNumber("sw_cl_weather_toggle") then
-
-		-- If show screen effects is on...
-		if GetConVarNumber( "sw_cl_screenfx" ) == 1 then
-			
-			local drop = EffectData()
-				drop:SetOrigin( SW.ViewPos )
-				drop:SetScale( 0 )
-			util.Effect( "sw_rain", drop )
-			
-		end
-		
-	end
-	
-end
-
 ----------------------------------------
 ----------------------------------------
 -- SANDSTORM
@@ -760,17 +752,12 @@ function SW.SandstormThink()
 	-- If show weather effects is on...
 	if GetConVarNumber("sw_cl_weather_toggle") then
 
-		-- If show screen effects is on...
-		if GetConVarNumber( "sw_cl_screenfx" ) == 1 then
-			
-			local drop = EffectData()
-				drop:SetOrigin( SW.ViewPos )
-			util.Effect( "sw_sandstorm", drop )
-			
-		end
-		
+		local drop = EffectData()
+			drop:SetOrigin( SW.ViewPos )
+		util.Effect( "sw_sandstorm", drop )
+
 	end
-	
+
 end
 
 ----------------------------------------
@@ -841,10 +828,10 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateClientConVar( "sw_snow_stay", "1" , true , false , "(BOOL) Leave snow on the ground." , "0" , "1" )
-CreateClientConVar( "sw_snow_height", "200" , true , false , "(INT) Maximum height to make snow." , "0" , "2500" )
-CreateClientConVar( "sw_snow_radius", "1200" , true , false , "(INT) Radius of snow effect." , "0" , "2500" )
-CreateClientConVar( "sw_snow_count", "20" , true , false , "(INT) Amount of particles in snow effect. Make this smaller to increase performance." , "0" , "100" )
+CreateClientConVar( "sw_snow_stay", "0" , true , false , "(BOOL) Leave snow on the ground." , "0" , "1" )
+CreateClientConVar( "sw_snow_height", "100" , true , false , "(INT) Maximum height to make snow." , "0" , "2500" )
+CreateClientConVar( "sw_snow_radius", "400" , true , false , "(INT) Radius of snow effect." , "0" , "2500" )
+CreateClientConVar( "sw_snow_count", "5" , true , false , "(INT) Amount of particles in snow effect. Make this smaller to increase performance." , "0" , "5000" )
 CreateClientConVar( "sw_snow_dietime", "5" , true , false , "(INT) Time in seconds until snow vanishes." , "0" , "16" )
 
 function SW.SnowThink()
@@ -895,6 +882,7 @@ SW.GroundTextures = {
 	"nature/blendmilground008_2",
 	"nature/blendmilground008_2_plants",
 	"nature/blendmilground008b_2",
+	"nature/blendsandgrass008a",
 	"nature/blendsandsand008a",
 	"sgtsicktextures/blend_chipsgrass_001",
 	"theprotextures/blendgrassgravel002a_gmfix",
@@ -929,6 +917,7 @@ SW.GroundTexturesOne = {
 	"ground/flash_ground_blend",
 	"ground/flash_ground_skyboxtrees",
 	"ground/hr_g/hr_gravel_grass_001_blend",
+	"gulch/gulch_rockgrass",
 	"gulch/gulch_rocksand",
 	"lostcoast/nature/blendrockgravel002a",
 	"maps/de_aztec/de_aztec/ground01_blend_-272_-960_-151",
@@ -1002,7 +991,6 @@ SW.GroundTexturesTwo = {
 	"gulch/gulch_cavegrass",
 	"gulch/gulch_cavesand",
 	"gulch/gulch_cavewall" ,
-	"gulch/gulch_rockgrass",
 	"lostcoast/nature/blendpathweeds002a",
 	"lostcoast/nature/blendstonepathweeds001a",
 	"maps/dod_jagd/stone/blendcobbledirt002a_-1824_-8_-328",
@@ -1070,7 +1058,6 @@ SW.GroundTexturesTwo = {
 	"nature/blendmilrock002_ground002",
 	"nature/blendprodconcgrass",
 	"nature/blendproddirtgrass",
-	"nature/blendsandgrass008a",
 	"nature/blendsandsand008b",
 	"nature/blendsandsand008b_antlion",
 	"nature/grass_whitemosspebbles_blend",
@@ -1095,20 +1082,6 @@ SW.CliffTexturesOne = {
 
 -- Replace ONLY $basetexture2 with cliff
 SW.CliffTexturesTwo = {
-}
-
-SW.InvisibleTextures = {
-	"models/props_gulch/fadegrass" ,
-}
-
--- Model textures to replace IN ORDER
-SW.ModelTextures = {
-	"models/magnum/pinebranch2",
-}
-
--- Model textures to replace them with IN ORDER
-SW.ModelTexturesSnow = {
-	"nature/pinebranch2a",
 }
 
 -- The reset table. Don't fucking touch!
@@ -1144,297 +1117,163 @@ function SW.SetGroundTextures()
 
 	if GetConVarNumber("sw_func_textures") != 1 then return end
 
-	for k, v in pairs( SW.InvisibleTextures ) do
-
-		v = string.lower( v )
-
-		local m = Material( v )
-
-		if( !SW.TextureResets[v] ) then
-			local getbasetexture = m:GetTexture( "$basetexture" )
-			local getbasetexture2 = m:GetTexture( "$basetexture2" )
-			local getbumpmap = m:GetTexture( "$bumpmap" )
-			local getbumpmap2 = m:GetTexture( "$bumpmap2" )
-			local getsurfaceprop = m:GetString( "$surfaceprop" )
-			local getsurfaceprop2 = m:GetString( "$surfaceprop2" )
-			local getnodraw = m:GetString( "$no_draw" )
-
-			local cachebasetexture , cachebasetexture2 , cachebumpmap , cachebumpmap2 , cachesurfaceprop , cachesurfaceprop2, cachenodraw
-
-			if( getbasetexture and getbasetexture != "" ) then
-				cachebasetexture = string.lower( getbasetexture:GetName() )
-			end
-
-			if( getbasetexture2 and getbasetexture2 != "" ) then
-				cachebasetexture2 = string.lower( getbasetexture2:GetName() )
-			end
-
-			if( getbumpmap and getbumpmap != "" ) then
-				cachebumpmap = string.lower( getbumpmap:GetName() )
-			end
-
-			if( getbumpmap2 and getbumpmap2 != "" ) then
-				cachebumpmap2 = string.lower( getbumpmap2:GetName() )
-			end
-
-			if( getsurfaceprop and getsurfaceprop != "" ) then
-				cachesurfaceprop = string.lower( getsurfaceprop:GetName() )
-			end
-
-			if( getsurfaceprop2 and getsurfaceprop2 != "" ) then
-				cachesurfaceprop2 = string.lower( getsurfaceprop2:GetName() )
-			end
-
-			if( getnodraw and getnodraw != "" ) then
-				cachenodraw = string.lower( getnodraw:GetName() )
-			end
-
-			SW.TextureResets[v] = { cachebasetexture, cachebasetexture2, cachebumpmap, cachebumpmap2, cachesurfaceprop, cachesurfaceprop2, cachenodraw }
-		end
-
-		m:SetTexture( "$basetexture", "" )
-
-	end
-
-	for k, v in ipairs( SW.ModelTextures ) do
-
-		v = string.lower( v )
-
-		local m = Material( v )
-
-		if( !SW.TextureResets[v] ) then
-			local getbasetexture = m:GetTexture( "$basetexture" )
-			local getbasetexture2 = m:GetTexture( "$basetexture2" )
-			local getbumpmap = m:GetTexture( "$bumpmap" )
-			local getbumpmap2 = m:GetTexture( "$bumpmap2" )
-			local getsurfaceprop = m:GetString( "$surfaceprop" )
-			local getsurfaceprop2 = m:GetString( "$surfaceprop2" )
-			local getnodraw = m:GetBool( "$no_draw" )
-
-			local cachebasetexture , cachebasetexture2 , cachebumpmap , cachebumpmap2 , cachesurfaceprop , cachesurfaceprop2, cachenodraw
-
-			if( getbasetexture and getbasetexture != "" ) then
-				cachebasetexture = string.lower( getbasetexture:GetName() )
-			end
-
-			if( getbasetexture2 and getbasetexture2 != "" ) then
-				cachebasetexture2 = string.lower( getbasetexture2:GetName() )
-			end
-
-			if( getbumpmap and getbumpmap != "" ) then
-				cachebumpmap = string.lower( getbumpmap:GetName() )
-			end
-
-			if( getbumpmap2 and getbumpmap2 != "" ) then
-				cachebumpmap2 = string.lower( getbumpmap2:GetName() )
-			end
-
-			if( getsurfaceprop and getsurfaceprop != "" ) then
-				cachesurfaceprop = string.lower( getsurfaceprop:GetName() )
-			end
-
-			if( getsurfaceprop2 and getsurfaceprop2 != "" ) then
-				cachesurfaceprop2 = string.lower( getsurfaceprop2:GetName() )
-			end
-
-			if( getnodraw and getnodraw != "" ) then
-				cachenodraw = string.lower( getnodraw:GetName() )
-			end
-
-			SW.TextureResets[v] = { cachebasetexture, cachebasetexture2, cachebumpmap, cachebumpmap2, cachesurfaceprop, cachesurfaceprop2, cachenodraw }
-		end
-
-		for k2, v2 in ipairs( SW.ModelTexturesSnow ) do
-		
-			m:SetTexture( "$basetexture", v2 )
-			
-		end
-
-	end
-
 	for k, v in pairs( SW.GroundTextures ) do
 
-		v = string.lower( v )
+		v = string.lower( v );
 
-		local m = Material( v )
+		local m = Material( v );
 
 		if( !SW.TextureResets[v] ) then
-			local getbasetexture = m:GetTexture( "$basetexture" )
-			local getbasetexture2 = m:GetTexture( "$basetexture2" )
-			local getbumpmap = m:GetTexture( "$bumpmap" )
-			local getbumpmap2 = m:GetTexture( "$bumpmap2" )
-			local getsurfaceprop = m:GetString( "$surfaceprop" )
-			local getsurfaceprop2 = m:GetString( "$surfaceprop2" )
-			local getnodraw = m:GetBool( "$no_draw" )
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
 
-			local cachebasetexture , cachebasetexture2 , cachebumpmap , cachebumpmap2 , cachesurfaceprop , cachesurfaceprop2, cachenodraw
-
-			if( getbasetexture and getbasetexture != "" ) then
-				cachebasetexture = string.lower( getbasetexture:GetName() )
+			local m1, m2;
+			if( t1 and t1 != "" ) then
+				m1 = string.lower( t1:GetName() );
 			end
 
-			if( getbasetexture2 and getbasetexture2 != "" ) then
-				cachebasetexture2 = string.lower( getbasetexture2:GetName() )
+			if( t2 and t2 != "" ) then
+				m2 = string.lower( t2:GetName() );
 			end
 
-			if( getbumpmap and getbumpmap != "" ) then
-				cachebumpmap = string.lower( getbumpmap:GetName() )
-			end
-
-			if( getbumpmap2 and getbumpmap2 != "" ) then
-				cachebumpmap2 = string.lower( getbumpmap2:GetName() )
-			end
-
-			if( getsurfaceprop and getsurfaceprop != "" ) then
-				cachesurfaceprop = string.lower( getsurfaceprop:GetName() )
-			end
-
-			if( getsurfaceprop2 and getsurfaceprop2 != "" ) then
-				cachesurfaceprop2 = string.lower( getsurfaceprop2:GetName() )
-			end
-
-			if( getnodraw and getnodraw != "" ) then
-				cachenodraw = string.lower( getnodraw:GetName() )
-			end
-
-			SW.TextureResets[v] = { cachebasetexture, cachebasetexture2, cachebumpmap, cachebumpmap2, cachesurfaceprop, cachesurfaceprop2, cachenodraw }
+			SW.TextureResets[v] = { m1, m2 };
 		end
-
-		m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" )
-		m:SetTexture( "$basetexture2", "realworldtextures/newer/0/snow_0_01" )
+		
+		m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" );
+		m:SetTexture( "$basetexture2", "realworldtextures/newer/0/snow_0_01" );
 
 	end
 
 	for k, v in pairs( SW.GroundTexturesOne ) do
 
-		v = string.lower( v )
+		v = string.lower( v );
 
-		local m = Material( v )
+		local m = Material( v );
 
 		if( !SW.TextureResets[v] ) then
-			local t1 = m:GetTexture( "$basetexture" )
-			local t2 = m:GetTexture( "$basetexture2" )
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
 
-			local m1, m2
+			local m1, m2;
 			if( t1 and t1 != "" ) then
-				m1 = string.lower( t1:GetName() )
+				m1 = string.lower( t1:GetName() );
 			end
 
 			if( t2 and t2 != "" ) then
-				m2 = string.lower( t2:GetName() )
+				m2 = string.lower( t2:GetName() );
 			end
 
-			SW.TextureResets[v] = { m1, m2 }
+			SW.TextureResets[v] = { m1, m2 };
 		end
 		
-		m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" )
+		m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" );
 
 	end
 
 	for k, v in pairs( SW.GroundTexturesTwo ) do
 
-		v = string.lower( v )
+		v = string.lower( v );
 
-		local m = Material( v )
+		local m = Material( v );
 
 		if( !SW.TextureResets[v] ) then
-			local t1 = m:GetTexture( "$basetexture" )
-			local t2 = m:GetTexture( "$basetexture2" )
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
 
-			local m1, m2
+			local m1, m2;
 			if( t1 and t1 != "" ) then
-				m1 = string.lower( t1:GetName() )
+				m1 = string.lower( t1:GetName() );
 			end
 
 			if( t2 and t2 != "" ) then
-				m2 = string.lower( t2:GetName() )
+				m2 = string.lower( t2:GetName() );
 			end
 
-			SW.TextureResets[v] = { m1, m2 }
+			SW.TextureResets[v] = { m1, m2 };
 		end
 
-		m:SetTexture( "$basetexture2", "realworldtextures/newer/0/snow_0_01" )
+		m:SetTexture( "$basetexture2", "realworldtextures/newer/0/snow_0_01" );
 
 	end
 
 	for k, v in pairs( SW.CliffTextures ) do
 
-		v = string.lower( v )
+		v = string.lower( v );
 
-		local m = Material( v )
+		local m = Material( v );
 
 		if( !SW.TextureResets[v] ) then
-			local t1 = m:GetTexture( "$basetexture" )
-			local t2 = m:GetTexture( "$basetexture2" )
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
 
-			local m1, m2
+			local m1, m2;
 			if( t1 and t1 != "" ) then
-				m1 = string.lower( t1:GetName() )
+				m1 = string.lower( t1:GetName() );
 			end
 
 			if( t2 and t2 != "" ) then
-				m2 = string.lower( t2:GetName() )
+				m2 = string.lower( t2:GetName() );
 			end
 
-			SW.TextureResets[v] = { m1, m2 }
+			SW.TextureResets[v] = { m1, m2 };
 		end
 		
-		m:SetTexture( "$basetexture", "cncr04s/rock/stonewall1snow" )
-		m:SetTexture( "$basetexture2", "cncr04s/rock/stonewall1snow" )
+		m:SetTexture( "$basetexture", "cncr04s/rock/stonewall1snow" );
+		m:SetTexture( "$basetexture2", "cncr04s/rock/stonewall1snow" );
 
 	end
 
 	for k, v in pairs( SW.CliffTexturesOne ) do
 
-		v = string.lower( v )
+		v = string.lower( v );
 
-		local m = Material( v )
+		local m = Material( v );
 
 		if( !SW.TextureResets[v] ) then
-			local t1 = m:GetTexture( "$basetexture" )
-			local t2 = m:GetTexture( "$basetexture2" )
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
 
-			local m1, m2
+			local m1, m2;
 			if( t1 and t1 != "" ) then
-				m1 = string.lower( t1:GetName() )
+				m1 = string.lower( t1:GetName() );
 			end
 
 			if( t2 and t2 != "" ) then
-				m2 = string.lower( t2:GetName() )
+				m2 = string.lower( t2:GetName() );
 			end
 
-			SW.TextureResets[v] = { m1, m2 }
+			SW.TextureResets[v] = { m1, m2 };
 		end
 		
-		m:SetTexture( "$basetexture", "cncr04s/rock/stonewall1snow" )
-		m:SetTexture( "$basetexture2", "realworldtextures/newer/0/snow_0_01" )
+		m:SetTexture( "$basetexture", "cncr04s/rock/stonewall1snow" );
+		m:SetTexture( "$basetexture2", "realworldtextures/newer/0/snow_0_01" );
 
 	end
 
 	for k, v in pairs( SW.CliffTexturesTwo ) do
 
-		v = string.lower( v )
+		v = string.lower( v );
 
-		local m = Material( v )
+		local m = Material( v );
 
 		if( !SW.TextureResets[v] ) then
-			local t1 = m:GetTexture( "$basetexture" )
-			local t2 = m:GetTexture( "$basetexture2" )
+			local t1 = m:GetTexture( "$basetexture" );
+			local t2 = m:GetTexture( "$basetexture2" );
 
-			local m1, m2
+			local m1, m2;
 			if( t1 and t1 != "" ) then
-				m1 = string.lower( t1:GetName() )
+				m1 = string.lower( t1:GetName() );
 			end
 
 			if( t2 and t2 != "" ) then
-				m2 = string.lower( t2:GetName() )
+				m2 = string.lower( t2:GetName() );
 			end
 
-			SW.TextureResets[v] = { m1, m2 }
+			SW.TextureResets[v] = { m1, m2 };
 		end
 		
-		m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" )
-		m:SetTexture( "$basetexture2", "cncr04s/rock/stonewall1snow" )
+		m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" );
+		m:SetTexture( "$basetexture2", "cncr04s/rock/stonewall1snow" );
 
 	end
 
@@ -1446,29 +1285,29 @@ function SW.SetGroundTextures()
 
 		for k, v in pairs( materialSwap ) do
 
-			v = string.lower( v )
+			v = string.lower( v );
 
-			local m = Material( v )
+			local m = Material( v );
 
 			if( !SW.TextureResets[v] ) then
-				local t1 = m:GetTexture( "$basetexture" )
-				local t2 = m:GetTexture( "$basetexture2" )
+				local t1 = m:GetTexture( "$basetexture" );
+				local t2 = m:GetTexture( "$basetexture2" );
 
-				local m1, m2
+				local m1, m2;
 				if( t1 and t1 != "" ) then
-					m1 = string.lower( t1:GetName() )
+					m1 = string.lower( t1:GetName() );
 				end
 
 				if( t2 and t2 != "" ) then
-					m2 = string.lower( t2:GetName() )
+					m2 = string.lower( t2:GetName() );
 				end
 
-				SW.TextureResets[v] = { m1, m2 }
+				SW.TextureResets[v] = { m1, m2 };
 
 			end
 
 			m:SetTexture( "$basetexture", "realworldtextures/newer/0/snow_0_01" )
-			-- m:SetTexture( "$basetexture2", m2 )
+			-- m:SetTexture( "$basetexture2", m2 );
 
 			materialSwap = {}
 
@@ -1480,26 +1319,22 @@ end
 
 function SW.PlayerFootstep( ply, pos, foot, sound, vol, filt )
 
-	local w = SW:GetCurrentWeather()
+	local w = SW:GetCurrentWeather();
 
 	if( w and w.SnowFootsteps and false ) then
 		
-		local trace = { }
-		trace.start = ply:GetPos() + Vector( 0, 0, 32 )
-		trace.endpos = trace.start + Vector( 0, 0, -64 )
-		trace.filter = ply
-		local tr = util.TraceLine( trace )
+		local trace = { };
+		trace.start = ply:GetPos() + Vector( 0, 0, 32 );
+		trace.endpos = trace.start + Vector( 0, 0, -64 );
+		trace.filter = ply;
+		local tr = util.TraceLine( trace );
 
 		if( tr.Hit and tr.HitWorld ) then
 
 			if( tr.HitTexture == "**displacement**" or table.HasValue( SW.GroundTextures, string.lower( tr.HitTexture ) ) ) then
 
-				ply:EmitSound( Sound( "player/footsteps/snow" .. math.random( 1, 6 ) .. ".wav" ) )
-				return true
-
-				local drop = EffectData()
-				drop:SetOrigin( SW.ViewPos )
-				util.Effect( "sw_snow", drop )
+				ply:EmitSound( Sound( "player/footsteps/snow" .. math.random( 1, 6 ) .. ".wav" ) );
+				return true;
 
 			end
 
@@ -1508,4 +1343,4 @@ function SW.PlayerFootstep( ply, pos, foot, sound, vol, filt )
 	end
 
 end
-hook.Add( "PlayerFootstep", "SW.PlayerFootstep", SW.PlayerFootstep )
+hook.Add( "PlayerFootstep", "SW.PlayerFootstep", SW.PlayerFootstep );
