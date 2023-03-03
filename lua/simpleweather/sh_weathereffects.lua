@@ -1496,18 +1496,16 @@ function SW.PlayerFootstep( ply, pos, foot, sound, vol, filt )
 
 				ply:EmitSound( Sound( "player/footsteps/snow" .. math.random( 1, 6 ) .. ".wav" ) )
 				return true
->>>>>>> Stashed changes
 
-			local drop = EffectData()
-			drop:SetOrigin( SW.ViewPos )
-			util.Effect( "sw_snow", drop )
+				local drop = EffectData()
+				drop:SetOrigin( SW.ViewPos )
+				util.Effect( "sw_snow", drop )
+
+			end
 
 		end
 
 	end
 
 end
-<<<<<<< Updated upstream
-=======
 hook.Add( "PlayerFootstep", "SW.PlayerFootstep", SW.PlayerFootstep )
->>>>>>> Stashed changes
