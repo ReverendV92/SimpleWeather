@@ -882,44 +882,21 @@ end
 -- Replacement table
 -- Args: 
 -- 1: material to find
--- 2: replacement method (0=replace both, 1=only $basetexture, 2=only $basetexture2)
--- 3: material to replace with (integer > 0 will replace $basetexture2 as well)
+-- 2: replacement method (0=replace both, 1=only $basetexture, 2=only $basetexture2, 3=make invisible)
+-- 3: material to replace with
 ------------------------------------------------------------
 SW.GroundTextures = {
 	-- "cs_assault/pavement001a",
 	-- "de_chateau/bush01a",
-	{ "dm_stad/floor/blendgrassgrass01" , 0 },
-	{ "gm_construct/grass_13" , 0 },
-	{ "gm_construct/flatgrass" , 0 },
-	{ "gm_construct/flatgrass_2" , 0 },
-	{ "gpoint/fixedgrass/dirtfloor006a" , 0 },
-	{ "ground/skybox_ground01_blend" , 0 },
-	{ "gulch/gulch_dirtgrass" , 0 },
-	{ "gulch/gulch_sandgrass" , 0 },
-	{ "maps/rp_unioncity_day/unioncity/natural/parkgrassleaves_wvt_patch" , 0 },
-	{ "maps/terrain/baghdad_blend_01" , 0 },
-	{ "maps/terrain/baghdad_blend_02" , 0 },
-	{ "maps/terrain/blend_grass_sand_1024_era1" , 0 },
-	{ "maps/terrain/sand_grass_blend_mino" , 0 },
-	{ "models/props_gulch/grassfloor002a" , 0 },
-	{ "nature/anzio_grass_blend002" , 0 },
-	{ "nature/blendgrassgrass001a" , 0 },
-	{ "nature/blendgrassgravel01" , 0 },
-	{ "nature/blendgravelgravel01" , 0 },
-	{ "nature/blendmilground008_2" , 0 },
-	{ "nature/blendmilground008_2_plants" , 0 },
-	{ "nature/blendmilground008b_2" , 0 },
-	{ "nature/blendsandgrass008a" , 0 },
-	{ "nature/blendsandsand008a" , 0 },
-	{ "sgtsicktextures/blend_chipsgrass_001" , 0 },
-	{ "theprotextures/blendgrassgravel002a_gmfix" , 0 },
-	{ "unioncity/natural/parkgrassleaves" , 0 },
+
 	{ "ajacks/ajacks_grass-dirt01" , 1 },
 	{ "ajacks/ajacks_grass-sand01" , 1 },
 	{ "ajacks/ajacks_grass01" , 1 },
+
 	{ "cs_havana/ground01grass" , 1 },
 	{ "cs_havana/groundd01" , 1 },
 	{ "customtext/gc textures/blends/grass_dirt_blend04" , 1 },
+
 	{ "de_aztec/ground02_blend_nobump" , 1 },
 	{ "de_cbble/grassdirt_blend" , 1 },
 	{ "de_cbble/grassfloor01" , 1 },
@@ -927,27 +904,54 @@ SW.GroundTextures = {
 	{ "de_chateau/groundd" , 1 },
 	{ "de_chateau/groundd_blend" , 1 },
 	{ "de_chateau/groundl" , 1 },
+	{ "de_chateau/rockf_blend" , 2 },
 	{ "de_dust/groundsand_blend" , 1 },
 	{ "de_dust/groundsand03" , 1 },
+	{ "de_dust/rockwall_blend" , 2 },
+	{ "de_nuke/nukblenddirtgrass" , 2 },
+	{ "de_nuke/nukblenddirtgrassb" , 2 },
 	{ "de_piranesi/pi_ground" , 1 },
 	{ "de_piranesi/pi_ground_blend" , 1 },
+	{ "de_tides/blendgrassstonepath" , 2 },
 	{ "de_tides/tides_grass_a" , 1 },
 	{ "de_train/blendgrassdirt001a" , 1 },
 	{ "dm_stad/floor/grass03" , 1 },
+	{ "dm_stad/floor/blendgrassgrass01" , 0 },
+	{ "dm_stad/floor/blendgrassdirt02" , 2 },
+	{ "dm_stad/floor/blendgrassforest01" , 2 },
+
+	{ "fork/cliff04c" , 2 },
+	{ "fork/cliff04c_skybox" , 2 },
+
 	{ "freespace/terrain/freespace_dirtgravelblend01" , 1 },
 	{ "freespace/terrain/freespace_dirtrockblend01" , 1 },
 	{ "freespace/terrain/freespace_grassdirtblend01" , 1 },
 	{ "freespace/terrain/freespace_grassrockblend01" , 1 },
 	{ "freespace/terrain/freespace_skyboxterrainblend01" , 1 },
+
+	{ "gm_construct/grass_13" , 0 },
+	{ "gm_construct/flatgrass" , 0 },
+	{ "gm_construct/flatgrass_2" , 0 },
 	{ "gm_construct/grass-sand_13" , 1 },
 	{ "gm_vernrock/blends/blendgrassdirt001" , 1 },
 	{ "gm_vernrock/blends/blendgrassmud001" , 1 },
+	{ "gpoint/fixedgrass/dirtfloor006a" , 0 },
 	{ "ground/flash_ground_blend" , 1 },
 	{ "ground/flash_ground_skyboxtrees" , 1 },
+	{ "ground/skybox_ground01_blend" , 0 },
 	{ "ground/hr_g/hr_gravel_grass_001_blend" , 1 },
+	{ "gulch/gulch_cavegrass" , 2 },
+	{ "gulch/gulch_cavesand" , 2 },
+	{ "gulch/gulch_cavewall"  , 2 },
+	{ "gulch/gulch_dirtgrass" , 0 },
 	{ "gulch/gulch_rockgrass" , 1 },
 	{ "gulch/gulch_rocksand" , 1 },
+	{ "gulch/gulch_sandgrass" , 0 },
+
+	{ "lostcoast/nature/blendpathweeds002a" , 2 },
 	{ "lostcoast/nature/blendrockgravel002a" , 1 },
+	{ "lostcoast/nature/blendstonepathweeds001a" , 2 },
+
 	{ "majoris/buhriz_lightsand_01" , 1 },
 	{ "majoris/buhriz_darksand_01" , 1 },
 	{ "majoris/buhriz_sandrock_01" , 1 },
@@ -958,87 +962,6 @@ SW.GroundTextures = {
 	{ "maps/de_aztec/de_aztec/ground02_blend_-272_-960_-151" , 1 },
 	{ "maps/de_aztec/de_aztec/ground02_blend_-424_-1484_-157" , 1 },
 	{ "maps/de_aztec/de_aztec/ground02_blend_-976_699_-119" , 1 },
-	{ "maps/dod_jagd/stone/blendcobblegrass002a_-2280_-392_-328" , 1 },
-	{ "maps/dod_jagd/stone/blendcobblegrass002a_496_-2176_-368" , 1 },
-	{ "maps/dod_jagd/stone/blendcobblegrass002a_2040_-872_-288" , 1 },
-	{ "maps/gm_apehouse_summer_day/nature/blendgrassdirt01_wvt_patch" , 1 },
-	{ "maps/gs_camp_killpact_v1/freespace/terrain/freespace_grassdirtblend01_wvt_patch" , 1 },
-	{ "maps/gs_camp_killpact_v1/freespace/terrain/freespace_grassrockblend01_wvt_patch" , 1 },
-	{ "maps/karam/blend_grass_road" , 1 },
-	{ "maps/karam/blend_grass_sand" , 1 },
-	{ "maps/karkar/blend_sand_road" , 1 },
-	{ "maps/karkar/blend_sand_road_skybox" , 1 },
-	{ "maps/road/ramadisandroad_dirt" , 1 },
-	{ "maps/rp_evocity2_v5p/nature/blendgrassdirt01_noprop_wvt_patch" , 1 },
-	{ "maps/rp_evocity2_v5p/nature/blendgrassdirt02_noprop_wvt_patch" , 1 },
-	{ "maps/rp_truenorth_v1a/statua/nature/blendgrassdirt01_wvt_patch" , 1 },
-	{ "maps/terrain/baghdad_blend_03" , 1 },
-	{ "maps/terrain/blend_sand_rock_mino" , 1 },
-	{ "maps/terrain/sand_blend01_mino" , 1 },
-	{ "maps/terrain/sand_blend02_mino" , 1 },
-	{ "maps/terrain/sand_sidewalk_blend_mino" , 1 },
-	{ "maps/terrain/sand_sidewalk02_blend_mino" , 1 },
-	{ "maps/terrain/grass_sand_01blend_stw" , 1 },
-	{ "maps/terrain/stones_sand_01blend_stw" , 1 },
-	{ "maps/terrain/blend_grass_dirt_1024_era1_detail" , 1 },
-	{ "maps/terrain/sand01a_mino" , 1 },
-	{ "maxofs2d/grass_01" , 1 },
-	{ "models/statua/shared/blendgrassdirt01" , 1 },
-	{ "nature/argentan_blendcobblegrass" , 1 },
-	{ "nature/argentan_blendgrassdirt" , 1 },
-	{ "nature/argentan_blendgrassdirt_cheap" , 1 },
-	{ "nature/argentan_skygrasstrees" , 1 },
-	{ "nature/blendcobblegrass002" , 1 },
-	{ "nature/blendgrassdirt01" , 1 },
-	{ "nature/blendgrassdirt01_noprop" , 1 },
-	{ "nature/blendgrassdirt02" , 1 },
-	{ "nature/blendgrassdirt02_noprop" , 1 },
-	{ "nature/blendgrassdirt03" , 1 },
-	{ "nature/blendgrassgravel001a" , 1 },
-	{ "nature/blendgrassgravel001b" , 1 },
-	{ "nature/blendgrassgravel002b" , 1 },
-	{ "nature/blendgrassmud01" , 1 },
-	{ "nature/blendgrasspave01" , 1 },
-	{ "nature/blendgravelconc01" , 1 },
-	{ "nature/blendgravelgravel02" , 1 },
-	{ "nature/blendgravelmud01" , 1 },
-	{ "nature/blendgravelmud02" , 1 },
-	{ "nature/blendmilground008_4" , 1 },
-	{ "nature/blendmilground008_8b" , 1 },
-	{ "nature/dirtfloor006a" , 1 },
-	{ "nature/forest_grass_01" , 1 },
-	{ "nature/grassfloor001a" , 1 },
-	{ "nature/grassfloor002a" , 1 },
-	{ "nature/grassfloor003a" , 1 },
-	{ "nature/infblendgrassdirt001a" , 1 },
-	{ "nature/milground002" , 1 },
-	{ "rubble/blendrubblegrass001b_avalanche" , 1 },
-	{ "statua/nature/blendforest_01" , 1 },
-	{ "statua/nature/blendforest_02" , 1 },
-	{ "statua/nature/blendgrassdirt01" , 1 },
-	{ "statua/nature/blendgrasssand01" , 1 },
-	{ "statua/nature/farmblend1" , 1 },
-	{ "statua/nature/farmblend2" , 1 },
-	{ "statua/nature/farmblend3" , 1 },
-	{ "statua/nature/farmblend4" , 1 },
-	{ "statua/nature/rockfordgrass2_noprop" , 1 },
-	{ "trakpak/terrain/blendgrassballast" , 1 },
-	{ "unioncity2/floors/grass" , 1 },
-	{ "unioncity2/floors/parkcobbles" , 1 },
-	{ "de_chateau/rockf_blend" , 2 },
-	{ "de_dust/rockwall_blend" , 2 },
-	{ "de_nuke/nukblenddirtgrass" , 2 },
-	{ "de_nuke/nukblenddirtgrassb" , 2 },
-	{ "de_tides/blendgrassstonepath" , 2 },
-	{ "dm_stad/floor/blendgrassdirt02" , 2 },
-	{ "dm_stad/floor/blendgrassforest01" , 2 },
-	{ "fork/cliff04c" , 2 },
-	{ "fork/cliff04c_skybox" , 2 },
-	{ "gulch/gulch_cavegrass" , 2 },
-	{ "gulch/gulch_cavesand" , 2 },
-	{ "gulch/gulch_cavewall"  , 2 },
-	{ "lostcoast/nature/blendpathweeds002a" , 2 },
-	{ "lostcoast/nature/blendstonepathweeds001a" , 2 },
 	{ "maps/dod_jagd/stone/blendcobbledirt002a_-1824_-8_-328" , 2 },
 	{ "maps/dod_jagd/stone/blendcobbledirt002a_-2184_0_-328" , 2 },
 	{ "maps/dod_jagd/stone/blendcobbledirt002a_-312_-72_-232" , 2 },
@@ -1086,17 +1009,28 @@ SW.GroundTextures = {
 	{ "maps/dod_jagd/stone/blendcobbledirt002a_-1464_-684_-276" , 2 },
 	{ "maps/dod_jagd/stone/blendcobbledirt002a_-1448_-752_-160" , 2 },
 	{ "maps/dod_jagd/stone/blendcobbledirt002a_-1072_80_-312" , 2 },
+	{ "maps/dod_jagd/stone/blendcobblegrass002a_-2280_-392_-328" , 1 },
+	{ "maps/dod_jagd/stone/blendcobblegrass002a_496_-2176_-368" , 1 },
+	{ "maps/dod_jagd/stone/blendcobblegrass002a_2040_-872_-288" , 1 },
 	{ "maps/dod_jagd/stone/blendstonedirt001a_336_-1824_-336" , 2 },
 	{ "maps/dod_jagd/stone/blendstonedirt001a_1656_-1120_-288" , 2 },
-	{ "maps/karkar/blend_sand_gravel" , 2 },
+	{ "maps/gm_apehouse_summer_day/nature/blendgrassdirt01_wvt_patch" , 1 },
+	{ "maps/gs_camp_killpact_v1/freespace/terrain/freespace_grassdirtblend01_wvt_patch" , 1 },
+	{ "maps/gs_camp_killpact_v1/freespace/terrain/freespace_grassrockblend01_wvt_patch" , 1 },
+	{ "maps/karam/blend_grass_road" , 1 },
+	{ "maps/karam/blend_grass_sand" , 1 },
+	{ "maps/karam/blend_riverbed_grass" , 2 },
 	{ "maps/karam/blend_rock_grass2" , 2 },
+	{ "maps/karkar/blend_sand_road" , 1 },
+	{ "maps/karkar/blend_sand_road_skybox" , 1 },
+	{ "maps/karkar/blend_sand_gravel" , 2 },
 	{ "maps/karkar/blend_rock_sand" , 2 },
 	{ "maps/karkar/blend_rock_sand_skybox" , 2 },
 	{ "maps/karkar/blend_sand_coal" , 2 },
-	{ "maps/karam/blend_riverbed_grass" , 2 },
+	{ "maps/road/asphalt_sand_blend02" , 2 },
 	{ "maps/road/blend_sand_road_vil" , 2 },
 	{ "maps/road/blendsand01road_fmp" , 2 },
-	{ "maps/road/asphalt_sand_blend02" , 2 },
+	{ "maps/road/ramadisandroad_dirt" , 1 },
 	{ "maps/road/ramadisandsidewalk_oog" , 2 },
 	{ "maps/terrain/baghdad_blend_07" , 2 },
 	{ "maps/terrain/blend_dirt_sand_1024_era2_detail" , 2 },
@@ -1108,6 +1042,65 @@ SW.GroundTextures = {
 	{ "maps/terrain/blend_rubble_sand_1024_era1" , 2 },
 	{ "maps/terrain/blend_stone_sand_1024_era1" , 2 },
 	{ "maps/terrain/blend_tile_sand_1024_era1" , 2 },
+	{ "maps/rp_evocity2_v5p/nature/blendgrassdirt01_noprop_wvt_patch" , 1 },
+	{ "maps/rp_evocity2_v5p/nature/blendgrassdirt02_noprop_wvt_patch" , 1 },
+	{ "maps/rp_truenorth_v1a/statua/nature/blendgrassdirt01_wvt_patch" , 1 },
+	{ "maps/rp_unioncity_day/unioncity/natural/parkgrassleaves_wvt_patch" , 0 },
+	{ "maps/terrain/baghdad_blend_01" , 0 },
+	{ "maps/terrain/baghdad_blend_02" , 0 },
+	{ "maps/terrain/blend_grass_sand_1024_era1" , 0 },
+	{ "maps/terrain/sand_grass_blend_mino" , 0 },
+	{ "maps/terrain/baghdad_blend_03" , 1 },
+	{ "maps/terrain/blend_sand_rock_mino" , 1 },
+	{ "maps/terrain/sand_blend01_mino" , 1 },
+	{ "maps/terrain/sand_blend02_mino" , 1 },
+	{ "maps/terrain/sand_sidewalk_blend_mino" , 1 },
+	{ "maps/terrain/sand_sidewalk02_blend_mino" , 1 },
+	{ "maps/terrain/grass_sand_01blend_stw" , 1 },
+	{ "maps/terrain/stones_sand_01blend_stw" , 1 },
+	{ "maps/terrain/blend_grass_dirt_1024_era1_detail" , 1 },
+	{ "maps/terrain/sand01a_mino" , 1 },
+	{ "maxofs2d/grass_01" , 1 },
+	{ "models/props_gulch/grassfloor002a" , 0 },
+	{ "models/statua/shared/blendgrassdirt01" , 1 },
+
+	{ "nature/anzio_grass_blend002" , 0 },
+	{ "nature/argentan_blendcobblegrass" , 1 },
+	{ "nature/argentan_blendgrassdirt" , 1 },
+	{ "nature/argentan_blendgrassdirt_cheap" , 1 },
+	{ "nature/argentan_skygrasstrees" , 1 },
+	{ "nature/blendgrassgrass001a" , 0 },
+	{ "nature/blendgrassgravel01" , 0 },
+	{ "nature/blendgravelgravel01" , 0 },
+	{ "nature/blendmilground008_2" , 0 },
+	{ "nature/blendmilground008_2_plants" , 0 },
+	{ "nature/blendmilground008b_2" , 0 },
+	{ "nature/blendsandgrass008a" , 0 },
+	{ "nature/blendsandsand008a" , 0 },
+	{ "nature/blendcobblegrass002" , 1 },
+	{ "nature/blendgrassdirt01" , 1 },
+	{ "nature/blendgrassdirt01_noprop" , 1 },
+	{ "nature/blendgrassdirt02" , 1 },
+	{ "nature/blendgrassdirt02_noprop" , 1 },
+	{ "nature/blendgrassdirt03" , 1 },
+	{ "nature/blendgrassgravel001a" , 1 },
+	{ "nature/blendgrassgravel001b" , 1 },
+	{ "nature/blendgrassgravel002b" , 1 },
+	{ "nature/blendgrassmud01" , 1 },
+	{ "nature/blendgrasspave01" , 1 },
+	{ "nature/blendgravelconc01" , 1 },
+	{ "nature/blendgravelgravel02" , 1 },
+	{ "nature/blendgravelmud01" , 1 },
+	{ "nature/blendgravelmud02" , 1 },
+	{ "nature/blendmilground008_4" , 1 },
+	{ "nature/blendmilground008_8b" , 1 },
+	{ "nature/dirtfloor006a" , 1 },
+	{ "nature/forest_grass_01" , 1 },
+	{ "nature/grassfloor001a" , 1 },
+	{ "nature/grassfloor002a" , 1 },
+	{ "nature/grassfloor003a" , 1 },
+	{ "nature/infblendgrassdirt001a" , 1 },
+	{ "nature/milground002" , 1 },
 	{ "nature/anzio_skytrees" , 2 },
 	{ "nature/argentan_blendcliffgrass" , 2 },
 	{ "nature/blendcobbledirt001" , 2 },
@@ -1117,7 +1110,7 @@ SW.GroundTextures = {
 	{ "nature/blenddirtgrass008b_lowfriction" , 2 },
 	{ "nature/blenddirtgravel01" , 2 },
 	{ "nature/blendgrassgravel001c" , 2 },
-	{ "nature/blendgrassgravel003a" , 1 },
+	{ "nature/blendgrassgravel003a" , 2 },
 	{ "nature/blendgravelgravel02b" , 2 },
 	{ "nature/blendmilground004_2" , 2 },
 	{ "nature/blendmilground005_2" , 2 },
@@ -1136,19 +1129,54 @@ SW.GroundTextures = {
 	{ "nature/pinkleaftograssblend_ivy" , 2 },
 	{ "nature/blend_ivy1" , 0 },
 	{ "nature/short_red_grass" , 2 },
+
+	{ "rubble/blendrubblegrass001b_avalanche" , 1 },
+
+	{ "sgtsicktextures/blend_chipsgrass_001" , 0 },
+	{ "statua/nature/blendforest_01" , 1 },
+	{ "statua/nature/blendforest_02" , 1 },
+	{ "statua/nature/blendgrassdirt01" , 1 },
+	{ "statua/nature/blendgrasssand01" , 1 },
+	{ "statua/nature/farmblend1" , 1 },
+	{ "statua/nature/farmblend2" , 1 },
+	{ "statua/nature/farmblend3" , 1 },
+	{ "statua/nature/farmblend4" , 1 },
+	{ "statua/nature/rockfordgrass2_noprop" , 1 },
 	{ "statua/nature/rockfordgrass1" , 2 },
+
+	{ "theprotextures/blendgrassgravel002a_gmfix" , 0 },
 	{ "textures/enviroment/blendgrassgravel1" , 2 },
 	{ "textures/enviroment/blendsandgrass1" , 2 },
+	{ "trakpak/terrain/blendgrassballast" , 1 },
+
 	{ "unioncity/floorground/parkcobbles" , 2 },
+	{ "unioncity/natural/parkgrassleaves" , 0 },
+	{ "unioncity2/floors/grass" , 1 },
+	{ "unioncity2/floors/parkcobbles" , 1 },
 	{ "unioncity2/floors/parkdirttograss" , 2 },
 
-	{ "models/props_foliage/arbre01" , 0 , "models/props_foliage/arbre01_snow" },
-	{ "models/props_foliage/arbre01_b" , 0 , "models/props_foliage/arbre01_b_snow" },
-	{ "models/props_foliage/hedge_128" , 0 , "models/props_foliage/hedgesnow_128" },
-	{ "models/props_foliage/tree_pine_cards_01" , 0 , "models/props_foliage/tree_pine_cards_01_snow" },
-	{ "apehouse/nolight_skybox_farms_summer" , 0 , "xmas_apehouse/skybox_farms_winter_nolights" },
-	{ "apehouse/mountain_blend" , 1 , "xmas_apehouse/snow_mountain_blend" },
+	-- Unique replacements
+	{ "models/props_foliage/arbre01" , 1 , "models/props_foliage/arbre01_snow" },
+	{ "models/props_foliage_gs/arbre01" , 1 , "models/props_foliage/arbre01_snow" },
+	{ "models/fork_gs/tree_pine04_lowdetail_cluster" , 1 , "models/props_foliage/arbre01_snow" },
+	{ "models/props_foliage/arbre01_b" , 1 , "models/props_foliage/arbre01_b_snow" },
+	{ "models/props_foliage/hedge_128" , 1 , "models/props_foliage/hedgesnow_128" },
+	{ "models/props_foliage_gs/hedge_128" , 1 , "models/props_foliage/hedgesnow_128" },
+	{ "models/props_foliage/tree_pine_cards_01" , 1 , "models/props_foliage/tree_pine_cards_01_snow" },
+	-- { "apehouse/nolight_skybox_farms_summer" , 1 , "xmas_apehouse/skybox_farms_winter_nolights" }, -- gm_apehouse
+	-- { "apehouse/mountain_blend" , 0 , "xmas_apehouse/snow_mountain_blend" }, -- gm_apehouse
+
+	-- Things to hide
+	{ "models/cliffs/ferns01" , 3 },
+	{ "models/props_foliage/bush" , 3 },
+	{ "models/props_foliage/grass_clusters" , 3 },
+	{ "models/props_foliage/grass3" , 3 },
+	{ "models/props_foliage/rocks_vegetation" , 3 },
+	{ "models/props_forest/fern01" , 3 },
+
 }
+
+SW.SnowSettings = { "simpleweather/textures/snow_0_01" , "simpleweather/textures/snow_0_01_normal" , "snow" , ""}
 
 -- The reset table. Don't fucking touch!
 SW.TextureResets = { }
@@ -1192,17 +1220,34 @@ function SW.SetGroundTextures()
 		if( !SW.TextureResets[originalMaterial] ) then
 			local t1 = m:GetTexture( "$basetexture" )
 			local t2 = m:GetTexture( "$basetexture2" )
+			local b1 = m:GetTexture( "$bumpmap" )
+			local b2 = m:GetTexture( "$bumpmap2" )
+			local dtp = m:GetTexture( "%detailtype" )
 
-			local m1, m2
+			local o_t1, o_t2, o_b1, o_b2, o_dtp
+
 			if( t1 and t1 != "" ) then
-				m1 = string.lower( t1:GetName() )
+				o_t1 = string.lower( t1:GetName() )
 			end
 
 			if( t2 and t2 != "" ) then
-				m2 = string.lower( t2:GetName() )
+				o_t2 = string.lower( t2:GetName() )
 			end
 
-			SW.TextureResets[originalMaterial] = { m1, m2 }
+			if( b1 and b1 != "" ) then
+				o_b1 = string.lower( b1:GetName() )
+			end
+
+			if( b2 and b2 != "" ) then
+				o_b2 = string.lower( b2:GetName() )
+			end
+
+			if( dtp and dtp != "" ) then
+				o_dtp = string.lower( dtp:GetName() )
+			end
+
+			SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 , o_dtp }
+
 		end
 
 		if v[3] then
@@ -1210,28 +1255,51 @@ function SW.SetGroundTextures()
 			local replacement = string.lower( v[3] )
 			local m_replacement = Material( replacement )
 
-			m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
+			if m_replacement:IsError() then return end
 
-			if v[2] != 0 then
+			if v[2] == 1 then
 
+				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
+
+			elseif v[2] == 2 then
+
+				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
+
+			else
+
+				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
 				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
 
 			end
 
 		else
 
-			if v[2] == 1 then
+			if v[2] == 3 then
 
-				m:SetTexture( "$basetexture", "simpleweather/textures/snow_0_01" )
+				m:SetInt( "4" )
+
+			elseif v[2] == 1 then
+
+
+				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
+				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+				m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			elseif v[2] == 2 then
 
-				m:SetTexture( "$basetexture2", "simpleweather/textures/snow_0_01" )
+				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
+				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+				m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			else
 
-				m:SetTexture( "$basetexture", "simpleweather/textures/snow_0_01" )
-				m:SetTexture( "$basetexture2", "simpleweather/textures/snow_0_01" )
+				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
+				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+
+				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
+				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+
+				m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			end
 
@@ -1268,7 +1336,7 @@ function SW.SetGroundTextures()
 
 			end
 
-			m:SetTexture( "$basetexture", "simpleweather/textures/snow_0_01" )
+			m:SetTexture( "$basetexture", SW.SnowSettings[1] )
 			-- m:SetTexture( "$basetexture2", m2 )
 
 			materialSwap = {}
