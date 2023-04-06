@@ -163,6 +163,7 @@ CreateConVar( "sw_func_wind" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOO
 CreateConVar( "sw_func_precip" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , "0" , "1" )
 CreateConVar( "sw_func_textures" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , "0" , "1" )
 CreateConVar( "sw_func_maplogic" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , "0" , "1" )
+CreateConVar( "sw_func_particle_type" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should weather use PCF (1) or Lua effects (0)? Affects all weather variants. Included for total control, but PCF is recommend for servers." , "0" , "1" )
 
 CreateConVar( "sw_autoweather" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , "0" , "1" )
 CreateConVar( "sw_autoweather_minstart" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , "0" , "16" )
@@ -1579,7 +1580,7 @@ SW.NumSliderNet(Panel, "Damage Delay", "sw_acidrain_dmg_delay", "1", "30", "int"
 	-- Context Menu Bar
 	--------------------------------------------------
 
-hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
+	hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
 
 		local m = menubar:AddOrGetMenu( "Simple Weather" )
 
@@ -1609,9 +1610,7 @@ hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
 
 		times:SetDeleteSelf( false )
 
-		--times:AddCVar( "Pause Time", "sw_time_pause" , "1" , "0" )
 		SW.AddCVarNet( times, "Pause Time" , "sw_time_pause" , "1" , "0" )
-		--times:AddCVar( "Real Time", "sw_time_real" , "1" , "0" )
 		SW.AddCVarNet( times, "Real Time" , "sw_time_real" , "1" , "0" )
 		times:AddOption( "0000", function( ) RunConsoleCommand( "sw_settime" , "0" ) end )
 		times:AddOption( "0200", function( ) RunConsoleCommand( "sw_settime" , "2" ) end )
@@ -1670,24 +1669,25 @@ hook.Add( "PopulateMenuBar", "SimpleWeather_MenuBar", function( menubar )
 		volume:AddOption( "Volume 66%", function( ) RunConsoleCommand( "sw_cl_sound_volume" , "0.6" ) end )
 		volume:AddOption( "Volume 100%", function( ) RunConsoleCommand( "sw_cl_sound_volume" , "1" ) end )
 
-		-- local perf = m:AddSubMenu( "Performance..." )
+		local perf = m:AddSubMenu( "Performance..." )
 
-		-- perf:SetDeleteSelf( false )
+		perf:SetDeleteSelf( false )
 
-		-- SW.AddCVarNet( perf, "Rain Impacts" , "sw_rain_showimpact" , "1" , "0" )
-		-- SW.AddCVarNet( perf, "Rain Puffs" , "sw_rain_showsmoke" , "1" , "0" )
-		-- SW.AddCVarNet( perf, "Snow Stays" , "sw_snow_stay" , "1" , "0" )
+		SW.AddCVarNet( perf, "Particle Toggle" , "sw_func_particle_type" , "1" , "0" )
+		SW.AddCVarNet( perf, "Rain Impacts" , "sw_rain_showimpact" , "1" , "0" )
+		SW.AddCVarNet( perf, "Rain Puffs" , "sw_rain_showsmoke" , "1" , "0" )
+		SW.AddCVarNet( perf, "Snow Stays" , "sw_snow_stay" , "1" , "0" )
 
-		-- local rainquality = perf:AddSubMenu( "Rain Quality..." )
+		local rainquality = perf:AddSubMenu( "Rain Quality..." )
 
-		-- rainquality:SetDeleteSelf( false )
+		rainquality:SetDeleteSelf( false )
 
-		-- rainquality:AddOption( "Low", function( ) RunConsoleCommand( "sw_rain_quality" , "1" ) end )
-		-- rainquality:AddOption( "Medium", function( ) RunConsoleCommand( "sw_rain_quality" , "2" ) end )
-		-- rainquality:AddOption( "High", function( ) RunConsoleCommand( "sw_rain_quality" , "3" ) end )
-		-- rainquality:AddOption( "Ultra", function( ) RunConsoleCommand( "sw_rain_quality" , "4" ) end )
+		rainquality:AddOption( "Low", function( ) RunConsoleCommand( "sw_rain_quality" , "1" ) end )
+		rainquality:AddOption( "Medium", function( ) RunConsoleCommand( "sw_rain_quality" , "2" ) end )
+		rainquality:AddOption( "High", function( ) RunConsoleCommand( "sw_rain_quality" , "3" ) end )
+		rainquality:AddOption( "Ultra", function( ) RunConsoleCommand( "sw_rain_quality" , "4" ) end )
 
-		-- m:AddSpacer( )
+		m:AddSpacer( )
 
 		local rng = m:AddSubMenu( "Start Weather..." )
 
