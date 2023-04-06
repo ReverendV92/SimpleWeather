@@ -23,7 +23,7 @@ worldvertextransition
 
 }
 
-//coast bumpmap upgrade. please excuse the hackiness.
+// coast bumpmap upgrade. please excuse the hackiness.
 // "lightmappedgeneric"
 // {
 	// "$basetexture" "nature/cliffface001a"
