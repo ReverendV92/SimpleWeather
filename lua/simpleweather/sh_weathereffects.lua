@@ -1242,6 +1242,8 @@ function SW.SetGroundTextures()
 				o_b2 = string.lower( b2:GetName() )
 			end
 
+			-- todo: can detailprops even be hard-removed at runtime?
+			-- use cl_detaildist as a backup?
 			if( dtp and dtp != "" ) then
 				o_dtp = string.lower( dtp:GetName() )
 			end
@@ -1276,6 +1278,9 @@ function SW.SetGroundTextures()
 
 			if v[2] == 3 then
 
+				--todo: figure out how this syntax works
+				-- https://wiki.facepunch.com/gmod/IMaterial
+				-- https://wiki.facepunch.com/gmod/Material_Flags
 				m:SetInt( "4" )
 
 			elseif v[2] == 1 then
@@ -1283,13 +1288,13 @@ function SW.SetGroundTextures()
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
 				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
-				m:SetTexture( "%detailtype", SW.SnowSettings[4] )
+				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			elseif v[2] == 2 then
 
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
 				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
-				m:SetTexture( "%detailtype", SW.SnowSettings[4] )
+				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			else
 
@@ -1299,7 +1304,7 @@ function SW.SetGroundTextures()
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
 				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
 
-				m:SetTexture( "%detailtype", SW.SnowSettings[4] )
+				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			end
 
