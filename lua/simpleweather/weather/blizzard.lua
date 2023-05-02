@@ -33,12 +33,12 @@ function WEATHER:OnStart()
 
 	-- end
 
-	SW.SetGroundTextures()
+	SW.SetSnowTextureSettings()
 
 end
 
 function WEATHER:OnEnd()
 
-	SW.ResetGroundTextures()
+	SW.ResetSnowTextureSettings()
 
 end

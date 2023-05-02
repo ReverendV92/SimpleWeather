@@ -885,7 +885,7 @@ end
 -- 2: replacement method (0=replace both, 1=only $basetexture, 2=only $basetexture2, 3=make invisible)
 -- 3: material to replace with
 ------------------------------------------------------------
-SW.GroundTextures = {
+SW.SnowTextureSettings = {
 	-- "cs_assault/pavement001a",
 	-- "de_chateau/bush01a",
 
@@ -1184,18 +1184,22 @@ SW.SnowSettings = { "simpleweather/textures/snow_0_01" , "simpleweather/textures
 -- The reset table. Don't fucking touch!
 SW.TextureResets = { }
 
-function SW.ResetGroundTextures()
+function SW.ResetSnowTextureSettings()
 	
-	for k, v in pairs( SW.TextureResets ) do
+	for k, originals in pairs( SW.TextureResets ) do
 		
 		local m = Material( k )
-		if( v[1] ) then
-			m:SetTexture( "$basetexture", v[1] )
-			-- m:SetTexture( "$bumpmap", v[1] )
+		if originals[1] then
+			m:SetTexture( "$basetexture", originals[1] )
 		end
-		if( v[2] ) then
-			m:SetTexture( "$basetexture2", v[2] )
-			-- m:SetTexture( "$bumpmap2", v[2] )
+		if originals[2] then
+			m:SetTexture( "$basetexture2", originals[2] )
+		end
+		if originals[3] then
+			m:SetTexture( "$bumpmap", originals[3] )
+		end
+		if originals[4] then
+			m:SetTexture( "$bumpmap2", originals[4] )
 		end
 		
 	end
@@ -1206,15 +1210,15 @@ end
 
 	-- if( norm:Dot( Vector( 0, 0, 1 ) ) < 0.99 ) then return end
 
-	-- SW.SetGroundTextures()
+	-- SW.SetSnowTextureSettings()
 	
 -- end
 
-function SW.SetGroundTextures()
+function SW.SetSnowTextureSettings()
 
 	if GetConVarNumber("sw_func_textures") != 1 then return end
 
-	for k, v in pairs( SW.GroundTextures ) do
+	for k, v in pairs( SW.SnowTextureSettings ) do
 
 		originalMaterial = string.lower( v[1] )
 
@@ -1230,19 +1234,19 @@ function SW.SetGroundTextures()
 			-- local o_t1, o_t2, o_b1, o_b2, o_dtp
 			local o_t1, o_t2, o_b1, o_b2
 
-			if( t1 and t1 != "" ) then
+			if t1 and t1 != "" then
 				o_t1 = string.lower( t1:GetName() )
 			end
 
-			if( t2 and t2 != "" ) then
+			if IsValid( t2 ) and t2 != "" then
 				o_t2 = string.lower( t2:GetName() )
 			end
 
-			if( b1 and b1 != "" ) then
+			if IsValid( b1 ) and b1 != "" then
 				o_b1 = string.lower( b1:GetName() )
 			end
 
-			if( b2 and b2 != "" ) then
+			if IsValid( b2 ) and b2 != ""  then
 				o_b2 = string.lower( b2:GetName() )
 			end
 
@@ -1254,32 +1258,31 @@ function SW.SetGroundTextures()
 
 			-- SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 , o_dtp }
 			SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 }
-
 		end
 
-		if v[3] then
+		-- if v[3] then
 
-			local replacement = string.lower( v[3] )
-			local m_replacement = Material( replacement )
+			-- local replacement = string.lower( v[3] )
+			-- local m_replacement = Material( replacement )
 
-			if m_replacement:IsError() then return end
+			-- if m_replacement:IsError() then return end
 
-			if v[2] == 1 then
+			-- if v[2] == 1 then
 
-				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
+				-- m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
 
-			elseif v[2] == 2 then
+			-- elseif v[2] == 2 then
 
-				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
+				-- m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
 
-			else
+			-- else
 
-				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
-				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
+				-- m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
+				-- m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
 
-			end
+			-- end
 
-		else
+		-- else
 
 			-- if v[2] == 3 then
 
@@ -1293,28 +1296,67 @@ function SW.SetGroundTextures()
 
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+				-- m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			elseif v[2] == 2 then
 
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
-				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+				-- m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			else
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+				-- m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
 
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
-				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+				-- m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
 
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			end
 
-		end
+			-- de_train has SPECIAL gravel!
+			if string.lower( game.GetMap() ) == "de_train" then
+
+				local materialSwap = {
+					"de_train/blendgraveldirt001a",
+				}
+
+				for k , v in pairs( materialSwap ) do
+
+					v = string.lower( v )
+
+					local m = Material( v )
+
+					if( !SW.TextureResets[v] ) then
+						local t1 = m:GetTexture( "$basetexture" )
+						local t2 = m:GetTexture( "$basetexture2" )
+
+						local m1, m2
+						if( t1 and t1 != "" ) then
+							m1 = string.lower( t1:GetName() )
+						end
+
+						if( t2 and t2 != "" ) then
+							m2 = string.lower( t2:GetName() )
+						end
+
+						SW.TextureResets[v] = { m1, m2 }
+
+					end
+
+					m:SetTexture( "$basetexture", SW.SnowSettings[1] )
+					-- m:SetTexture( "$surfaceprop", SW.SnowSettings[3] )
+
+					materialSwap = {}
+
+				end
+
+			end
+
+		-- end
 
 	end
 
@@ -1334,7 +1376,7 @@ function SW.PlayerFootstep( ply, pos, foot, sound, vol, filt )
 
 		if( tr.Hit and tr.HitWorld ) then
 
-			if( tr.HitTexture == "**displacement**" or table.HasValue( SW.GroundTextures, string.lower( tr.HitTexture ) ) ) then
+			if( tr.HitTexture == "**displacement**" or table.HasValue( SW.SnowTextureSettings, string.lower( tr.HitTexture ) ) ) then
 
 				ply:EmitSound( Sound( "player/footsteps/snow" .. math.random( 1, 6 ) .. ".wav" ) )
 				return true

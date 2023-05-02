@@ -67,7 +67,7 @@ function SW.SetWeather( s )
 
 	SW.WeatherMode = s
 	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
-	SW.ResetGroundTextures()
+	SW.ResetSnowTextureSettings()
 
 	---------------------------------------------
 	---------------------------------------------
@@ -96,7 +96,7 @@ function SW.SetWeather( s )
 
 		end
 
-		SW.ResetGroundTextures()
+		SW.ResetSnowTextureSettings()
 	end
 
 	-- Run the env_wind scaling
@@ -231,7 +231,7 @@ hook.Add( "PostCleanupMap" , "SWCleanupReset" , function()
 
 	SW.SetWeather("")
 
-	SW.ResetGroundTextures()
+	SW.ResetSnowTextureSettings()
 
 end)
 
@@ -417,7 +417,7 @@ function SW.PostInitEntity()
 	end
 
 	SW.LoadWeathers()
-	SW.ResetGroundTextures()
+	SW.ResetSnowTextureSettings()
 
 end
 hook.Add( "InitPostEntity", "SW.PostInitEntity", SW.PostInitEntity )
