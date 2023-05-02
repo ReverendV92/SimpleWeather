@@ -67,7 +67,7 @@ function SW.SetWeather( s )
 
 	SW.WeatherMode = s
 	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
-	SW.ResetGroundTextures()
+	SW.ResetSnowTextureSettings()
 
 	---------------------------------------------
 	---------------------------------------------
@@ -96,7 +96,7 @@ function SW.SetWeather( s )
 
 		end
 
-		SW.ResetGroundTextures()
+		SW.ResetSnowTextureSettings()
 	end
 
 	-- Run the env_wind scaling
@@ -184,7 +184,7 @@ function SW.SetWeather( s )
 	end
 
 	-- AND IN WITH THE NEW
-	if SW.GetCurrentWeather().ParticleSystem then
+	if SW.GetCurrentWeather().ParticleSystem and GetConVarNumber("sw_func_particle_type") == 1 then
 
 		SW.ParticleSys = ents.Create( "info_particle_system" )
 
@@ -231,7 +231,7 @@ hook.Add( "PostCleanupMap" , "SWCleanupReset" , function()
 
 	SW.SetWeather("")
 
-	SW.ResetGroundTextures()
+	SW.ResetSnowTextureSettings()
 
 end)
 
@@ -304,7 +304,7 @@ function SW.Think()
 			-- trace.start = v:EyePos()
 			trace.start = v:GetPos() + v:GetForward() * math.random( -8192 , 8192 ) + v:GetRight() * math.random( -8192 , 8192 )
 			trace.endpos = trace.start + Vector( 0, 0, 32768 )
-			trace.mask = MASK_SOLID -- MASK_PLAYERSOLID_BRUSHONLY
+			trace.mask = MASK_VISIBLE
 			local tr = util.TraceLine( trace )
 
 			if tr.HitSky or tr.HitNoDraw or GetConVarNumber("sw_weather_alwaysoutside") == 1 then
@@ -406,6 +406,9 @@ hook.Add( "Initialize", "SW.Initialize", SW.Initialize )
 
 function SW.PostInitEntity()
 
+	SW.raincount = ents.FindByClass( "func_precipitation" )
+	print(SW.raincount)
+
 	if GetConVarNumber("sw_func_precip") != 0 then
 		SW.FuncPrecip = ents.FindByClass( "func_precipitation" )
 		for k , v in pairs( SW.FuncPrecip ) do
@@ -414,7 +417,7 @@ function SW.PostInitEntity()
 	end
 
 	SW.LoadWeathers()
-	SW.ResetGroundTextures()
+	SW.ResetSnowTextureSettings()
 
 end
 hook.Add( "InitPostEntity", "SW.PostInitEntity", SW.PostInitEntity )
@@ -477,7 +480,7 @@ function meta:IsOutside()
 	local trace = { }
 	trace.start = self:EyePos()
 	trace.endpos = trace.start + Vector( 0, 0, 32768 )
-	trace.mask = MASK_VISIBLE -- MASK_SOLID
+	trace.mask = MASK_VISIBLE
 	local tr = util.TraceLine( trace )
 	
 	if( tr.StartSolid ) then return false end
