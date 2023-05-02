@@ -1885,6 +1885,7 @@ function SW.DisplacementFixes()
 
 	-- end
 
+	-- Watch out! You're gonna invert the blend textures! Ah!
 	if string.lower( game.GetMap() ) == "ep2_outland_07" then
 
 		local materialSwap = {
@@ -1910,7 +1911,9 @@ function SW.DisplacementFixes()
 			end
 
 			m:SetTexture( "$basetexture", "nature/gravelfloor002a" )
+			m:SetTexture( "$surfaceprop", "gravel" )
 			m:SetTexture( "$basetexture2", "nature/forest_grass_01" )
+			m:SetTexture( "$surfaceprop2", "grass" )
 
 			materialSwap = {}
 

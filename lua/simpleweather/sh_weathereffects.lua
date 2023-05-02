@@ -893,6 +893,9 @@ SW.GroundTextures = {
 	{ "ajacks/ajacks_grass-sand01" , 1 },
 	{ "ajacks/ajacks_grass01" , 1 },
 
+	{ "blend/blend_conf_dirtgrass" , 2 },
+	{ "blend/blend_conf_acliffgrass" , 2 },
+
 	{ "cs_havana/ground01grass" , 1 },
 	{ "cs_havana/groundd01" , 1 },
 	{ "customtext/gc textures/blends/grass_dirt_blend04" , 1 },
@@ -1167,12 +1170,12 @@ SW.GroundTextures = {
 	-- { "apehouse/mountain_blend" , 0 , "xmas_apehouse/snow_mountain_blend" }, -- gm_apehouse
 
 	-- Things to hide
-	{ "models/cliffs/ferns01" , 3 },
-	{ "models/props_foliage/bush" , 3 },
-	{ "models/props_foliage/grass_clusters" , 3 },
-	{ "models/props_foliage/grass3" , 3 },
-	{ "models/props_foliage/rocks_vegetation" , 3 },
-	{ "models/props_forest/fern01" , 3 },
+	-- { "models/cliffs/ferns01" , 3 },
+	-- { "models/props_foliage/bush" , 3 },
+	-- { "models/props_foliage/grass_clusters" , 3 },
+	-- { "models/props_foliage/grass3" , 3 },
+	-- { "models/props_foliage/rocks_vegetation" , 3 },
+	-- { "models/props_forest/fern01" , 3 },
 
 }
 
@@ -1222,9 +1225,10 @@ function SW.SetGroundTextures()
 			local t2 = m:GetTexture( "$basetexture2" )
 			local b1 = m:GetTexture( "$bumpmap" )
 			local b2 = m:GetTexture( "$bumpmap2" )
-			local dtp = m:GetTexture( "%detailtype" )
+			-- local dtp = m:GetTexture( "%detailtype" )
 
-			local o_t1, o_t2, o_b1, o_b2, o_dtp
+			-- local o_t1, o_t2, o_b1, o_b2, o_dtp
+			local o_t1, o_t2, o_b1, o_b2
 
 			if( t1 and t1 != "" ) then
 				o_t1 = string.lower( t1:GetName() )
@@ -1244,11 +1248,12 @@ function SW.SetGroundTextures()
 
 			-- todo: can detailprops even be hard-removed at runtime?
 			-- use cl_detaildist as a backup?
-			if( dtp and dtp != "" ) then
-				o_dtp = string.lower( dtp:GetName() )
-			end
+			-- if( dtp and dtp != "" ) then
+				-- o_dtp = string.lower( dtp:GetName() )
+			-- end
 
-			SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 , o_dtp }
+			-- SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 , o_dtp }
+			SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 }
 
 		end
 
@@ -1276,14 +1281,15 @@ function SW.SetGroundTextures()
 
 		else
 
-			if v[2] == 3 then
+			-- if v[2] == 3 then
 
 				--todo: figure out how this syntax works
 				-- https://wiki.facepunch.com/gmod/IMaterial
 				-- https://wiki.facepunch.com/gmod/Material_Flags
-				m:SetInt( "4" )
+				-- m:SetInt( "4" )
 
-			elseif v[2] == 1 then
+			-- elseif v[2] == 1 then
+			if v[2] == 1 then
 
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
@@ -1307,44 +1313,6 @@ function SW.SetGroundTextures()
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			end
-
-		end
-
-	end
-
-	if string.lower( game.GetMap() ) == "de_train" then
-
-		local materialSwap = {
-			"de_train/blendgraveldirt001a",
-		}
-
-		for k, v in pairs( materialSwap ) do
-
-			v = string.lower( v )
-
-			local m = Material( v )
-
-			if( !SW.TextureResets[v] ) then
-				local t1 = m:GetTexture( "$basetexture" )
-				local t2 = m:GetTexture( "$basetexture2" )
-
-				local m1, m2
-				if( t1 and t1 != "" ) then
-					m1 = string.lower( t1:GetName() )
-				end
-
-				if( t2 and t2 != "" ) then
-					m2 = string.lower( t2:GetName() )
-				end
-
-				SW.TextureResets[v] = { m1, m2 }
-
-			end
-
-			m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-			-- m:SetTexture( "$basetexture2", m2 )
-
-			materialSwap = {}
 
 		end
 
