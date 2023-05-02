@@ -262,7 +262,7 @@ function ENT:PhysicsCollide( data, phys )
 
 		local craterENT = ents.Create("prop_dynamic")
 		craterENT:SetPos( tr.HitPos )
-		craterENT:SetModel( Model("models/v92/props_weather/crater.mdl") )
+		craterENT:SetModel( Model("models/simpleweather/crater.mdl") )
 		craterENT:SetColor( Color( 75 , 75 , 75 ) )
 		craterENT:DrawShadow( false )
 		craterENT:Spawn()
