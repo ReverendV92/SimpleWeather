@@ -40,6 +40,8 @@ Simple Weather (SW) is an add-on for GMod that was formerly a paid mod and later
 ### Credit Where It's Due
 * [disseminate](https://steamcommunity.com/profiles/76561197994984598) - SimpleWeather
 * [V92](https://steamcommunity.com/profiles/76561197998218505) - Updates & Re-Writes
+* [TopHATTWaffle](https://www.tophattwaffle.com/) - Real World Texture Packs
+* Norway174 - Help with server-side menu fixes
 
 ### Other Versions
 
