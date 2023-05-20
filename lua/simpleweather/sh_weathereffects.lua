@@ -1161,7 +1161,10 @@ SW.SnowTextureSettings = {
 	-- Unique replacements
 	{ "models/props_foliage/arbre01" , 1 , "models/props_foliage/arbre01_snow" },
 	{ "models/props_foliage_gs/arbre01" , 1 , "models/props_foliage/arbre01_snow" },
+	{ "models/fork/tree_pine04_lowdetail_cluster" , 1 , "models/props_foliage/arbre01_snow" },
 	{ "models/fork_gs/tree_pine04_lowdetail_cluster" , 1 , "models/props_foliage/arbre01_snow" },
+	-- { "models/fork/tree_pine04_lowdetail_cluster_card" , 1 , "models/props_foliage/tree_pine_cards_01_snow" }, -- needs custom texture
+	-- { "models/fork_gs/tree_pine04_lowdetail_cluster_card" , 1 , "models/props_foliage/tree_pine_cards_01_snow" }, -- needs custom texture
 	{ "models/props_foliage/arbre01_b" , 1 , "models/props_foliage/arbre01_b_snow" },
 	{ "models/props_foliage/hedge_128" , 1 , "models/props_foliage/hedgesnow_128" },
 	{ "models/props_foliage_gs/hedge_128" , 1 , "models/props_foliage/hedgesnow_128" },
