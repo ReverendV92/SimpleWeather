@@ -131,6 +131,10 @@ function SW.SetWeather( s )
 		for k , v in pairs( ents.FindByModel( "models/props_lab/citizenradio.mdl" ) ) do
 			table.insert( RadioModelTable , v )
 		end
+		-- Find the HL2 speakers
+		for k , v in pairs( ents.FindByModel( "models/props_wasteland/speakercluster01a.mdl" ) ) do
+			table.insert( RadioModelTable , v )
+		end
 
 		-- Find the CS_Office radio
 		for k , v in pairs( ents.FindByModel( "models/props/cs_office/radio.mdl" ) ) do
@@ -155,6 +159,10 @@ function SW.SetWeather( s )
 			table.insert( RadioModelTable , v )
 		end
 		for k , v in pairs( ents.FindByModel( "models/generic/radio.mdl" ) ) do
+			table.insert( RadioModelTable , v )
+		end
+
+		for k , v in pairs( ents.FindByModel( "models/props_generic/loudspeaker.mdl" ) ) do
 			table.insert( RadioModelTable , v )
 		end
 
