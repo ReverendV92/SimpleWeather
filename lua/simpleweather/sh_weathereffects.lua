@@ -1242,11 +1242,11 @@ function SW.SetSnowTextureSettings()
 				o_t2 = string.lower( t2:GetName() )
 			end
 
-			if b1 and b1 != "" then
+			if IsValid( b1 ) and b1 != "" then
 				o_b1 = string.lower( b1:GetName() )
 			end
 
-			if b2 and b2 != ""  then
+			if IsValid( b2 ) and b2 != ""  then
 				o_b2 = string.lower( b2:GetName() )
 			end
 
@@ -1296,22 +1296,22 @@ function SW.SetSnowTextureSettings()
 
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+				-- m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			elseif v[2] == 2 then
 
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
-				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+				-- m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			else
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+				-- m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
 
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
-				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+				-- m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
 
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
