@@ -1894,28 +1894,30 @@ function SW.DisplacementFixes()
 
 		for k , v in pairs( materialSwap ) do
 
-			v = string.lower( v )
+			v = string.lower( v );
 
-			local m = Material( v )
+			local m = Material( v );
 
-			local t1 = m:GetTexture( "$basetexture" )
-			local t2 = m:GetTexture( "$basetexture2" )
+			if( !SW.TextureResets[v] ) then
+				local t1 = m:GetTexture( "$basetexture" );
+				local t2 = m:GetTexture( "$basetexture2" );
 
-			local m1, m2;
-			if( t1 and t1 != "" ) then
-				m1 = string.lower( t1:GetName() )
-			end
+				local m1, m2;
+				if( t1 and t1 != "" ) then
+					m1 = string.lower( t1:GetName() );
+				end
 
-			if( t2 and t2 != "" ) then
-				m2 = string.lower( t2:GetName() )
+				if( t2 and t2 != "" ) then
+					m2 = string.lower( t2:GetName() );
+				end
+
+				SW.TextureResets[v] = { m1, m2 };
 			end
 
 			m:SetTexture( "$basetexture", "nature/gravelfloor002a" )
 			m:SetTexture( "$surfaceprop", "gravel" )
 			m:SetTexture( "$basetexture2", "nature/forest_grass_01" )
 			m:SetTexture( "$surfaceprop2", "grass" )
-
-			materialSwap = {}
 
 		end
 

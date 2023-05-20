@@ -886,8 +886,6 @@ end
 -- 3: material to replace with
 ------------------------------------------------------------
 SW.SnowTextureSettings = {
-	-- "cs_assault/pavement001a",
-	-- "de_chateau/bush01a",
 
 	{ "ajacks/ajacks_grass-dirt01" , 1 },
 	{ "ajacks/ajacks_grass-sand01" , 1 },
@@ -896,6 +894,7 @@ SW.SnowTextureSettings = {
 	{ "blend/blend_conf_dirtgrass" , 2 },
 	{ "blend/blend_conf_acliffgrass" , 2 },
 
+	-- { "cs_assault/pavement001a" , 1 },
 	{ "cs_havana/ground01grass" , 1 },
 	{ "cs_havana/groundd01" , 1 },
 	{ "customtext/gc textures/blends/grass_dirt_blend04" , 1 },
@@ -904,6 +903,7 @@ SW.SnowTextureSettings = {
 	{ "de_cbble/grassdirt_blend" , 1 },
 	{ "de_cbble/grassfloor01" , 1 },
 	{ "de_chateau/brusha" , 1 },
+	-- { "de_chateau/bush01a" , 3 },
 	{ "de_chateau/groundd" , 1 },
 	{ "de_chateau/groundd_blend" , 1 },
 	{ "de_chateau/groundl" , 1 },
@@ -1073,7 +1073,7 @@ SW.SnowTextureSettings = {
 	{ "nature/argentan_blendgrassdirt_cheap" , 1 },
 	{ "nature/argentan_skygrasstrees" , 1 },
 	{ "nature/blendgrassgrass001a" , 0 },
-	{ "nature/blendgrassgravel01" , 0 },
+	{ "nature/blendgrassgravel01" , 0 }, -- doesn't reset correctly for some fucking reason
 	{ "nature/blendgravelgravel01" , 0 },
 	{ "nature/blendmilground008_2" , 0 },
 	{ "nature/blendmilground008_2_plants" , 0 },
@@ -1114,7 +1114,7 @@ SW.SnowTextureSettings = {
 	{ "nature/blenddirtgravel01" , 2 },
 	{ "nature/blendgrassgravel001c" , 2 },
 	{ "nature/blendgrassgravel003a" , 2 },
-	{ "nature/blendgravelgravel02b" , 2 },
+	{ "nature/blendgravelgravel02b" , 2 }, -- doesn't reset correctly for some fucking reason
 	{ "nature/blendmilground004_2" , 2 },
 	{ "nature/blendmilground005_2" , 2 },
 	{ "nature/blendmilground011_2" , 2 },
@@ -1231,22 +1231,22 @@ function SW.SetSnowTextureSettings()
 			local b2 = m:GetTexture( "$bumpmap2" )
 			-- local dtp = m:GetTexture( "%detailtype" )
 
-			-- local o_t1, o_t2, o_b1, o_b2, o_dtp
 			local o_t1, o_t2, o_b1, o_b2
+			-- local o_t1, o_t2, o_b1, o_b2, o_dtp
 
 			if t1 and t1 != "" then
 				o_t1 = string.lower( t1:GetName() )
 			end
 
-			if IsValid( t2 ) and t2 != "" then
+			if t2 and t2 != "" then
 				o_t2 = string.lower( t2:GetName() )
 			end
 
-			if IsValid( b1 ) and b1 != "" then
+			if b1 and b1 != "" then
 				o_b1 = string.lower( b1:GetName() )
 			end
 
-			if IsValid( b2 ) and b2 != ""  then
+			if b2 and b2 != ""  then
 				o_b2 = string.lower( b2:GetName() )
 			end
 
@@ -1256,33 +1256,33 @@ function SW.SetSnowTextureSettings()
 				-- o_dtp = string.lower( dtp:GetName() )
 			-- end
 
-			-- SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 , o_dtp }
 			SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 }
+			-- SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 , o_dtp }
 		end
 
-		-- if v[3] then
+		if v[3] then
 
-			-- local replacement = string.lower( v[3] )
-			-- local m_replacement = Material( replacement )
+			local replacement = string.lower( v[3] )
+			local m_replacement = Material( replacement )
 
-			-- if m_replacement:IsError() then return end
+			if m_replacement:IsError() then return end
 
-			-- if v[2] == 1 then
+			if v[2] == 1 then
 
-				-- m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
+				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
 
-			-- elseif v[2] == 2 then
+			elseif v[2] == 2 then
 
-				-- m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
+				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
 
-			-- else
+			else
 
-				-- m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
-				-- m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
+				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
+				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
 
-			-- end
+			end
 
-		-- else
+		else
 
 			-- if v[2] == 3 then
 
@@ -1296,22 +1296,22 @@ function SW.SetSnowTextureSettings()
 
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-				-- m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			elseif v[2] == 2 then
 
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
-				-- m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			else
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-				-- m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
 
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
-				-- m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
 
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
@@ -1356,7 +1356,7 @@ function SW.SetSnowTextureSettings()
 
 			end
 
-		-- end
+		end
 
 	end
 
