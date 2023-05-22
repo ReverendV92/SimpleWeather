@@ -550,7 +550,9 @@ if CLIENT then
 						["sw_func_fog"] = "1" ,
 						["sw_func_wind"] = "1" ,
 						["sw_func_precip"] = "1" ,
+						["sw_func_textures"] = "1" ,
 						["sw_func_maplogic"] = "1" ,
+						["sw_weather_eas"] = "1" ,
 
 					},
 
@@ -563,7 +565,9 @@ if CLIENT then
 						["sw_func_fog"] = "0" ,
 						["sw_func_wind"] = "0" ,
 						["sw_func_precip"] = "0" ,
+						["sw_func_textures"] = "0" ,
 						["sw_func_maplogic"] = "0" ,
+						["sw_weather_eas"] = "0" ,
 
 					}
 
