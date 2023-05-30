@@ -2,7 +2,7 @@
 vertexlitgeneric
 {
 	
-	$basetexture models/props_foliage/tree_pine_snows_01
+	$basetexture models/props_foliage/tree_pine_cards_01_snow
 	// $alphatest 1
 	$translucent 1
 	$nocull 1
