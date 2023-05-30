@@ -1018,6 +1018,7 @@ SW.SnowTextureSettings = {
 	{ "maps/dod_jagd/stone/blendstonedirt001a_336_-1824_-336" , 2 },
 	{ "maps/dod_jagd/stone/blendstonedirt001a_1656_-1120_-288" , 2 },
 	{ "maps/gm_apehouse_summer_day/nature/blendgrassdirt01_wvt_patch" , 1 },
+	-- { "maps/gm_iremia/nature/blendgrassdirt02_noprop_wvt_patch" , 0 },
 	{ "maps/gs_camp_killpact_v1/freespace/terrain/freespace_grassdirtblend01_wvt_patch" , 1 },
 	{ "maps/gs_camp_killpact_v1/freespace/terrain/freespace_grassrockblend01_wvt_patch" , 1 },
 	{ "maps/karam/blend_grass_road" , 1 },
@@ -1073,7 +1074,7 @@ SW.SnowTextureSettings = {
 	{ "nature/argentan_blendgrassdirt_cheap" , 1 },
 	{ "nature/argentan_skygrasstrees" , 1 },
 	{ "nature/blendgrassgrass001a" , 0 },
-	{ "nature/blendgrassgravel01" , 0 }, -- doesn't reset correctly for some fucking reason
+	{ "nature/blendgrassgravel01" , 0 },
 	{ "nature/blendgravelgravel01" , 0 },
 	{ "nature/blendmilground008_2" , 0 },
 	{ "nature/blendmilground008_2_plants" , 0 },
@@ -1114,7 +1115,7 @@ SW.SnowTextureSettings = {
 	{ "nature/blenddirtgravel01" , 2 },
 	{ "nature/blendgrassgravel001c" , 2 },
 	{ "nature/blendgrassgravel003a" , 2 },
-	{ "nature/blendgravelgravel02b" , 2 }, -- doesn't reset correctly for some fucking reason
+	{ "nature/blendgravelgravel02b" , 2 },
 	{ "nature/blendmilground004_2" , 2 },
 	{ "nature/blendmilground005_2" , 2 },
 	{ "nature/blendmilground011_2" , 2 },
@@ -1268,19 +1269,21 @@ function SW.SetSnowTextureSettings()
 			local replacement = string.lower( v[3] )
 			local m_replacement = Material( replacement )
 
-			if m_replacement:IsError() then return end
-
 			if v[2] == 1 then
 
+				if ( m_replacement:GetTexture( "$basetexture" ) == nil ) then print( "[SW] Snow Replacement $basetexture: " .. tostring( m_replacement ) .. " is not valid." ) return end
 				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
 
 			elseif v[2] == 2 then
 
+				if ( m_replacement:GetTexture( "$basetexture2" ) == nil ) then print( "[SW] Snow Replacement $basetexture2: " .. tostring( m_replacement ) .. " is not valid." ) return end
 				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
 
 			else
 
+				if ( m_replacement:GetTexture( "$basetexture" ) == nil ) then print( "[SW] Snow Replacement $basetexture: " .. tostring( m_replacement ) .. " is not valid." ) return end
 				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
+				if ( m_replacement:GetTexture( "$basetexture2" ) == nil ) then print( "[SW] Snow Replacement $basetexture2: " .. tostring( m_replacement ) .. " is not valid." ) return end
 				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
 
 			end
@@ -1299,22 +1302,22 @@ function SW.SetSnowTextureSettings()
 
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-				-- m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			elseif v[2] == 2 then
 
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
-				-- m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
 			else
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-				-- m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
+				m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
 
 				m:SetTexture( "$basetexture2", SW.SnowSettings[1] )
-				-- m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
+				m:SetTexture( "$bumpmap2", SW.SnowSettings[2] )
 
 				-- m:SetTexture( "%detailtype", SW.SnowSettings[4] )
 
