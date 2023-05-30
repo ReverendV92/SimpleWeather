@@ -1018,7 +1018,7 @@ SW.SnowTextureSettings = {
 	{ "maps/dod_jagd/stone/blendstonedirt001a_336_-1824_-336" , 2 },
 	{ "maps/dod_jagd/stone/blendstonedirt001a_1656_-1120_-288" , 2 },
 	{ "maps/gm_apehouse_summer_day/nature/blendgrassdirt01_wvt_patch" , 1 },
-	-- { "maps/gm_iremia/nature/blendgrassdirt02_noprop_wvt_patch" , 0 },
+	{ "maps/gm_iremia/nature/blendgrassdirt02_noprop_wvt_patch" , 0 },
 	{ "maps/gs_camp_killpact_v1/freespace/terrain/freespace_grassdirtblend01_wvt_patch" , 1 },
 	{ "maps/gs_camp_killpact_v1/freespace/terrain/freespace_grassrockblend01_wvt_patch" , 1 },
 	{ "maps/karam/blend_grass_road" , 1 },
