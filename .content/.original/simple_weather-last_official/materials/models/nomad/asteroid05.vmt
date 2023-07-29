@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+
+	 $basetexture "models/nomad/asteroid05_diffuse"
+	 $bumpmap "models/nomad/asteroid05_normal"
+
+	"$halflambert" "1"
+
+	"$phong" "1"
+	"$BasemapAlphaPhongMask" "0"
+	"$phongexponenttexture" "models/nomad/asteroid05_specular"
+	"$phongexponent" 100
+	"$phongboost" ".02s"
+	"$phongfresnelranges"	"[ .7 1.2 5]"
+}

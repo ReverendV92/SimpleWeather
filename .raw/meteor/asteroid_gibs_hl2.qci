@@ -1,0 +1,43 @@
+
+$keyvalues { "prop_data" { "base" "Stone.Huge" "health" "512"} }
+
+$collisiontext
+{
+
+	break 
+	{
+		"model" "models/props_wasteland/rockgranite02a.mdl"
+		"health" "100"
+		"fadetime" "10"
+		"burst" "100"
+		offset -10 0 -10
+	}
+
+	break 
+	{
+		"model" "models/props_wasteland/rockgranite02b.mdl"
+		"health" "100"
+		"fadetime" "10"
+		"burst" "100"
+		offset -10 20 10
+	}
+
+	break 
+	{
+		"model" "models/props_wasteland/rockgranite02c.mdl"
+		"health" "100"
+		"fadetime" "10"
+		"burst" "100"
+		offset 10 -20 -10
+	}
+
+	break 
+	{
+		"model" "models/props_wasteland/rockgranite03a.mdl"
+		"health" "100"
+		"fadetime" "10"
+		"burst" "100"
+		offset 10 0 10
+	}
+
+}

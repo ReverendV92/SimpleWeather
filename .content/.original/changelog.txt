@@ -1,0 +1,50 @@
+1.36 (WIP)
+---
+- SW.StaticTime config value
+- SW.StaticPropLighting config value
+
+1.35
+---
+- Fixed raindrops on screen
+
+1.34
+---
+- Added OnHour hook
+- ServerGuard support
+- Fixed some Maestro issues
+- Added SW.Clock24 to config
+
+1.33
+---
+- Added hooks for developers: WeatherDay and WeatherNight (called when day begins or ends respectively)
+- Changed client command back to !weatheroptions
+- Fixed !weatheroptions (maybe)
+
+1.32
+---
+- Fixed "local s" error
+
+1.31
+---
+- Added sandstorm weather (basically blizzard, but had some requests)
+
+1.30
+---
+- Support for rp_evocity2_v5p
+
+1.29
+---
+- Support for rp_evocity_v4b1
+
+1.28
+---
+- Added SW.VehicleRaindrops
+- Changed some ULX permission stuff - check the top of simpleweather/lua/ulx/modules/sh/weather.lua to change ULX permission level
+- Changed default client config command to /weatheroptions - if you had problems running it see if this fixes it
+
+1.27
+---
+- Fixed fog indoors
+- Support for rp_evocity_v33x
+- Added "Play Sounds" option in clientside config menu
+- Support for rp_harbor2ocean_catalyst2_v3

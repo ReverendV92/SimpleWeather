@@ -1,0 +1,22 @@
+
+vertexlitgeneric
+{
+
+	$basetexture models/simpleweather/meteor/asteroid03_d
+	$bumpmap models/simpleweather/meteor/asteroid03_b
+	$lightwarptexture dev/identitylightwarp
+
+	$halflambert 1
+	$ambientocclusion 1
+
+	$phong 1
+	$phongboost 0.2
+	$phongfresnelranges "[ 0.7 1.2 5 ]"
+	$phongtint "[ 0.1 0.1 0.1 ]"
+
+	$detail detail/rock_detail_01
+	$detailscale 2
+	$detailblendfactor 0.9
+	$detailblendmode 0
+
+}

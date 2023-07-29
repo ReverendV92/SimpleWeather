@@ -1,0 +1,10 @@
+
+lightmappedgeneric
+{
+
+	$basetexture simpleweather/textures/snow_0_01
+	$bumpmap simpleweather/textures/snow_0_01_normal
+
+	$surfaceprop snow
+
+}
