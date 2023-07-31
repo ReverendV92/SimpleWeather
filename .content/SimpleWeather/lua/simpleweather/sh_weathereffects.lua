@@ -46,6 +46,7 @@ hook.Add( "PhysgunPickup", "SW.PhysgunPickup", SWPhysgunPickup )
 CreateConVar( "sw_acidrain_particle_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain use PCF (1) or Lua effects (0)?" , "0" , "1" )
 CreateConVar( "sw_acidrain_dmg_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage?" , "0" , "1" )
 CreateConVar( "sw_acidrain_dmg_prop_toggle" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage to props?" , "0" , "1" )
+CreateConVar( "sw_acidrain_dmg_npc_toggle" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage to NPCs?" , "0" , "1" )
 CreateConVar( "sw_acidrain_dmg_amount" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of damage acid rain does." , "1" , "100" )
 CreateConVar( "sw_acidrain_dmg_delay" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between acid rain damage." , "1" , "30" )
 
@@ -98,15 +99,15 @@ function SW.AcidRainThink()
 
 			if CurTime() >= DamageTarget.NextHit then
 
-				if ( DamageTarget:IsPlayer() and not DamageTarget:Alive() ) or not ( DamageTarget:IsOutside() or DamageTarget:InVehicle() ) then
+				DamageTarget.NextHit = CurTime() + GetConVarNumber("sw_acidrain_dmg_delay")
+
+				if ( DamageTarget:IsPlayer() and not ( DamageTarget:Alive() or DamageTarget:InVehicle() ) ) or !DamageTarget:IsOutside() then
 
 					return
 
 				end
 
-				DamageTarget.NextHit = CurTime() + GetConVarNumber("sw_acidrain_dmg_delay")
-
-				if DamageTarget:IsPlayer() or DamageTarget:IsNPC() then
+				if DamageTarget:IsPlayer() or ( DamageTarget:IsNPC() and GetConVarNumber( "sw_acidrain_dmg_npc_toggle" ) != 0 ) then
 
 					DamageTarget:EmitSound( "player/pl_burnpain" .. math.random( 1 , 3 ) .. ".wav", 75, math.random( 90 , 110 ) , 0.3 )
 
@@ -116,7 +117,6 @@ function SW.AcidRainThink()
 					AcidRainDMG:SetDamage( GetConVarNumber("sw_acidrain_dmg_amount") )
 					AcidRainDMG:SetDamageForce( Vector() )
 					AcidRainDMG:SetDamageType( DMG_ACID )
-
 					DamageTarget:TakeDamageInfo( AcidRainDMG )
 
 				end
@@ -128,6 +128,8 @@ function SW.AcidRainThink()
 					DamageTarget:TakeDamage( GetConVarNumber("sw_acidrain_dmg_amount") , game.GetWorld() , game.GetWorld() )
 
 				end
+
+print("damage target: " .. DamageTarget:GetClass())
 
 			end
 			
