@@ -61,23 +61,49 @@ function SW.AcidRainThink()
 	
 	if SERVER and GetConVarNumber("sw_acidrain_dmg_toggle") != 0 then
 
-		for _ , AcidRainTarget in pairs( player.GetAll() ) do
+		local AcidRainTarget = {}
 
-			if not ( AcidRainTarget:Alive() or AcidRainTarget:IsOutside() ) then
+		-- for k , v in pairs( ents.FindByClass( "prop_*" ) ) do
+
+			-- table.insert( AcidRainTarget , v )
+
+		-- end
+
+		for k , v in pairs( ents.FindByClass( "npc_*" ) ) do
+
+			table.insert( AcidRainTarget , v )
+
+		end
+
+		for k , v in pairs( ents.FindByClass( "monster_*" ) ) do
+
+			table.insert( AcidRainTarget , v )
+
+		end
+
+		for k , v in pairs( player.GetAll() ) do
+
+			table.insert( AcidRainTarget , v )
+
+		end
+
+		for _ , DamageTarget in pairs( AcidRainTarget ) do
+
+			if DamageTarget:IsPlayer() and ( not ( DamageTarget:Alive() or DamageTarget:IsOutside() ) ) then
 
 				return
 
 			end
 
-			if !AcidRainTarget.NextHit then
+			if !DamageTarget.NextHit then
 
-				AcidRainTarget.NextHit = 0
+				DamageTarget.NextHit = 0
 
 			end
 
-			if CurTime() >= AcidRainTarget.NextHit then
+			if CurTime() >= DamageTarget.NextHit then
 
-				AcidRainTarget.NextHit = CurTime() + GetConVarNumber("sw_acidrain_dmg_delay")
+				DamageTarget.NextHit = CurTime() + GetConVarNumber("sw_acidrain_dmg_delay")
 
 				local AcidRainDMG = DamageInfo()
 				AcidRainDMG:SetAttacker( game.GetWorld() )
@@ -86,9 +112,9 @@ function SW.AcidRainThink()
 				AcidRainDMG:SetDamageForce( Vector() )
 				AcidRainDMG:SetDamageType( DMG_ACID )
 
-				AcidRainTarget:TakeDamageInfo( AcidRainDMG )
+				DamageTarget:TakeDamageInfo( AcidRainDMG )
 
-				AcidRainTarget:EmitSound( "player/pl_burnpain" .. math.random( 1, 3 ) .. ".wav", 75, math.random( 90 , 110 ) , 0.3 )
+				DamageTarget:EmitSound( "player/pl_burnpain" .. math.random( 1 , 3 ) .. ".wav", 75, math.random( 90 , 110 ) , 0.3 )
 
 			end
 			
