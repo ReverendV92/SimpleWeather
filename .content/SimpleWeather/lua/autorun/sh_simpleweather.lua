@@ -1072,12 +1072,14 @@ if CLIENT then
 				["Options"] = {
 					["default"] = {
 						["sw_acidrain_dmg_toggle"] = "1",
+						["sw_acidrain_dmg_npc_toggle"] = "0",
 						["sw_acidrain_dmg_prop_toggle"] = "0",
 						["sw_acidrain_dmg_amount"] = "5",
 						["sw_acidrain_dmg_delay"] = "5",
 					},
 					["hardcore"] = {
 						["sw_acidrain_dmg_toggle"] = "1",
+						["sw_acidrain_dmg_npc_toggle"] = "1",
 						["sw_acidrain_dmg_prop_toggle"] = "1",
 						["sw_acidrain_dmg_amount"] = "15",
 						["sw_acidrain_dmg_delay"] = "2",
@@ -1085,6 +1087,7 @@ if CLIENT then
 				},
 				["CVars"] = {
 					"sw_acidrain_dmg_toggle",
+					"sw_acidrain_dmg_npc_toggle",
 					"sw_acidrain_dmg_prop_toggle",
 					"sw_acidrain_dmg_amount",
 					"sw_acidrain_dmg_delay",
@@ -1094,9 +1097,14 @@ if CLIENT then
 			Panel:AddControl( "button" , { ["Label"] = "Start Acid Rain" , ["Command"] = "sw_weather acidrain" } )
 			Panel:ControlHelp( "Acid Rain.\nOvercast skies. Hampers visibility.\nInflicts DOT due to caustic rain." , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Toggle Damage" , ["Command"] = "sw_acidrain_dmg_toggle" } )
-			SW.CheckBoxNet(Panel, "Toggle Damage", "sw_acidrain_dmg_toggle")
-			Panel:ControlHelp( "Toggle acid rain damage." , {} )
+			SW.CheckBoxNet(Panel, "Toggle Player Damage", "sw_acidrain_dmg_toggle")
+			Panel:ControlHelp( "Toggle acid rain damage to players." , {} )
+			
+			SW.CheckBoxNet(Panel, "Toggle NPC Damage", "sw_acidrain_dmg_npc_toggle")
+			Panel:ControlHelp( "Toggle acid rain damage to NPCs." , {} )
+			
+			SW.CheckBoxNet(Panel, "Toggle Prop Damage", "sw_acidrain_dmg_prop_toggle")
+			Panel:ControlHelp( "Toggle acid rain damage to props." , {} )
 			
 			--Panel:AddControl( "slider" , { ["Label"] = "Damage Amount" , ["Command"] = "sw_acidrain_dmg_amount" , ["Min"] = "1" , ["Max"] = "100" , ["Type"] = "int" } )
 SW.NumSliderNet(Panel, "Damage Amount", "sw_acidrain_dmg_amount", "1", "100", "int")
