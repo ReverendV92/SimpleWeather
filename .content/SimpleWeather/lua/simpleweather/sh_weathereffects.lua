@@ -45,8 +45,9 @@ hook.Add( "PhysgunPickup", "SW.PhysgunPickup", SWPhysgunPickup )
 
 CreateConVar( "sw_acidrain_particle_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain use PCF (1) or Lua effects (0)?" , "0" , "1" )
 CreateConVar( "sw_acidrain_dmg_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage?" , "0" , "1" )
+CreateConVar( "sw_acidrain_dmg_prop_toggle" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage to props?" , "0" , "1" )
 CreateConVar( "sw_acidrain_dmg_amount" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of damage acid rain does." , "1" , "100" )
-CreateConVar( "sw_acidrain_dmg_delay" , "2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between acid rain damage." , "1" , "30" )
+CreateConVar( "sw_acidrain_dmg_delay" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between acid rain damage." , "1" , "30" )
 
 function SW.AcidRainThink()
 
@@ -63,11 +64,11 @@ function SW.AcidRainThink()
 
 		local AcidRainTarget = {}
 
-		-- for k , v in pairs( ents.FindByClass( "prop_*" ) ) do
+		for k , v in pairs( ents.FindByClass( "prop_*" ) ) do
 
-			-- table.insert( AcidRainTarget , v )
+			table.insert( AcidRainTarget , v )
 
-		-- end
+		end
 
 		for k , v in pairs( ents.FindByClass( "npc_*" ) ) do
 
@@ -89,12 +90,6 @@ function SW.AcidRainThink()
 
 		for _ , DamageTarget in pairs( AcidRainTarget ) do
 
-			if DamageTarget:IsPlayer() and ( not ( DamageTarget:Alive() or DamageTarget:IsOutside() ) ) then
-
-				return
-
-			end
-
 			if !DamageTarget.NextHit then
 
 				DamageTarget.NextHit = 0
@@ -103,18 +98,36 @@ function SW.AcidRainThink()
 
 			if CurTime() >= DamageTarget.NextHit then
 
+				if ( DamageTarget:IsPlayer() and not DamageTarget:Alive() ) or not ( DamageTarget:IsOutside() or DamageTarget:InVehicle() ) then
+
+					return
+
+				end
+
 				DamageTarget.NextHit = CurTime() + GetConVarNumber("sw_acidrain_dmg_delay")
 
-				local AcidRainDMG = DamageInfo()
-				AcidRainDMG:SetAttacker( game.GetWorld() )
-				AcidRainDMG:SetInflictor( game.GetWorld() )
-				AcidRainDMG:SetDamage( GetConVarNumber("sw_acidrain_dmg_amount") )
-				AcidRainDMG:SetDamageForce( Vector() )
-				AcidRainDMG:SetDamageType( DMG_ACID )
+				if DamageTarget:IsPlayer() or DamageTarget:IsNPC() then
 
-				DamageTarget:TakeDamageInfo( AcidRainDMG )
+					DamageTarget:EmitSound( "player/pl_burnpain" .. math.random( 1 , 3 ) .. ".wav", 75, math.random( 90 , 110 ) , 0.3 )
 
-				DamageTarget:EmitSound( "player/pl_burnpain" .. math.random( 1 , 3 ) .. ".wav", 75, math.random( 90 , 110 ) , 0.3 )
+					local AcidRainDMG = DamageInfo()
+					AcidRainDMG:SetAttacker( game.GetWorld() )
+					AcidRainDMG:SetInflictor( game.GetWorld() )
+					AcidRainDMG:SetDamage( GetConVarNumber("sw_acidrain_dmg_amount") )
+					AcidRainDMG:SetDamageForce( Vector() )
+					AcidRainDMG:SetDamageType( DMG_ACID )
+
+					DamageTarget:TakeDamageInfo( AcidRainDMG )
+
+				end
+
+				if GetConVarNumber( "sw_acidrain_dmg_prop_toggle" ) != 0 and not ( DamageTarget:IsPlayer() or DamageTarget:IsNPC() ) then
+
+					DamageTarget:EmitSound( "ambient/levels/canals/toxic_slime_sizzle3.wav", 75, math.random( 90 , 110 ) , 0.3 )
+
+					DamageTarget:TakeDamage( GetConVarNumber("sw_acidrain_dmg_amount") , game.GetWorld() , game.GetWorld() )
+
+				end
 
 			end
 			
