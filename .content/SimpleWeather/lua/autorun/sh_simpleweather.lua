@@ -1072,12 +1072,20 @@ if CLIENT then
 				["Options"] = {
 					["default"] = {
 						["sw_acidrain_dmg_toggle"] = "1",
+						["sw_acidrain_dmg_prop_toggle"] = "0",
 						["sw_acidrain_dmg_amount"] = "5",
+						["sw_acidrain_dmg_delay"] = "5",
+					},
+					["hardcore"] = {
+						["sw_acidrain_dmg_toggle"] = "1",
+						["sw_acidrain_dmg_prop_toggle"] = "1",
+						["sw_acidrain_dmg_amount"] = "15",
 						["sw_acidrain_dmg_delay"] = "2",
 					},
 				},
 				["CVars"] = {
 					"sw_acidrain_dmg_toggle",
+					"sw_acidrain_dmg_prop_toggle",
 					"sw_acidrain_dmg_amount",
 					"sw_acidrain_dmg_delay",
 				}
