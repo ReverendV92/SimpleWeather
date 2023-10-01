@@ -436,7 +436,6 @@ if CLIENT then
 
 	end
 
-	-- --Panel:AddControl( "slider" , { ["Label"] = "Min. Before Start" , ["Command"] = "sw_autoweather_minstart" , ["Min"] = "0" , ["Max"] = "8" , ["Type"] = "int" } )
 	function SW.NumSliderNet(_parent, label, convar, min, max, type1, ...)
 		local gconvar = assert(GetConVar(convar), "Unknown ConVar: " .. convar .. "!")
 		local newpanel
