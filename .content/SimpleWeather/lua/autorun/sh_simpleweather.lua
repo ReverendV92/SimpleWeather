@@ -127,6 +127,7 @@ SW.AutoWeatherTypes = {
 	-- "hail" ,
 	-- "lightning" ,
 	-- "meteor" ,
+	"overcast" ,
 	"rain" ,
 	-- "sandstorm" ,
 	-- "smog" ,
@@ -143,7 +144,7 @@ for _, v in pairs( tab ) do
 	include( "simpleweather/weather/" .. v )
 
 	if WEATHER.ConVar then
-		CreateConVar( WEATHER.ConVar[1] , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , WEATHER.ConVar[2] , "0" , "1" )
+		CreateConVar( WEATHER.ConVar[1] , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , WEATHER.ConVar[2] , 0 , 1 )
 	end
 	
 end
@@ -154,30 +155,30 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateConVar( "sw_func_master" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable SimpleWeather mod." , "0" , "1" )
-CreateConVar( "sw_func_lighting" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable map lighting updates.\nTurn this off if the map's a night map already!" , "0" , "1" )
-CreateConVar( "sw_func_sun" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable sun moving through the sky." , "0" , "1" )
-CreateConVar( "sw_func_skybox" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the skybox to change color through the day." , "0" , "1" )
-CreateConVar( "sw_func_fog" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , "0" , "1" )
-CreateConVar( "sw_func_wind" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable wind functions.\nTurn it off if weird stuff happens." , "0" , "1" )
-CreateConVar( "sw_func_precip" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , "0" , "1" )
-CreateConVar( "sw_func_textures" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , "0" , "1" )
-CreateConVar( "sw_func_maplogic" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , "0" , "1" )
-CreateConVar( "sw_func_particle_type" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should weather use PCF (1) or Lua effects (0)? Affects all weather variants. Included for total control, but PCF is recommend for servers." , "0" , "1" )
+CreateConVar( "sw_func_master" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable SimpleWeather mod." , 0 , 1 )
+CreateConVar( "sw_func_lighting" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable map lighting updates.\nTurn this off if the map's a night map already!" , 0 , 1 )
+CreateConVar( "sw_func_sun" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable sun moving through the sky." , 0 , 1 )
+CreateConVar( "sw_func_skybox" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the skybox to change color through the day." , 0 , 1 )
+CreateConVar( "sw_func_fog" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable the fog to change color.\nPrevents weird light fog at night - turn it off if weird stuff happens." , 0 , 1 )
+CreateConVar( "sw_func_wind" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable wind functions.\nTurn it off if weird stuff happens." , 0 , 1 )
+CreateConVar( "sw_func_precip" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , 0 , 1 )
+CreateConVar( "sw_func_textures" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , 0 , 1 )
+CreateConVar( "sw_func_maplogic" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , 0 , 1 )
+CreateConVar( "sw_func_particle_type" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should weather use PCF (1) or Lua effects (0)? Affects all weather variants. Included for total control, but PCF is recommend for servers." , 0 , 1 )
 
-CreateConVar( "sw_autoweather" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , "0" , "1" )
-CreateConVar( "sw_autoweather_minstart" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , "0" , "16" )
-CreateConVar( "sw_autoweather_maxstart" , "3" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Maximum time in hours before weather begins." , "0" , "16" )
-CreateConVar( "sw_autoweather_minstop" , "0.2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather stops." , "0" , "16" )
-CreateConVar( "sw_autoweather_maxstop" , "8" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Maximum time in hours before weather stops." , "0" , "16" )
+CreateConVar( "sw_autoweather" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , 0 , 1 )
+CreateConVar( "sw_autoweather_minstart" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , 0 , 16 )
+CreateConVar( "sw_autoweather_maxstart" , 3 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Maximum time in hours before weather begins." , 0 , 16 )
+CreateConVar( "sw_autoweather_minstop" , 0.2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather stops." , 0 , 16 )
+CreateConVar( "sw_autoweather_maxstop" , 8 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Maximum time in hours before weather stops." , 0 , 16 )
 
-CreateConVar( "sw_weather_eas" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle radio models playing the EAS broadcasting tones when severe weather starts." , "0" , "1" )
-CreateConVar( "sw_weather_alwaysoutside" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should players be considered outside at all times?\n(ie. if you want snow in an indoor map) " , "0" , "1" )
+CreateConVar( "sw_weather_eas" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle radio models playing the EAS broadcasting tones when severe weather starts." , 0 , 1 )
+CreateConVar( "sw_weather_alwaysoutside" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should players be considered outside at all times?\n(ie. if you want snow in an indoor map) " , 0 , 1 )
 
-CreateConVar( "sw_fog_densityday" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Fog max density during the day." , "0" , "1" )
-CreateConVar( "sw_fog_densitynight" , "0.4" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Fog max density during the night." , "0" , "1" )
-CreateConVar( "sw_fog_indoors" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Enable fog when you have a roof over your head." , "0" , "1" )
-CreateConVar( "sw_fog_speed" , "0.01" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Speed at which fog appears and disappears.\nDecrease to make fog changes slower." , "0" , "1" )
+CreateConVar( "sw_fog_densityday" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Fog max density during the day." , 0 , 1 )
+CreateConVar( "sw_fog_densitynight" , 0.4 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Fog max density during the night." , 0 , 1 )
+CreateConVar( "sw_fog_indoors" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Enable fog when you have a roof over your head." , 0 , 1 )
+CreateConVar( "sw_fog_speed" , 0.01 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Speed at which fog appears and disappears.\nDecrease to make fog changes slower." , 0 , 1 )
 
 ----------------------------------------
 ----------------------------------------
@@ -185,22 +186,22 @@ CreateConVar( "sw_fog_speed" , "0.01" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(
 ----------------------------------------
 ----------------------------------------
 
-CreateConVar( "sw_time_pause" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Change the passage of time on or off." , "0" , "1" )
-CreateConVar( "sw_time_start" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Set start time." , "0" , "23" )
-CreateConVar( "sw_time_real" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Set real-time on or off." , "0" , "1" )
-CreateConVar( "sw_time_real_offset" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) If realtime is on, add this many timezones.\nFor example, if the server was GMT and you set this to -5, it'd be EST ingame." , "-12" , "12" )
-CreateConVar( "sw_time_speed_day" , "0.01" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Multiplier of time during the day.\nMake this bigger for time to go faster, and smaller for time to go slower." , "0" , "1" )
-CreateConVar( "sw_time_speed_night" , "0.02" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Multiplier of time during the night.\nMake this bigger for time to go faster, and smaller for time to go slower." , "0" , "1" )
-CreateConVar( "sw_time_speed_stars" , "0.01" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Set the rotation speed of stars" , "0.01" , "5" )
+CreateConVar( "sw_time_pause" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Change the passage of time on or off." , 0 , 1 )
+CreateConVar( "sw_time_start" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Set start time." , 0 , 23 )
+CreateConVar( "sw_time_real" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Set real-time on or off." , 0 , 1 )
+CreateConVar( "sw_time_real_offset" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) If realtime is on, add this many timezones.\nFor example, if the server was GMT and you set this to -5, it'd be EST ingame." , -12 , 12 )
+CreateConVar( "sw_time_speed_day" , 0.01 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Multiplier of time during the day.\nMake this bigger for time to go faster, and smaller for time to go slower." , 0 , 1 )
+CreateConVar( "sw_time_speed_night" , 0.02 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Multiplier of time during the night.\nMake this bigger for time to go faster, and smaller for time to go slower." , 0 , 1 )
+CreateConVar( "sw_time_speed_stars" , 0.01 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Set the rotation speed of stars" , 0.01 , 5 )
 
--- CreateConVar( "sw_time_dawn" , "6" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Dawn." , "0" , "23" )
--- CreateConVar( "sw_time_afternoon" , "12" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Afternoon." , "0" , "23" )
--- CreateConVar( "sw_time_dusk" , "18" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Dusk." , "0" , "23" )
--- CreateConVar( "sw_time_night" , "24" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Night." , "0" , "23" )
+-- CreateConVar( "sw_time_dawn" , 6 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Dawn." , 0 , 23 )
+-- CreateConVar( "sw_time_afternoon" , 12 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Afternoon." , 0 , 23 )
+-- CreateConVar( "sw_time_dusk" , 18 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Dusk." , 0 , 23 )
+-- CreateConVar( "sw_time_night" , 24 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Hour to consider Night." , 0 , 23 )
 
-CreateConVar( "sw_perf_updatedelay_client" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay in seconds between updating the time on the client." , "1" , "60" )
-CreateConVar( "sw_perf_updatedelay_sun" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sun position.\nSetting this to a smaller number will allow smoother sun movement, but doing this also causes lag." , "0" , "15" )
-CreateConVar( "sw_perf_updatedelay_sky" , "0.1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sky colors.\nSetting this to a smaller number will allow smoother transitions, but doing this also causes lag." , "0" , "15" )
+CreateConVar( "sw_perf_updatedelay_client" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay in seconds between updating the time on the client." , 1 , 60 )
+CreateConVar( "sw_perf_updatedelay_sun" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sun position.\nSetting this to a smaller number will allow smoother sun movement, but doing this also causes lag." , 0 , 15 )
+CreateConVar( "sw_perf_updatedelay_sky" , 0.1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sky colors.\nSetting this to a smaller number will allow smoother transitions, but doing this also causes lag." , 0 , 15 )
 
 CreateConVar( "sw_light_max_night" , "b" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(a-z) Maximum darkness level during night.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
 CreateConVar( "sw_light_max_day" , "y" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(a-z) Maximum lightness level at noon on a clear day.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
@@ -214,17 +215,17 @@ if CLIENT then
 	PrecacheParticleSystem("v92_weather_snow")
 	PrecacheParticleSystem("v92_weather_blizzard")
 
-	CreateClientConVar( "sw_cl_weather_toggle", "1" , true , false , "(BOOL) Display client-side weather effects." , "0" , "1" )
+	CreateClientConVar( "sw_cl_weather_toggle", 1 , true , false , "(BOOL) Display client-side weather effects." , 0 , 1 )
 
-	CreateClientConVar( "sw_cl_screenfx", "1" , true , false , "(BOOL) Show screen weather effects." , "0" , "1" )
-	CreateClientConVar( "sw_cl_screenfx_vehicle", "0" , true , false , "(BOOL) Show screen weather effects when in vehicles." , "0" , "1" )
+	CreateClientConVar( "sw_cl_screenfx", 1 , true , false , "(BOOL) Show screen weather effects." , 0 , 1 )
+	CreateClientConVar( "sw_cl_screenfx_vehicle", 0 , true , false , "(BOOL) Show screen weather effects when in vehicles." , 0 , 1 )
 
-	CreateClientConVar( "sw_cl_colormod", "1" , true , false , "(BOOL) Enable colormod when it's cloudy." , "0" , "1" )
-	CreateClientConVar( "sw_cl_colormod_indoors", "0" , true , false , "(BOOL) Enable colormod indoors." , "0" , "1" )
+	CreateClientConVar( "sw_cl_colormod", 1 , true , false , "(BOOL) Enable colormod when it's cloudy." , 0 , 1 )
+	CreateClientConVar( "sw_cl_colormod_indoors", 0 , true , false , "(BOOL) Enable colormod indoors." , 0 , 1 )
 
-	CreateClientConVar( "sw_cl_sound", "1" , true , false , "(BOOL) Play sounds." , "0" , "1" )
-	CreateClientConVar( "sw_cl_sound_volume", "1" , true , false , "(FLOAT) Volume sounds should play at." , "0" , "1" )
-	CreateClientConVar( "sw_cl_sound_siren", "1" , true , false , "(BOOL) Toggle the alarm siren if it annoys you as much as it does me." , "0" , "1" )
+	CreateClientConVar( "sw_cl_sound", 1 , true , false , "(BOOL) Play sounds." , 0 , 1 )
+	CreateClientConVar( "sw_cl_sound_volume", 1 , true , false , "(FLOAT) Volume sounds should play at." , 0 , 1 )
+	CreateClientConVar( "sw_cl_sound_siren", 1 , true , false , "(BOOL) Toggle the alarm siren if it annoys you as much as it does me." , 0 , 1 )
 	CreateClientConVar( "sw_cl_sound_siren_path", "ambient/alarms/alarm_citizen_loop1.wav" , true , false , "(STRING) Path for the siren sound effect. Can pretty much be whatever you want." )
 
 	----------------------------------------
@@ -233,11 +234,11 @@ if CLIENT then
 	----------------------------------------
 	----------------------------------------
 
-	CreateClientConVar( "sw_cl_hud_toggle", "1" , true , false , "(BOOL) Draw SimpleWeather HUD." , "0" , "1" )
-	CreateClientConVar( "sw_cl_hud_position", "1" , true , false , "(BOOL) Show HUD at top of screen instead of bottom." , "0" , "1" )
-	CreateClientConVar( "sw_cl_hud_weather_toggle", "1" , true , false , "(BOOL) Draw weather icon." , "0" , "1" )
-	CreateClientConVar( "sw_cl_hud_clock_toggle", "1" , true , false , "(BOOL) Draw clock." , "0" , "1" )
-	CreateClientConVar( "sw_cl_hud_clock_style", "1" , true , false , "(BOOL) 24 hour clock." , "0" , "1" )
+	CreateClientConVar( "sw_cl_hud_toggle", 1 , true , false , "(BOOL) Draw SimpleWeather HUD." , 0 , 1 )
+	CreateClientConVar( "sw_cl_hud_position", 1 , true , false , "(BOOL) Show HUD at top of screen instead of bottom." , 0 , 1 )
+	CreateClientConVar( "sw_cl_hud_weather_toggle", 1 , true , false , "(BOOL) Draw weather icon." , 0 , 1 )
+	CreateClientConVar( "sw_cl_hud_clock_toggle", 1 , true , false , "(BOOL) Draw clock." , 0 , 1 )
+	CreateClientConVar( "sw_cl_hud_clock_style", 1 , true , false , "(BOOL) 24 hour clock." , 0 , 1 )
 
 	----------------------------------------
 	----------------------------------------
@@ -245,9 +246,9 @@ if CLIENT then
 	----------------------------------------
 	----------------------------------------
 
-	CreateClientConVar( "sw_cl_announcement", "1" , true , false , "(BOOL) Show an informational chat message when weather starts." , "0" , "1" )
-	CreateClientConVar( "sw_cl_startupdisplay", "0" , true , false , "(BOOL) Show info on opening config when a player joins the server." , "0" , "1" )
-	CreateClientConVar( "sw_cl_particles_max", "7000" , true , false , "(INT) Maximum number of particles to create at any one time." , "0" , "10000" )
+	CreateClientConVar( "sw_cl_announcement", 1 , true , false , "(BOOL) Show an informational chat message when weather starts." , 0 , 1 )
+	CreateClientConVar( "sw_cl_startupdisplay", 0 , true , false , "(BOOL) Show info on opening config when a player joins the server." , 0 , 1 )
+	CreateClientConVar( "sw_cl_particles_max", 7000 , true , false , "(INT) Maximum number of particles to create at any one time." , 0 , 10000 )
 
 end
 

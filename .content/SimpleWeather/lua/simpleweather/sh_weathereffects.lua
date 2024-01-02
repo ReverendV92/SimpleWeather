@@ -43,12 +43,12 @@ hook.Add( "PhysgunPickup", "SW.PhysgunPickup", SWPhysgunPickup )
 ----------------------------------------
 ----------------------------------------
 
-CreateConVar( "sw_acidrain_particle_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain use PCF (1) or Lua effects (0)?" , "0" , "1" )
-CreateConVar( "sw_acidrain_dmg_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage?" , "0" , "1" )
-CreateConVar( "sw_acidrain_dmg_prop_toggle" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage to props?" , "0" , "1" )
-CreateConVar( "sw_acidrain_dmg_npc_toggle" , "0" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage to NPCs?" , "0" , "1" )
-CreateConVar( "sw_acidrain_dmg_amount" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of damage acid rain does." , "1" , "100" )
-CreateConVar( "sw_acidrain_dmg_delay" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between acid rain damage." , "1" , "30" )
+CreateConVar( "sw_acidrain_particle_toggle" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain use PCF (1) or Lua effects (0)?" , 0 , 1 )
+CreateConVar( "sw_acidrain_dmg_toggle" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage?" , 0 , 1 )
+CreateConVar( "sw_acidrain_dmg_prop_toggle" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage to props?" , 0 , 1 )
+CreateConVar( "sw_acidrain_dmg_npc_toggle" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage to NPCs?" , 0 , 1 )
+CreateConVar( "sw_acidrain_dmg_amount" , 5 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of damage acid rain does." , 1 , 100 )
+CreateConVar( "sw_acidrain_dmg_delay" , 5 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between acid rain damage." , 1 , 30 )
 
 function SW.AcidRainThink()
 
@@ -148,17 +148,17 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateClientConVar( "sw_blizzard_height", "100" , true , false , "(INT) Maximum height to make blizzard." , "0" , "2500" )
-CreateClientConVar( "sw_blizzard_radius", "400" , true , false , "(INT) Radius of blizzard effect." , "0" , "2500" )
-CreateClientConVar( "sw_blizzard_count", "10" , true , false , "(INT) Amount of particles in blizzard effect. Make this smaller to increase performance." , "0" , "100" )
-CreateClientConVar( "sw_blizzard_dietime", "5" , true , false , "(INT) Time in seconds until blizzard vanishes." , "0" , "16" )
+CreateConVar( "sw_blizzard_height", 100 , { FCVAR_ARCHIVE } , "(INT) Maximum height to make blizzard." , 0 , 2500 )
+CreateConVar( "sw_blizzard_radius", 400 , { FCVAR_ARCHIVE } , "(INT) Radius of blizzard effect." , 0 , 2500 )
+CreateConVar( "sw_blizzard_count", 10 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in blizzard effect. Make this smaller to increase performance." , 0 , 100 )
+CreateConVar( "sw_blizzard_dietime", 5 , { FCVAR_ARCHIVE } , "(INT) Time in seconds until blizzard vanishes." , 0 , 16 )
 
-CreateConVar( "sw_blizzard_dmg_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should blizzard cause damage?" , "0" , "1" )
-CreateConVar( "sw_blizzard_dmg_safeareas" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should fire negate blizzard damage?" , "0" , "1" )
-CreateConVar( "sw_blizzard_dmg_sound_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle blizzard damage sounds." , "0" , "1" )
-CreateConVar( "sw_blizzard_dmg_delay" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between blizzard damage." , "1" , "30" )
-CreateConVar( "sw_blizzard_dmg_delayoffset" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between blizzard damage." , "1" , "30" )
-CreateConVar( "sw_blizzard_dmg_amount" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of damage blizzard does." , "1" , "100" )
+CreateConVar( "sw_blizzard_dmg_toggle" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should blizzard cause damage?" , 0 , 1 )
+CreateConVar( "sw_blizzard_dmg_safeareas" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should fire negate blizzard damage?" , 0 , 1 )
+CreateConVar( "sw_blizzard_dmg_sound_toggle" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle blizzard damage sounds." , 0 , 1 )
+CreateConVar( "sw_blizzard_dmg_delay" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between blizzard damage." , 1 , 30 )
+CreateConVar( "sw_blizzard_dmg_delayoffset" , 5 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between blizzard damage." , 1 , 30 )
+CreateConVar( "sw_blizzard_dmg_amount" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of damage blizzard does." , 1 , 100 )
 
 function SW.BlizzardThink()
 
@@ -239,10 +239,10 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateConVar( "sw_hail_delay" , "2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between hail spawns." , "1" , "30" )
-CreateConVar( "sw_hail_delayoffset" , "2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between hail spawns." , "1" , "30" )
-CreateConVar( "sw_hail_lifetime" , "2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Time for hail to fade after hitting the ground. -1 for never (not recommended)." , "-1" , "30" )
-CreateConVar( "sw_hail_drag" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of drag to add to the hail. More = slower decent." , "0" , "20" )
+CreateConVar( "sw_hail_delay" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between hail spawns." , 1 , 30 )
+CreateConVar( "sw_hail_delayoffset" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between hail spawns." , 1 , 30 )
+CreateConVar( "sw_hail_lifetime" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Time for hail to fade after hitting the ground. -1 for never (not recommended)." , -1 , 30 )
+CreateConVar( "sw_hail_drag" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of drag to add to the hail. More = slower decent." , 0 , 20 )
 
 SW.HailClassName = "sw_hail"
 
@@ -310,29 +310,29 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateConVar( "sw_lightning_delay" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between lightning strikes." , "1" , "30" )
-CreateConVar( "sw_lightning_delayoffset" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between lightning strikes." , "1" , "30" )
+CreateConVar( "sw_lightning_delay" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between lightning strikes." , 1 , 30 )
+CreateConVar( "sw_lightning_delayoffset" , 5 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between lightning strikes." , 1 , 30 )
 
-CreateConVar( "sw_lightning_damage" , "50" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Lightning damage to props/players." , "0" , "150" )
-CreateConVar( "sw_lightning_force" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should lightning propel props?" , "0" , "1" )
-CreateConVar( "sw_lightning_force_amount" , "40" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) How much force to apply to props (default 40)." , "1" , "200" )
-CreateConVar( "sw_lightning_ignite_world" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning ignites world on hit." , "0" , "1" )
-CreateConVar( "sw_lightning_ignite_target" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning ignites target on hit." , "0" , "1" )
-CreateConVar( "sw_lightning_ignite_duration" , "3" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Time lightning will ignites hit objects." , "1" , "15" )
+CreateConVar( "sw_lightning_damage" , 50 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Lightning damage to props/players." , 0 , 150 )
+CreateConVar( "sw_lightning_force" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should lightning propel props?" , 0 , 1 )
+CreateConVar( "sw_lightning_force_amount" , 40 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) How much force to apply to props (default 40)." , 1 , 200 )
+CreateConVar( "sw_lightning_ignite_world" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning ignites world on hit." , 0 , 1 )
+CreateConVar( "sw_lightning_ignite_target" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning ignites target on hit." , 0 , 1 )
+CreateConVar( "sw_lightning_ignite_duration" , 3 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Time lightning will ignites hit objects." , 1 , 15 )
 
-CreateConVar( "sw_lightning_target_prop" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should lightning strike props?" , "0" , "1" )
-CreateConVar( "sw_lightning_target_player" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should lightning strike players?" , "0" , "1" )
-CreateConVar( "sw_lightning_target_npc" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should lightning strike NPCs?" , "0" , "1" )
-CreateConVar( "sw_lightning_target_world" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning will strike the world as well as targets." , "0" , "1" )
-CreateConVar( "sw_lightning_target_chance" , "85" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Chance lightning will strike the ground vs. targets." , "1" , "100" )
+CreateConVar( "sw_lightning_target_prop" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should lightning strike props?" , 0 , 1 )
+CreateConVar( "sw_lightning_target_player" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should lightning strike players?" , 0 , 1 )
+CreateConVar( "sw_lightning_target_npc" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should lightning strike NPCs?" , 0 , 1 )
+CreateConVar( "sw_lightning_target_world" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning will strike the world as well as targets." , 0 , 1 )
+CreateConVar( "sw_lightning_target_chance" , 85 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Chance lightning will strike the ground vs. targets." , 1 , 100 )
 
-CreateConVar( "sw_lightning_fancyfx" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Show fancy effects for lightning." , "0" , "1" )
-CreateConVar( "sw_lightning_dissolve" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning dissolves target on kill." , "0" , "1" )
+CreateConVar( "sw_lightning_fancyfx" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Show fancy effects for lightning." , 0 , 1 )
+CreateConVar( "sw_lightning_dissolve" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning dissolves target on kill." , 0 , 1 )
 
---CreateConVar( "sw_thunder_mindelay" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Minimum delay in seconds to cause lightning/thunder while stormy." , "1" , "30" )
---CreateConVar( "sw_thunder_maxdelay" , "30" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Maximum delay in seconds to cause lightning/thunder while stormy." , "1" , "30" )
+--CreateConVar( "sw_thunder_mindelay" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Minimum delay in seconds to cause lightning/thunder while stormy." , 1 , 30 )
+--CreateConVar( "sw_thunder_maxdelay" , 30 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Maximum delay in seconds to cause lightning/thunder while stormy." , 1 , 30 )
 
-CreateClientConVar( "sw_cl_screenfx_lightning" , "1" , true, false, "(BOOL) Enable lightning flashes." , "0" , "1" )
+CreateConVar( "sw_cl_screenfx_lightning" , 1 , { FCVAR_ARCHIVE } , "(BOOL) Enable lightning flashes." , 0 , 1 )
 
 function SW.LightningThink()
 
@@ -685,12 +685,12 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateConVar( "sw_meteor_delay" , "2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between meteor spawns." , "1" , "30" )
-CreateConVar( "sw_meteor_delayoffset" , "2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between meteor spawns." , "1" , "30" )
-CreateConVar( "sw_meteor_lifetime" , "2" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Time for meteor shards to fade after hitting the ground. -1 for never (not recommended)." , "-1" , "30" )
-CreateConVar( "sw_meteor_drag" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of drag to add to the meteors. More = slower decent." , "0" , "50" )
-CreateConVar( "sw_meteor_fancyfx" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Show fancy effects for meteors." , "0" , "1" )
-CreateConVar( "sw_meteor_whoosh" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Meteors play a sound before impact." , "0" , "1" )
+CreateConVar( "sw_meteor_delay" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between meteor spawns." , 1 , 30 )
+CreateConVar( "sw_meteor_delayoffset" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between meteor spawns." , 1 , 30 )
+CreateConVar( "sw_meteor_lifetime" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Time for meteor shards to fade after hitting the ground. -1 for never (not recommended)." , -1 , 30 )
+CreateConVar( "sw_meteor_drag" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of drag to add to the meteors. More = slower decent." , 0 , 50 )
+CreateConVar( "sw_meteor_fancyfx" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Show fancy effects for meteors." , 0 , 1 )
+CreateConVar( "sw_meteor_whoosh" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Meteors play a sound before impact." , 0 , 1 )
 
 SW.MeteorClassName = "sw_meteor"
 
@@ -761,21 +761,21 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateClientConVar( "sw_rain_dropsize_min", "20" , true , false , "(INT) Minimum size of the raindrops on screen." , "10" , "100" )
-CreateClientConVar( "sw_rain_dropsize_max", "40" , true , false , "(INT) Maximum size of the raindrops on screen." , "10" , "100" )
-CreateClientConVar( "sw_rain_showimpact", "1" , true , false , "(BOOL) Make rain splash particle effect." , "0" , "1" )
-CreateClientConVar( "sw_rain_showsmoke", "1" , true , false , "(BOOL) Make rain steam particle effect." , "0" , "1" )
-CreateClientConVar( "sw_rain_quality", "1" , true , false , "(INT) Rain impact quality." , "1" , "4" )
+CreateConVar( "sw_rain_dropsize_min", 20 , { FCVAR_ARCHIVE } , "(INT) Minimum size of the raindrops on screen." , 10 , 100 )
+CreateConVar( "sw_rain_dropsize_max", 40 , { FCVAR_ARCHIVE } , "(INT) Maximum size of the raindrops on screen." , 10 , 100 )
+CreateConVar( "sw_rain_showimpact", 1 , { FCVAR_ARCHIVE } , "(BOOL) Make rain splash particle effect." , 0 , 1 )
+CreateConVar( "sw_rain_showsmoke", 1 , { FCVAR_ARCHIVE } , "(BOOL) Make rain steam particle effect." , 0 , 1 )
+CreateConVar( "sw_rain_quality", 1 , { FCVAR_ARCHIVE } , "(INT) Rain impact quality." , 1 , 4 )
 
-CreateClientConVar( "sw_rain_height", "300" , true , false , "(INT) Maximum height to make rain." , "0" , "2500" )
-CreateClientConVar( "sw_rain_radius", "500" , true , false , "(INT) Radius of rain effect." , "0" , "2500" )
-CreateClientConVar( "sw_rain_count", "20" , true , false , "(INT) Amount of particles in rain effect. Make this smaller to increase performance." , "0" , "100" )
-CreateClientConVar( "sw_rain_dietime", "3" , true , false , "(INT) Time in seconds until rain vanishes." , "0" , "16" )
+CreateConVar( "sw_rain_height", 300 , { FCVAR_ARCHIVE } , "(INT) Maximum height to make rain." , 0 , 2500 )
+CreateConVar( "sw_rain_radius", 500 , { FCVAR_ARCHIVE } , "(INT) Radius of rain effect." , 0 , 2500 )
+CreateConVar( "sw_rain_count", 20 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in rain effect. Make this smaller to increase performance." , 0 , 100 )
+CreateConVar( "sw_rain_dietime", 3 , { FCVAR_ARCHIVE } , "(INT) Time in seconds until rain vanishes." , 0 , 16 )
 
-CreateClientConVar( "sw_storm_height", "200" , true , false , "(INT) Maximum height to make storm rain." , "0" , "2500" )
-CreateClientConVar( "sw_storm_radius", "500" , true , false , "(INT) Radius of storm rain effect." , "0" , "2500" )
-CreateClientConVar( "sw_storm_count", "120" , true , false , "(INT) Amount of particles in storm rain effect. Make this smaller to increase performance." , "0" , "100" )
-CreateClientConVar( "sw_storm_dietime", "3" , true , false , "(INT) Time in seconds until storm vanishes." , "0" , "16" )
+CreateConVar( "sw_storm_height", 200 , { FCVAR_ARCHIVE } , "(INT) Maximum height to make storm rain." , 0 , 2500 )
+CreateConVar( "sw_storm_radius", 500 , { FCVAR_ARCHIVE } , "(INT) Radius of storm rain effect." , 0 , 2500 )
+CreateConVar( "sw_storm_count", 120 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in storm rain effect. Make this smaller to increase performance." , 0 , 100 )
+CreateConVar( "sw_storm_dietime", 3 , { FCVAR_ARCHIVE } , "(INT) Time in seconds until storm vanishes." , 0 , 16 )
 
 function SW.RainThink()
 
@@ -821,12 +821,12 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateConVar( "sw_smog_dmg_sound_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle smog coughing sounds." , "0" , "1" )
-CreateConVar( "sw_smog_dmg_delay" , "10" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between smog damage." , "1" , "30" )
-CreateConVar( "sw_smog_dmg_delayoffset" , "5" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between smog damage." , "1" , "30" )
+CreateConVar( "sw_smog_dmg_sound_toggle" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle smog coughing sounds." , 0 , 1 )
+CreateConVar( "sw_smog_dmg_delay" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay between smog damage." , 1 , 30 )
+CreateConVar( "sw_smog_dmg_delayoffset" , 5 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between smog damage." , 1 , 30 )
 
-CreateConVar( "sw_smog_dmg_toggle" , "1" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should smog cause damage?" , "0" , "1" )
-CreateConVar( "sw_smog_dmg_amount" , "3" , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of damage smog does." , "1" , "100" )
+CreateConVar( "sw_smog_dmg_toggle" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should smog cause damage?" , 0 , 1 )
+CreateConVar( "sw_smog_dmg_amount" , 3 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of damage smog does." , 1 , 100 )
 
 function SW.SmogThink()
 
@@ -883,11 +883,11 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateClientConVar( "sw_snow_stay", "0" , true , false , "(BOOL) Leave snow on the ground." , "0" , "1" )
-CreateClientConVar( "sw_snow_height", "100" , true , false , "(INT) Maximum height to make snow." , "0" , "2500" )
-CreateClientConVar( "sw_snow_radius", "400" , true , false , "(INT) Radius of snow effect." , "0" , "2500" )
-CreateClientConVar( "sw_snow_count", "5" , true , false , "(INT) Amount of particles in snow effect. Make this smaller to increase performance." , "0" , "5000" )
-CreateClientConVar( "sw_snow_dietime", "5" , true , false , "(INT) Time in seconds until snow vanishes." , "0" , "16" )
+CreateConVar( "sw_snow_stay", 0 , { FCVAR_ARCHIVE } , "(BOOL) Leave snow on the ground." , 0 , 1 )
+CreateConVar( "sw_snow_height", 100 , { FCVAR_ARCHIVE } , "(INT) Maximum height to make snow." , 0 , 2500 )
+CreateConVar( "sw_snow_radius", 400 , { FCVAR_ARCHIVE } , "(INT) Radius of snow effect." , 0 , 2500 )
+CreateConVar( "sw_snow_count", 5 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in snow effect. Make this smaller to increase performance." , 0 , 5000 )
+CreateConVar( "sw_snow_dietime", 5 , { FCVAR_ARCHIVE } , "(INT) Time in seconds until snow vanishes." , 0 , 16 )
 
 function SW.SnowThink()
 
