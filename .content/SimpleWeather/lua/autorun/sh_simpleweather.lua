@@ -1,7 +1,9 @@
 
 AddCSLuaFile( )
 
+-- Create tables for use later
 SW = SW or { }
+SW.AutoWeatherTypes = SW.AutoWeatherTypes or { }
 
 local IsSinglePlayer = game.SinglePlayer()
 
@@ -117,25 +119,6 @@ SW.MapBlacklist = {
 -- WEATHER SETTINGS
 ----------------------------------------
 ----------------------------------------
-
--- What weather to automatically start.
--- NOTE: This isn't actually used!
-SW.AutoWeatherTypes = {
-	-- "acidrain" ,
-	-- "blizzard" ,
-	"fog" ,
-	-- "hail" ,
-	-- "lightning" ,
-	-- "meteor" ,
-	"overcast" ,
-	"rain" ,
-	-- "sandstorm" ,
-	-- "smog" ,
-	-- "snow" ,
-	"thunderstorm" ,
-	-- "heavystorm" ,
-}
-
 
 local tab = file.Find( "simpleweather/weather/*.lua", "LUA" )
 
@@ -808,6 +791,7 @@ if CLIENT then
 						["sw_lightning"] = "0" ,
 						["sw_hail"] = "0" ,
 						["sw_meteor"] = "0" ,
+						["sw_overcast"] = "1" ,
 						["sw_rain"] = "1" ,
 						["sw_sandstorm"] = "0" ,
 						["sw_smog"] = "0" ,
@@ -829,6 +813,7 @@ if CLIENT then
 						["sw_hail"] = "0" ,
 						["sw_lightning"] = "0" ,
 						["sw_meteor"] = "0" ,
+						["sw_overcast"] = "1" ,
 						["sw_rain"] = "1" ,
 						["sw_sandstorm"] = "0" ,
 						["sw_smog"] = "0" ,
@@ -852,6 +837,7 @@ if CLIENT then
 					"sw_hail" ,
 					"sw_lightning" ,
 					"sw_meteor" ,
+					"sw_overcast" ,
 					"sw_rain" ,
 					"sw_sandstorm" ,
 					"sw_smog" ,
@@ -880,6 +866,7 @@ if CLIENT then
 			SW.CheckBoxNet(Panel, "Sandstorm", "sw_sandstorm")
 			SW.CheckBoxNet(Panel, "Rain", "sw_rain")
 			SW.CheckBoxNet(Panel, "Hail", "sw_hail")
+			SW.CheckBoxNet(Panel, "Overcast", "sw_overcast")
 			SW.CheckBoxNet(Panel, "Thunderstorm", "sw_thunderstorm")
 			SW.CheckBoxNet(Panel, "Heavy Storm", "sw_heavystorm")
 			SW.CheckBoxNet(Panel, "Lightning", "sw_lightning")
