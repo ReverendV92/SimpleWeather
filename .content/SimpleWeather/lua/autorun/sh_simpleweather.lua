@@ -157,6 +157,7 @@ CreateConVar( "sw_autoweather_maxstop" , 8 , { FCVAR_ARCHIVE, FCVAR_REPLICATED }
 
 CreateConVar( "sw_weather_eas" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Toggle radio models playing the EAS broadcasting tones when severe weather starts." , 0 , 1 )
 CreateConVar( "sw_weather_alwaysoutside" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should players be considered outside at all times?\n(ie. if you want snow in an indoor map) " , 0 , 1 )
+CreateConVar( "sw_weather_announcement", 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Allow client chat messages when severe weather starts." , 0 , 1 )
 
 CreateConVar( "sw_fog_densityday" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Fog max density during the day." , 0 , 1 )
 CreateConVar( "sw_fog_densitynight" , 0.4 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Fog max density during the night." , 0 , 1 )
@@ -602,6 +603,9 @@ if CLIENT then
 
 			SW.CheckBoxNet(Panel, "Emergency Alerts", "sw_weather_eas")
 			Panel:ControlHelp( "Toggle radio models playing the EAS broadcasting tones when severe weather starts." , {} )
+
+			SW.CheckBoxNet(Panel, "Text Alerts", "sw_weather_announcement")
+			Panel:ControlHelp( "Allow client chat messages when severe weather starts." , {} )
 
 		end)
 

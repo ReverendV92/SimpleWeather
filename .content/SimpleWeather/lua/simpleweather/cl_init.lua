@@ -72,7 +72,7 @@ local function nSetWeather()
 
 	SW.WeatherMode = net.ReadString()
 
-	if SW.GetCurrentWeather().Announcement and GetConVarNumber("sw_cl_announcement") != 0 then
+	if SW.GetCurrentWeather().Announcement and GetConVarNumber("sw_cl_announcement") != 0 and GetConVarNumber("sw_weather_announcement") == 1 then
 
 		chat.AddText( Color( 255, 255, 255, 255 ), SW.GetCurrentWeather().Announcement )
 
