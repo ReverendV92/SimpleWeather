@@ -43,7 +43,6 @@ hook.Add( "PhysgunPickup", "SW.PhysgunPickup", SWPhysgunPickup )
 ----------------------------------------
 ----------------------------------------
 
-CreateConVar( "sw_acidrain_particle_toggle" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain use PCF (1) or Lua effects (0)?" , 0 , 1 )
 CreateConVar( "sw_acidrain_dmg_toggle" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage?" , 0 , 1 )
 CreateConVar( "sw_acidrain_dmg_prop_toggle" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage to props?" , 0 , 1 )
 CreateConVar( "sw_acidrain_dmg_npc_toggle" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should acid rain cause damage to NPCs?" , 0 , 1 )
