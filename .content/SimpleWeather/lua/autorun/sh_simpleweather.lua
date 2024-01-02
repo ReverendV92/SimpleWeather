@@ -147,7 +147,7 @@ CreateConVar( "sw_func_wind" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL)
 CreateConVar( "sw_func_precip" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Remove map func_precipitation volumes\nTurn it off if you want the map's brush weather particles." , 0 , 1 )
 CreateConVar( "sw_func_textures" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , 0 , 1 )
 CreateConVar( "sw_func_maplogic" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , 0 , 1 )
-CreateConVar( "sw_func_particle_type" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should weather use PCF (1) or Lua effects (0)? Affects all weather variants. Included for total control, but PCF is recommend for servers." , 0 , 1 )
+CreateConVar( "sw_func_particle_type" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should weather use PCF (1) or Lua effects (0)? Affects all weather variants. PCF is more efficient, while Lua effects are more reliable." , 0 , 1 )
 
 CreateConVar( "sw_autoweather" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , 0 , 1 )
 CreateConVar( "sw_autoweather_minstart" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , 0 , 16 )
