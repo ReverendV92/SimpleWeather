@@ -104,9 +104,38 @@ SW.SkyColors[SW_TIME_FOG] = {
 	["SunColor"]		= Vector( 0 , 0 , 0 )
 }
 
-SW_LIGHT_DAY = 25
-SW_LIGHT_NIGHT = 2
-SW_LIGHT_STORM = 10
+-- Convert our menu-friendly integers to engine-compatible alphabeticals
+local lightingConversionTbl = {
+	[1] = "a" ,
+	[2] = "b" ,
+	[3] = "c" ,
+	[4] = "d" ,
+	[5] = "e" ,
+	[6] = "f" ,
+	[7] = "g" ,
+	[8] = "h" ,
+	[9] = "i" ,
+	[10] = "j" ,
+	[11] = "k" ,
+	[12] = "l" ,
+	[13] = "m" ,
+	[14] = "n" ,
+	[15] = "o" ,
+	[16] = "p" ,
+	[17] = "q" ,
+	[18] = "r" ,
+	[19] = "s" ,
+	[20] = "t" ,
+	[21] = "u" ,
+	[22] = "v" ,
+	[23] = "w" ,
+	[24] = "x" ,
+	[25] = "y" ,
+	[26] = "z"
+}
+SW_LIGHT_DAY = lightingConversionTbl[GetConVarNumber("sw_light_max_day")]
+SW_LIGHT_NIGHT = lightingConversionTbl[GetConVarNumber("sw_light_max_night")]
+SW_LIGHT_STORM = lightingConversionTbl[GetConVarNumber("sw_light_max_storm")]
 
 SW.LastLightStyle = ""
 
@@ -161,39 +190,6 @@ function SW.InitDayNight()
 end
 
 function SW.InitPostEntity()
-
-	-- Convert our menu-friendly integers to engine-compatible alphabeticals
-	local lightingConversionTbl = {
-		[1] = "a" ,
-		[2] = "b" ,
-		[3] = "c" ,
-		[4] = "d" ,
-		[5] = "e" ,
-		[6] = "f" ,
-		[7] = "g" ,
-		[8] = "h" ,
-		[9] = "i" ,
-		[10] = "j" ,
-		[11] = "k" ,
-		[12] = "l" ,
-		[13] = "m" ,
-		[14] = "n" ,
-		[15] = "o" ,
-		[16] = "p" ,
-		[17] = "q" ,
-		[18] = "r" ,
-		[19] = "s" ,
-		[20] = "t" ,
-		[21] = "u" ,
-		[22] = "v" ,
-		[23] = "w" ,
-		[24] = "x" ,
-		[25] = "y" ,
-		[26] = "z"
-	}
-	SW_LIGHT_DAY = lightingConversionTbl[GetConVarNumber("sw_light_max_day")]
-	SW_LIGHT_NIGHT = lightingConversionTbl[GetConVarNumber("sw_light_max_night")]
-	SW_LIGHT_STORM = lightingConversionTbl[GetConVarNumber("sw_light_max_storm")]
 
 	-- Find any existing env_wind entities
 	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
