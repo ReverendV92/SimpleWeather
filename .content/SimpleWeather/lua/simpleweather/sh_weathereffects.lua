@@ -771,10 +771,10 @@ CreateConVar( "sw_rain_radius", 500 , { FCVAR_ARCHIVE } , "(INT) Radius of rain 
 CreateConVar( "sw_rain_count", 20 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in rain effect. Make this smaller to increase performance." , 0 , 100 )
 CreateConVar( "sw_rain_dietime", 3 , { FCVAR_ARCHIVE } , "(INT) Time in seconds until rain vanishes." , 0 , 16 )
 
-CreateConVar( "sw_storm_height", 200 , { FCVAR_ARCHIVE } , "(INT) Maximum height to make storm rain." , 0 , 2500 )
-CreateConVar( "sw_storm_radius", 500 , { FCVAR_ARCHIVE } , "(INT) Radius of storm rain effect." , 0 , 2500 )
-CreateConVar( "sw_storm_count", 120 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in storm rain effect. Make this smaller to increase performance." , 0 , 100 )
-CreateConVar( "sw_storm_dietime", 3 , { FCVAR_ARCHIVE } , "(INT) Time in seconds until storm vanishes." , 0 , 16 )
+-- CreateConVar( "sw_storm_height", 200 , { FCVAR_ARCHIVE } , "(INT) Maximum height to make storm rain." , 0 , 2500 )
+-- CreateConVar( "sw_storm_radius", 500 , { FCVAR_ARCHIVE } , "(INT) Radius of storm rain effect." , 0 , 2500 )
+-- CreateConVar( "sw_storm_count", 120 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in storm rain effect. Make this smaller to increase performance." , 0 , 100 )
+-- CreateConVar( "sw_storm_dietime", 3 , { FCVAR_ARCHIVE } , "(INT) Time in seconds until storm vanishes." , 0 , 16 )
 
 function SW.RainThink()
 
@@ -882,7 +882,7 @@ end
 ----------------------------------------
 ----------------------------------------
 
-CreateConVar( "sw_snow_stay", 0 , { FCVAR_ARCHIVE } , "(BOOL) Leave snow on the ground." , 0 , 1 )
+CreateConVar( "sw_snow_stay", 1 , { FCVAR_ARCHIVE } , "(BOOL) Leave snow on the ground." , 0 , 1 )
 CreateConVar( "sw_snow_height", 100 , { FCVAR_ARCHIVE } , "(INT) Maximum height to make snow." , 0 , 2500 )
 CreateConVar( "sw_snow_radius", 400 , { FCVAR_ARCHIVE } , "(INT) Radius of snow effect." , 0 , 2500 )
 CreateConVar( "sw_snow_count", 5 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in snow effect. Make this smaller to increase performance." , 0 , 5000 )
