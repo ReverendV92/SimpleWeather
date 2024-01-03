@@ -610,11 +610,6 @@ if CLIENT then
 			SW.CheckBoxNet(Panel, "Text Alerts", "sw_weather_announcement")
 			Panel:ControlHelp( "Allow client chat messages when severe weather starts." , {} )
 
-			Panel:Help( "Lighting brightness settings. Higher=brighter." , {} )
-			SW.NumSliderNet(Panel, "Lighting: Day", "sw_light_max_day", "1", "26", "int")
-			SW.NumSliderNet(Panel, "Lighting: Night", "sw_light_max_night", "1", "26", "int")
-			SW.NumSliderNet(Panel, "Lighting: Storm", "sw_light_max_storm", "1", "26", "int")
-
 		end)
 
 		spawnmenu.AddToolMenuOption( "Options" , "Simple Weather" , "SimpleWeather_Client" , " Client" , "" , "" , function( Panel )
@@ -1469,49 +1464,43 @@ if CLIENT then
 
 			} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Pause Time" , ["Command"] = "sw_time_pause" } )
 			SW.CheckBoxNet(Panel, "Pause Time", "sw_time_pause")
 			Panel:ControlHelp( "Pause the current time." , {} )
 
-			--Panel:AddControl( "slider" , { ["Label"] = "Start Time" , ["Command"] = "sw_time_start" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Start Time", "sw_time_start", "0", "23", "int")
 			Panel:ControlHelp( "Time the server will start at on load." , {} )
 
-			--Panel:AddControl( "checkbox" , { ["Label"] = "Real-Time Clock" , ["Command"] = "sw_time_real" } )
 			SW.CheckBoxNet(Panel, "Real-Time Clock", "sw_time_real")
 			Panel:ControlHelp( "Use the system clock time instead." , {} )
 
-			--Panel:AddControl( "slider" , { ["Label"] = "Real-Time Offset" , ["Command"] = "sw_time_real_offset" , ["Min"] = "-12" , ["Max"] = "12" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Real-Time Offset", "sw_time_real_offset", "-12", "12", "int")
 			Panel:ControlHelp( "Real time clock time zone offset." , {} )
 
 			Panel:Help( "Rate at which day or night passes.\nWARNING: Higher numbers increase system chug. RAISE AT OWN RISK." , {} )
-			--Panel:AddControl( "slider" , { ["Label"] = "Day Speed" , ["Command"] = "sw_time_speed_day" , ["Min"] = "0.01" , ["Max"] = "0.2" , ["Type"] = "float" } )
 			SW.NumSliderNet(Panel, "Day Speed", "sw_time_speed_day", "0.01", "0.2", "float")
-			--Panel:AddControl( "slider" , { ["Label"] = "Night Speed" , ["Command"] = "sw_time_speed_night" , ["Min"] = "0.01" , ["Max"] = "0.2" , ["Type"] = "float" } )
 			SW.NumSliderNet(Panel, "Night Speed", "sw_time_speed_night", "0.01", "0.2", "float")
 
-			--Panel:AddControl( "slider" , { ["Label"] = "Star Rotate Speed" , ["Command"] = "sw_time_speed_stars" , ["Min"] = "0.01" , ["Max"] = "3" , ["Type"] = "float" } )
 			SW.NumSliderNet(Panel, "Star Rotate Speed", "sw_time_speed_stars", "0.01", "3", "float")
 			Panel:ControlHelp( "Rate at which stars rotate at night." , {} )
 
 			-- There's some jank ass math involved with this, so for now it's not enabled -V92
 
-			-- Panel:AddControl( "slider" , { ["Label"] = "Dawn Time" , ["Command"] = "sw_time_dawn" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
 			-- SW.NumSliderNet(Panel, "Dawn Time", "sw_time_dawn", "0", "23", "int")
 			-- Panel:ControlHelp( "Time to consider Dawn.\nControls when map inputs runs the day_events entity." , {} )
 
-			-- Panel:AddControl( "slider" , { ["Label"] = "Afternoon Time" , ["Command"] = "sw_time_afternoon" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
 			-- SW.NumSliderNet(Panel, "Afternoon Time", "sw_time_afternoon", "0", "23", "int")
 			-- Panel:ControlHelp( "Time to consider Afternoon." , {} )
 
-			-- Panel:AddControl( "slider" , { ["Label"] = "Dusk Time" , ["Command"] = "sw_time_dusk" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
 			-- SW.NumSliderNet(Panel, "Dusk Time", "sw_time_dusk", "0", "23", "int")
 			-- Panel:ControlHelp( "Time to consider Dusk.\nControls when map inputs runs the night_events entity." , {} )
 
-			-- Panel:AddControl( "slider" , { ["Label"] = "Night Time" , ["Command"] = "sw_time_night" , ["Min"] = "0" , ["Max"] = "23" , ["Type"] = "int" } )
 			-- SW.NumSliderNet(Panel, "Night Time", "sw_time_night", "0", "23", "int")
 			-- Panel:ControlHelp( "Time to consider Night." , {} )
+
+			Panel:Help( "Lighting brightness settings. Higher=brighter." , {} )
+			SW.NumSliderNet(Panel, "Lighting: Day", "sw_light_max_day", "1", "26", "int")
+			SW.NumSliderNet(Panel, "Lighting: Night", "sw_light_max_night", "1", "26", "int")
+			SW.NumSliderNet(Panel, "Lighting: Storm", "sw_light_max_storm", "1", "26", "int")
 
 		end)
 
