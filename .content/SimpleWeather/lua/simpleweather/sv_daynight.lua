@@ -4,12 +4,6 @@
 
 SW.Time = GetConVarNumber("sw_time_start")
 
--- There's some jank ass math involved with this, so for now it's not enabled -V92
--- SW_TIME_DAWN = GetConVarNumber("sw_time_dawn") or 6
--- SW_TIME_AFTERNOON = GetConVarNumber("sw_time_afternoon") or 12
--- SW_TIME_DUSK = GetConVarNumber("sw_time_dusk") or 18
--- SW_TIME_NIGHT = GetConVarNumber("sw_time_night") or 24
-
 SW_TIME_DAWN = 6
 SW_TIME_AFTERNOON = 12
 SW_TIME_DUSK = 18
