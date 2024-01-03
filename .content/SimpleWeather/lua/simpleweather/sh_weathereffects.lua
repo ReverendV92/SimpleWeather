@@ -328,9 +328,6 @@ CreateConVar( "sw_lightning_target_chance" , 85 , { FCVAR_ARCHIVE, FCVAR_REPLICA
 CreateConVar( "sw_lightning_fancyfx" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Show fancy effects for lightning." , 0 , 1 )
 CreateConVar( "sw_lightning_dissolve" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Lightning dissolves target on kill." , 0 , 1 )
 
---CreateConVar( "sw_thunder_mindelay" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Minimum delay in seconds to cause lightning/thunder while stormy." , 1 , 30 )
---CreateConVar( "sw_thunder_maxdelay" , 30 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Maximum delay in seconds to cause lightning/thunder while stormy." , 1 , 30 )
-
 CreateConVar( "sw_cl_screenfx_lightning" , 1 , { FCVAR_ARCHIVE } , "(BOOL) Enable lightning flashes." , 0 , 1 )
 
 function SW.LightningThink()
@@ -770,11 +767,6 @@ CreateConVar( "sw_rain_height", 300 , { FCVAR_ARCHIVE } , "(INT) Maximum height 
 CreateConVar( "sw_rain_radius", 500 , { FCVAR_ARCHIVE } , "(INT) Radius of rain effect." , 0 , 2500 )
 CreateConVar( "sw_rain_count", 20 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in rain effect. Make this smaller to increase performance." , 0 , 100 )
 CreateConVar( "sw_rain_dietime", 3 , { FCVAR_ARCHIVE } , "(INT) Time in seconds until rain vanishes." , 0 , 16 )
-
--- CreateConVar( "sw_storm_height", 200 , { FCVAR_ARCHIVE } , "(INT) Maximum height to make storm rain." , 0 , 2500 )
--- CreateConVar( "sw_storm_radius", 500 , { FCVAR_ARCHIVE } , "(INT) Radius of storm rain effect." , 0 , 2500 )
--- CreateConVar( "sw_storm_count", 120 , { FCVAR_ARCHIVE } , "(INT) Amount of particles in storm rain effect. Make this smaller to increase performance." , 0 , 100 )
--- CreateConVar( "sw_storm_dietime", 3 , { FCVAR_ARCHIVE } , "(INT) Time in seconds until storm vanishes." , 0 , 16 )
 
 function SW.RainThink()
 
