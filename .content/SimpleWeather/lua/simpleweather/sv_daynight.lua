@@ -104,6 +104,10 @@ SW.SkyColors[SW_TIME_FOG] = {
 	["SunColor"]		= Vector( 0 , 0 , 0 )
 }
 
+SW_LIGHT_DAY = 25
+SW_LIGHT_NIGHT = 2
+SW_LIGHT_STORM = 10
+
 SW.LastLightStyle = ""
 
 util.AddNetworkString( "SW.nInitFogSettings" )
@@ -123,13 +127,13 @@ function SW.UpdateLightStyle( s )
 
 		if( SW.LightEnvironment and SW.LightEnvironment:IsValid() ) then
 
-			SW.LightEnvironment:Fire( "FadeToPattern", s )
+			SW.LightEnvironment:Fire( "FadeToPattern" , s )
 
 		else
 
-			engine.LightStyle( 0, s )
+			engine.LightStyle( 0 , s )
 
-			timer.Simple( 0.05, function()
+			timer.Simple( 0.05 , function()
 
 				net.Start( "SW.nRedownloadLightmaps" )
 				net.Broadcast()
@@ -157,6 +161,39 @@ function SW.InitDayNight()
 end
 
 function SW.InitPostEntity()
+
+	-- Convert our menu-friendly integers to engine-compatible alphabeticals
+	local lightingConversionTbl = {
+		[1] = "a" ,
+		[2] = "b" ,
+		[3] = "c" ,
+		[4] = "d" ,
+		[5] = "e" ,
+		[6] = "f" ,
+		[7] = "g" ,
+		[8] = "h" ,
+		[9] = "i" ,
+		[10] = "j" ,
+		[11] = "k" ,
+		[12] = "l" ,
+		[13] = "m" ,
+		[14] = "n" ,
+		[15] = "o" ,
+		[16] = "p" ,
+		[17] = "q" ,
+		[18] = "r" ,
+		[19] = "s" ,
+		[20] = "t" ,
+		[21] = "u" ,
+		[22] = "v" ,
+		[23] = "w" ,
+		[24] = "x" ,
+		[25] = "y" ,
+		[26] = "z"
+	}
+	SW_LIGHT_DAY = lightingConversionTbl[GetConVarNumber("sw_light_max_day")]
+	SW_LIGHT_NIGHT = lightingConversionTbl[GetConVarNumber("sw_light_max_night")]
+	SW_LIGHT_STORM = lightingConversionTbl[GetConVarNumber("sw_light_max_storm")]
 
 	-- Find any existing env_wind entities
 	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
@@ -199,7 +236,7 @@ function SW.InitPostEntity()
 	SW.SkyPaint = ents.FindByClass( "env_skypaint" )[1]
 	SW.EnvFog = ents.FindByClass( "env_fog_controller" )[1]
 	SW.SkyCam = ents.FindByClass( "sky_camera" )[1]
-	SW.UpdateLightStyle( GetConVarString("sw_light_max_night") )
+	SW.UpdateLightStyle( SW_LIGHT_NIGHT )
 
 	if GetConVarNumber("sw_func_fog") == 1 then
 
@@ -315,6 +352,9 @@ function SW.InitPostEntity()
 end
 hook.Add( "InitPostEntity", "SW.InitPostEntity", SW.InitPostEntity )
 
+------------------------------
+------------------------------
+
 SW.LastTimePeriod = SW_TIME_NIGHT
 
 function SW.GetRealTime()
@@ -380,11 +420,11 @@ function SW.DayNightThink()
 
 	end
 
-	local s = string.char( math.Round( Lerp( mul, string.byte( GetConVarString("sw_light_max_night") ), string.byte( GetConVarString("sw_light_max_day") ) ) ) )
+	local s = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
 
-	if( SW.WeatherMode != "" ) then
+	if SW.WeatherMode != "" then
 
-		s = string.char( math.Round( Lerp( mul, string.byte( GetConVarString("sw_light_max_night") ), string.byte( GetConVarString("sw_light_max_storm") ) ) ) )
+		s = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
 	end
 
@@ -715,11 +755,11 @@ function SW.SetTime( t )
 
 	end
 
-	local s = string.char( math.Round( Lerp( mul, string.byte( GetConVarString("sw_light_max_night") ), string.byte( GetConVarString("sw_light_max_day") ) ) ) )
+	local s = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
 	if( SW.WeatherMode != "" ) then
 
-		s = string.char( math.Round( Lerp( mul, string.byte( GetConVarString("sw_light_max_night") ), string.byte( GetConVarString("sw_light_max_storm") ) ) ) )
+		s = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
 	end
 

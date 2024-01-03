@@ -148,6 +148,7 @@ CreateConVar( "sw_func_precip" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOO
 CreateConVar( "sw_func_textures" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , 0 , 1 )
 CreateConVar( "sw_func_maplogic" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , 0 , 1 )
 CreateConVar( "sw_func_particle_type" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should weather use PCF (1) or Lua effects (0)? Affects all weather variants. PCF is more efficient, while Lua effects are more reliable." , 0 , 1 )
+CreateConVar( "sw_func_waterdarken" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should water fog be darkened to match lighting?" , 0 , 1 )
 
 CreateConVar( "sw_autoweather" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , 0 , 1 )
 CreateConVar( "sw_autoweather_minstart" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , 0 , 16 )
@@ -187,9 +188,9 @@ CreateConVar( "sw_perf_updatedelay_client" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICAT
 CreateConVar( "sw_perf_updatedelay_sun" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sun position.\nSetting this to a smaller number will allow smoother sun movement, but doing this also causes lag." , 0 , 15 )
 CreateConVar( "sw_perf_updatedelay_sky" , 0.1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sky colors.\nSetting this to a smaller number will allow smoother transitions, but doing this also causes lag." , 0 , 15 )
 
-CreateConVar( "sw_light_max_night" , "b" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(a-z) Maximum darkness level during night.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
-CreateConVar( "sw_light_max_day" , "y" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(a-z) Maximum lightness level at noon on a clear day.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
-CreateConVar( "sw_light_max_storm" , "j" , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(a-z) Maximum lightness level at noon on a stormy day.\nIncrease to add light. \"a\" is darkest, \"z\" is lightest." )
+CreateConVar( "sw_light_max_day" , 25 , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(INT) Maximum lightness level at noon on a clear day.\nIncrease to add light. \"1\" is darkest, \"26\" is lightest. Numbers are equivalent to Hammer editor A-Z values." , 1 , 26 ) -- Y
+CreateConVar( "sw_light_max_night" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(INT) Maximum darkness level during night.\nIncrease to add light. \"1\" is darkest, \"26\" is lightest. Numbers are equivalent to Hammer editor A-Z values." , 1 , 26 ) -- B
+CreateConVar( "sw_light_max_storm" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(INT) Maximum lightness level at noon on a stormy day.\nIncrease to add light. \"1\" is darkest, \"26\" is lightest. Numbers are equivalent to Hammer editor A-Z values." , 1 , 26 ) -- J
 
 if CLIENT then
 
@@ -526,7 +527,6 @@ if CLIENT then
 				["Options"] = {
 
 					["default"] = {
-
 						["sw_func_master"] = "1" ,
 						["sw_func_skybox"] = "1" ,
 						["sw_func_lighting"] = "1" ,
@@ -537,11 +537,13 @@ if CLIENT then
 						["sw_func_textures"] = "1" ,
 						["sw_func_maplogic"] = "1" ,
 						["sw_weather_eas"] = "1" ,
-
+						["sw_weather_announcement"] = "1" ,
+						["sw_light_max_day"] = "25" ,
+						["sw_light_max_night"] = "2" ,
+						["sw_light_max_storm"] = "10" ,
 					},
 
 					["disabled"] = {
-
 						["sw_func_master"] = "0" ,
 						["sw_func_skybox"] = "0" ,
 						["sw_func_lighting"] = "0" ,
@@ -552,7 +554,7 @@ if CLIENT then
 						["sw_func_textures"] = "0" ,
 						["sw_func_maplogic"] = "0" ,
 						["sw_weather_eas"] = "0" ,
-
+						["sw_weather_announcement"] = "0" ,
 					}
 
 				},
@@ -567,6 +569,11 @@ if CLIENT then
 					"sw_func_wind" ,
 					"sw_func_precip" ,
 					"sw_func_maplogic" ,
+					"sw_weather_eas" ,
+					"sw_weather_announcement" ,
+					"sw_light_max_day" ,
+					"sw_light_max_night" ,
+					"sw_light_max_storm" ,
 
 				}
 
@@ -606,6 +613,11 @@ if CLIENT then
 
 			SW.CheckBoxNet(Panel, "Text Alerts", "sw_weather_announcement")
 			Panel:ControlHelp( "Allow client chat messages when severe weather starts." , {} )
+
+			Panel:Help( "Lighting brightness settings. Higher=brighter." , {} )
+			SW.NumSliderNet(Panel, "Lighting: Day", "sw_light_max_day", "1", "26", "int")
+			SW.NumSliderNet(Panel, "Lighting: Night", "sw_light_max_night", "1", "26", "int")
+			SW.NumSliderNet(Panel, "Lighting: Storm", "sw_light_max_storm", "1", "26", "int")
 
 		end)
 
@@ -719,8 +731,7 @@ if CLIENT then
 			Panel:AddControl( "checkbox" , { ["Label"] = "Play Sirens" , ["Command"] = "sw_cl_sound_siren" } )
 			Panel:ControlHelp( "Toggle siren sounds." , {} )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Volume" , ["Command"] = "sw_cl_sound_volume" , ["Min"] = "0" , ["Max"] = "1" , ["Type"] = "float" } )
-			--SW.NumSliderNet(Panel, "Volume", "sw_cl_sound_volume", "0", "1", "float")
+			SW.NumSliderNet(Panel, "Volume", "sw_cl_sound_volume", "0", "1", "float")
 			Panel:ControlHelp( "Sound effect volume." , {} )
 
 			Panel:AddControl( "checkbox" , { ["Label"] = "Screen Effects" , ["Command"] = "sw_cl_screenfx" } )
@@ -732,8 +743,7 @@ if CLIENT then
 			Panel:AddControl( "checkbox" , { ["Label"] = "Lightning Flashes" , ["Command"] = "sw_cl_screenfx_lightning" } )
 			Panel:ControlHelp( "Lightning makes the screen flash. Recommend turning off at high frequency." )
 
-			Panel:AddControl( "slider" , { ["Label"] = "Max Particles" , ["Command"] = "sw_cl_particles_max" , ["Min"] = "0" , ["Max"] = "10000" , ["Type"] = "int" } )
-			--SW.NumSliderNet(Panel, "Max Particles", "sw_cl_particles_max", "0", "10000", "int")
+			SW.NumSliderNet(Panel, "Max Particles", "sw_cl_particles_max", "0", "10000", "int")
 			Panel:ControlHelp( "Max amount of particles to draw." , {} )
 
 			Panel:AddControl( "checkbox" , { ["Label"] = "Show Startup Message" , ["Command"] = "sw_cl_startupdisplay" } )
