@@ -105,7 +105,7 @@ SW.SkyColors[SW_TIME_FOG] = {
 }
 
 -- Convert our menu-friendly integers to engine-compatible alphabeticals
-local lightingConversionTbl = {
+local tblLightingConversion = {
 	[1] = "a" ,
 	[2] = "b" ,
 	[3] = "c" ,
@@ -133,9 +133,9 @@ local lightingConversionTbl = {
 	[25] = "y" ,
 	[26] = "z"
 }
-SW_LIGHT_DAY = lightingConversionTbl[GetConVarNumber("sw_light_max_day")]
-SW_LIGHT_NIGHT = lightingConversionTbl[GetConVarNumber("sw_light_max_night")]
-SW_LIGHT_STORM = lightingConversionTbl[GetConVarNumber("sw_light_max_storm")]
+SW_LIGHT_DAY = tblLightingConversion[GetConVarNumber("sw_light_max_day")]
+SW_LIGHT_NIGHT = tblLightingConversion[GetConVarNumber("sw_light_max_night")]
+SW_LIGHT_STORM = tblLightingConversion[GetConVarNumber("sw_light_max_storm")]
 
 SW.LastLightStyle = ""
 
@@ -144,7 +144,7 @@ util.AddNetworkString( "SW.nInitSkyboxFogSettings" )
 util.AddNetworkString( "SW.nSetTime" )
 util.AddNetworkString( "SW.nOpenConfigWindow" )
 
-function SW.UpdateLightStyle( s )
+function SW.UpdateLightStyle( strLightStyle )
 
 	if table.HasValue( SW.MapBlacklist, string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then 
 
@@ -152,15 +152,15 @@ function SW.UpdateLightStyle( s )
 
 	end
 
-	if GetConVarNumber("sw_func_lighting") == 1 and SW.LastLightStyle != s then
+	if GetConVarNumber("sw_func_lighting") == 1 and SW.LastLightStyle != strLightStyle then
 
 		if( SW.LightEnvironment and SW.LightEnvironment:IsValid() ) then
 
-			SW.LightEnvironment:Fire( "FadeToPattern" , s )
+			SW.LightEnvironment:Fire( "FadeToPattern" , strLightStyle )
 
 		else
 
-			engine.LightStyle( 0 , s )
+			engine.LightStyle( 0 , strLightStyle )
 
 			timer.Simple( 0.05 , function()
 
@@ -171,7 +171,7 @@ function SW.UpdateLightStyle( s )
 
 		end
 
-		SW.LastLightStyle = s
+		SW.LastLightStyle = strLightStyle
 
 	end
 
@@ -416,15 +416,15 @@ function SW.DayNightThink()
 
 	end
 
-	local s = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
+	local strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
 
 	if SW.WeatherMode != "" then
 
-		s = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
+		strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
 	end
 
-	SW.UpdateLightStyle( s )
+	SW.UpdateLightStyle( strLightStyle )
 
 	if GetConVarNumber("sw_func_sun") == 1 and SW.EnvSun and SW.EnvSun:IsValid() then
 
@@ -751,15 +751,15 @@ function SW.SetTime( t )
 
 	end
 
-	local s = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
+	local strLightStyle = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
 	if( SW.WeatherMode != "" ) then
 
-		s = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
+		strLightStyle = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
 	end
 
-	SW.UpdateLightStyle( s )
+	SW.UpdateLightStyle( strLightStyle )
 
 	if SW.EnvSun and SW.EnvSun:IsValid() then
 
