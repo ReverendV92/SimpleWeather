@@ -148,7 +148,7 @@ CreateConVar( "sw_func_precip" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOO
 CreateConVar( "sw_func_textures" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable weather-based map texture swapping.\nIt's not perfect, so turn it off if it's causing issues." , 0 , 1 )
 CreateConVar( "sw_func_maplogic" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable any map-based effects, like lampposts turning off and on." , 0 , 1 )
 CreateConVar( "sw_func_particle_type" , 0 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should weather use PCF (1) or Lua effects (0)? Affects all weather variants. PCF is more efficient, while Lua effects are more reliable." , 0 , 1 )
-CreateConVar( "sw_func_waterdarken" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should water fog be darkened to match lighting?" , 0 , 1 )
+-- CreateConVar( "sw_func_waterdarken" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Should water fog be darkened to match lighting?" , 0 , 1 )
 
 CreateConVar( "sw_autoweather" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , 0 , 1 )
 CreateConVar( "sw_autoweather_minstart" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , 0 , 16 )
@@ -381,10 +381,6 @@ concommand.Add( "sw_settime", SetTime, function() return { "sw_settime (0-24)" }
 ------------------------------
 
 if CLIENT then
-
-	--------------------------------------------------
-	-- Test code stolen from TFA base
-	--------------------------------------------------
 
 	function SW.CheckBoxNet(_parent, label, convar, ...)
 		local gconvar = assert(GetConVar(convar), "Unknown ConVar: " .. convar .. "!")
@@ -701,52 +697,52 @@ if CLIENT then
 
 			} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Show Weather Alerts" , ["Command"] = "sw_cl_announcement" } )
+			SW.CheckBoxNet(Panel, "Show Weather Alerts", "sw_cl_announcement")
 			Panel:ControlHelp( "Show an informational chat message when weather starts." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Show HUD" , ["Command"] = "sw_cl_hud_toggle" } )
+			SW.CheckBoxNet(Panel, "Show HUD", "sw_cl_hud_toggle")
 			Panel:ControlHelp( "Show HUD elements." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "HUD on Top" , ["Command"] = "sw_cl_hud_position" } )
+			SW.CheckBoxNet(Panel, "HUD on Top", "sw_cl_hud_position")
 			Panel:ControlHelp( "Show HUD elements on top or bottom of screen." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Show Weather" , ["Command"] = "sw_cl_hud_weather_toggle" } )
+			SW.CheckBoxNet(Panel, "Show Weather", "sw_cl_hud_weather_toggle")
 			Panel:ControlHelp( "Toggle weather HUD element" , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Show Clock" , ["Command"] = "sw_cl_hud_clock_toggle" } )
+			SW.CheckBoxNet(Panel, "Show Clock", "sw_cl_hud_clock_toggle")
 			Panel:ControlHelp( "Toggle clock HUD element" , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "24-Hour Clock" , ["Command"] = "sw_cl_hud_clock_style" } )
+			SW.CheckBoxNet(Panel, "24-Hour Clock", "sw_cl_hud_clock_style")
 			Panel:ControlHelp( "24 hour or 12 hour clock style." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Color Mod" , ["Command"] = "sw_cl_colormod" } )
+			SW.CheckBoxNet(Panel, "Color Mod", "sw_cl_colormod")
 			Panel:ControlHelp( "Use the color mod." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Color Mod Indoors" , ["Command"] = "sw_cl_colormod_indoors" } )
+			SW.CheckBoxNet(Panel, "Color Mod Indoors", "sw_cl_colormod_indoors")
 			Panel:ControlHelp( "Force the color mod indoors." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Play Sounds" , ["Command"] = "sw_cl_sound" } )
+			SW.CheckBoxNet(Panel, "Play Sounds", "sw_cl_sound")
 			Panel:ControlHelp( "Toggle sound effects." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Play Sirens" , ["Command"] = "sw_cl_sound_siren" } )
+			SW.CheckBoxNet(Panel, "Play Sirens", "sw_cl_sound_siren")
 			Panel:ControlHelp( "Toggle siren sounds." , {} )
 
 			SW.NumSliderNet(Panel, "Volume", "sw_cl_sound_volume", "0", "1", "float")
 			Panel:ControlHelp( "Sound effect volume." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Screen Effects" , ["Command"] = "sw_cl_screenfx" } )
+			SW.CheckBoxNet(Panel, "Screen Effects", "sw_cl_screenfx")
 			Panel:ControlHelp( "Show screen effects." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Vehicle Screen Effects" , ["Command"] = "sw_cl_screenfx_vehicle" } )
+			SW.CheckBoxNet(Panel, "Vehicle Screen Effects", "sw_cl_screenfx_vehicle")
 			Panel:ControlHelp( "Show screen effects in vehicles." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Lightning Flashes" , ["Command"] = "sw_cl_screenfx_lightning" } )
+			SW.CheckBoxNet(Panel, "Lightning Flashes", "sw_cl_screenfx_lightning")
 			Panel:ControlHelp( "Lightning makes the screen flash. Recommend turning off at high frequency." )
 
 			SW.NumSliderNet(Panel, "Max Particles", "sw_cl_particles_max", "0", "10000", "int")
 			Panel:ControlHelp( "Max amount of particles to draw." , {} )
 
-			Panel:AddControl( "checkbox" , { ["Label"] = "Show Startup Message" , ["Command"] = "sw_cl_startupdisplay" } )
+			SW.CheckBoxNet(Panel, "Show Startup Message", "sw_cl_startupdisplay")
 			Panel:ControlHelp( "Show the new user chat message on spawn." , {} )
 
 		end)
