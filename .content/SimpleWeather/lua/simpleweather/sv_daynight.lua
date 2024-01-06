@@ -127,9 +127,9 @@ local tblLightingConversion = {
 	[25] = "y" ,
 	[26] = "z"
 }
-SW_LIGHT_DAY = tblLightingConversion[GetConVarNumber("sw_light_max_day")]
-SW_LIGHT_NIGHT = tblLightingConversion[GetConVarNumber("sw_light_max_night")]
-SW_LIGHT_STORM = tblLightingConversion[GetConVarNumber("sw_light_max_storm")]
+SW_LIGHT_DAY = tblLightingConversion[GetConVarNumber("sw_light_day_brightness")]
+SW_LIGHT_NIGHT = tblLightingConversion[GetConVarNumber("sw_light_night_brightness")]
+SW_LIGHT_STORM = tblLightingConversion[GetConVarNumber("sw_light_storm_brightness")]
 
 SW.LastLightStyle = ""
 
@@ -409,6 +409,8 @@ function SW.DayNightThink()
 		mul = math.EaseInOut( 1 - ( SW.Time - 12 ) / 8, 1, 0 )
 
 	end
+
+	-- bumping a few lines to debug
 
 	local strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
 

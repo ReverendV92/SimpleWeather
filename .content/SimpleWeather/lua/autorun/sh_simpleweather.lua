@@ -188,9 +188,9 @@ CreateConVar( "sw_perf_updatedelay_client" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICAT
 CreateConVar( "sw_perf_updatedelay_sun" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sun position.\nSetting this to a smaller number will allow smoother sun movement, but doing this also causes lag." , 0 , 15 )
 CreateConVar( "sw_perf_updatedelay_sky" , 0.1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(FLOAT) Delay in seconds between updating the sky colors.\nSetting this to a smaller number will allow smoother transitions, but doing this also causes lag." , 0 , 15 )
 
-CreateConVar( "sw_light_max_day" , 25 , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(INT) Maximum lightness level at noon on a clear day.\nIncrease to add light. \"1\" is darkest, \"26\" is lightest. Numbers are equivalent to Hammer editor A-Z values." , 1 , 26 ) -- Y
-CreateConVar( "sw_light_max_night" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(INT) Maximum darkness level during night.\nIncrease to add light. \"1\" is darkest, \"26\" is lightest. Numbers are equivalent to Hammer editor A-Z values." , 1 , 26 ) -- B
-CreateConVar( "sw_light_max_storm" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(INT) Maximum lightness level at noon on a stormy day.\nIncrease to add light. \"1\" is darkest, \"26\" is lightest. Numbers are equivalent to Hammer editor A-Z values." , 1 , 26 ) -- J
+CreateConVar( "sw_light_day_brightness" , 25 , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(INT) Maximum lightness level at noon on a clear day.\nIncrease to add light. \"1\" is darkest, \"26\" is lightest. Numbers are equivalent to Hammer editor A-Z values." , 1 , 26 ) -- Y
+CreateConVar( "sw_light_night_brightness" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(INT) Maximum darkness level during night.\nIncrease to add light. \"1\" is darkest, \"26\" is lightest. Numbers are equivalent to Hammer editor A-Z values." , 1 , 26 ) -- B
+CreateConVar( "sw_light_storm_brightness" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_DONTRECORD } , "(INT) Maximum lightness level at noon on a stormy day.\nIncrease to add light. \"1\" is darkest, \"26\" is lightest. Numbers are equivalent to Hammer editor A-Z values." , 1 , 26 ) -- J
 
 if CLIENT then
 
@@ -534,9 +534,9 @@ if CLIENT then
 						["sw_func_maplogic"] = "1" ,
 						["sw_weather_eas"] = "1" ,
 						["sw_weather_announcement"] = "1" ,
-						["sw_light_max_day"] = "25" ,
-						["sw_light_max_night"] = "2" ,
-						["sw_light_max_storm"] = "10" ,
+						["sw_light_day_brightness"] = "25" ,
+						["sw_light_night_brightness"] = "2" ,
+						["sw_light_storm_brightness"] = "10" ,
 					},
 
 					["disabled"] = {
@@ -567,9 +567,9 @@ if CLIENT then
 					"sw_func_maplogic" ,
 					"sw_weather_eas" ,
 					"sw_weather_announcement" ,
-					"sw_light_max_day" ,
-					"sw_light_max_night" ,
-					"sw_light_max_storm" ,
+					"sw_light_day_brightness" ,
+					"sw_light_night_brightness" ,
+					"sw_light_storm_brightness" ,
 
 				}
 
@@ -1498,9 +1498,9 @@ if CLIENT then
 			-- Panel:ControlHelp( "Time to consider Night." , {} )
 
 			Panel:Help( "Lighting brightness settings. Higher=brighter." , {} )
-			SW.NumSliderNet(Panel, "Lighting: Day", "sw_light_max_day", "1", "26", "int")
-			SW.NumSliderNet(Panel, "Lighting: Night", "sw_light_max_night", "1", "26", "int")
-			SW.NumSliderNet(Panel, "Lighting: Storm", "sw_light_max_storm", "1", "26", "int")
+			SW.NumSliderNet(Panel, "Lighting: Day", "sw_light_day_brightness", "1", "26", "int")
+			SW.NumSliderNet(Panel, "Lighting: Night", "sw_light_night_brightness", "1", "26", "int")
+			SW.NumSliderNet(Panel, "Lighting: Storm", "sw_light_storm_brightness", "1", "26", "int")
 
 		end)
 
