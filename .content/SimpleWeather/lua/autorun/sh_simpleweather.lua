@@ -858,7 +858,6 @@ if CLIENT then
 
 			Panel:Help( "Minimum and maximum time before a weather will start." , {} )
 			SW.NumSliderNet(Panel, "Min. Before Start", "sw_autoweather_minstart", "0", "8", "int")
-			SW.NumSliderNet(Panel, "Min. Before Start", "sw_autoweather_minstart", "0", "8", "int")
 			SW.NumSliderNet(Panel, "Max Before Start", "sw_autoweather_maxstart", "1", "8", "int")
 
 			Panel:Help( "Minimum and maximum time before a weather will stop." , {} )
