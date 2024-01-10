@@ -3,7 +3,13 @@ AddCSLuaFile( )
 
 -- Create tables for use later
 SW = SW or { }
-SW.AutoWeatherTypes = SW.AutoWeatherTypes or { }
+
+SW.AutoWeatherTypes = { 
+	["fog"] = 1 ,
+	["overcast"] = 1 ,
+	["rain"] = 1 ,
+	["thunderstorm"] = 1
+}
 
 local IsSinglePlayer = game.SinglePlayer()
 
@@ -1024,23 +1030,23 @@ if CLIENT then
 			Panel:ControlHelp( "Heavy Storm.\nOvercast skies. Hampers visibility.\nHail may cause damage to struck objects. Lightning may strike you for significant damage." , {} )
 
 			Panel:Help( "Quality settings. Tweak to suit your visual or performance preferences." , {} )
-			Panel:AddControl( "checkbox" , { ["Label"] = "Rain Puffs" , ["Command"] = "sw_rain_showsmoke" } )
+			-- Panel:AddControl( "checkbox" , { ["Label"] = "Rain Puffs" , ["Command"] = "sw_rain_showsmoke" } )
 			SW.CheckBoxNet(Panel, "Rain Puffs", "sw_rain_showsmoke")
-			Panel:AddControl( "checkbox" , { ["Label"] = "Rain Impacts" , ["Command"] = "sw_rain_showimpact" } )
+			-- Panel:AddControl( "checkbox" , { ["Label"] = "Rain Impacts" , ["Command"] = "sw_rain_showimpact" } )
 			SW.CheckBoxNet(Panel, "Rain Impacts", "sw_rain_showimpact")
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Quality" , ["Command"] = "sw_rain_quality" , ["Min"] = "1" , ["Max"] = "4" , ["Type"] = "int" } )
+			-- Panel:AddControl( "slider" , { ["Label"] = "Rain Quality" , ["Command"] = "sw_rain_quality" , ["Min"] = "1" , ["Max"] = "4" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Rain Quality", "sw_rain_quality", "1", "4", "int")
-			Panel:AddControl( "slider" , { ["Label"] = "Drop Size Minimum" , ["Command"] = "sw_rain_dropsize_min" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
+			-- Panel:AddControl( "slider" , { ["Label"] = "Drop Size Minimum" , ["Command"] = "sw_rain_dropsize_min" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Drop Size Minimum", "sw_rain_dropsize_min", "10", "1000", "int")
-			Panel:AddControl( "slider" , { ["Label"] = "Drop Size Maximum" , ["Command"] = "sw_rain_dropsize_max" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
+			-- Panel:AddControl( "slider" , { ["Label"] = "Drop Size Maximum" , ["Command"] = "sw_rain_dropsize_max" , ["Min"] = "10" , ["Max"] = "1000" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Drop Size Maximum", "sw_rain_dropsize_max", "10", "1000", "int")
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Height" , ["Command"] = "sw_rain_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
+			-- Panel:AddControl( "slider" , { ["Label"] = "Rain Height" , ["Command"] = "sw_rain_height" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Rain Height", "sw_rain_height", "0", "2500", "int")
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Radius" , ["Command"] = "sw_rain_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
+			-- Panel:AddControl( "slider" , { ["Label"] = "Rain Radius" , ["Command"] = "sw_rain_radius" , ["Min"] = "0" , ["Max"] = "2500" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Rain Radius", "sw_rain_radius", "0", "2500", "int")
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Amount" , ["Command"] = "sw_rain_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
+			-- Panel:AddControl( "slider" , { ["Label"] = "Rain Amount" , ["Command"] = "sw_rain_count" , ["Min"] = "0" , ["Max"] = "100" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Rain Amount", "sw_rain_count", "0", "100", "int")
-			Panel:AddControl( "slider" , { ["Label"] = "Rain Lifetime" , ["Command"] = "sw_rain_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
+			-- Panel:AddControl( "slider" , { ["Label"] = "Rain Lifetime" , ["Command"] = "sw_rain_dietime" , ["Min"] = "0" , ["Max"] = "16" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Rain Lifetime", "sw_rain_dietime", "0", "16", "int")
 
 		end )
