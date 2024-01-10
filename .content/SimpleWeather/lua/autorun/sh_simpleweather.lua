@@ -5,10 +5,19 @@ AddCSLuaFile( )
 SW = SW or { }
 
 SW.AutoWeatherTypes = { 
-	["fog"] = 1 ,
-	["overcast"] = 1 ,
-	["rain"] = 1 ,
-	["thunderstorm"] = 1
+	-- "acidrain" ,
+	-- "blizzard" ,
+	"fog" ,
+	-- "hail" ,
+	-- "lightning" ,
+	-- "meteor" ,
+	"overcast" ,
+	"rain" ,
+	-- "sandstorm" ,
+	-- "smog" ,
+	-- "snow" ,
+	"thunderstorm" ,
+	-- "heavystorm" ,
 }
 
 local IsSinglePlayer = game.SinglePlayer()
@@ -824,7 +833,7 @@ if CLIENT then
 						["sw_hail"] = "0" ,
 						["sw_lightning"] = "0" ,
 						["sw_meteor"] = "0" ,
-						["sw_overcast"] = "1" ,
+						["sw_overcast"] = "0" ,
 						["sw_rain"] = "1" ,
 						["sw_sandstorm"] = "0" ,
 						["sw_smog"] = "0" ,
