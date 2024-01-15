@@ -68,7 +68,6 @@ function SW.SetWeather( s )
 
 	SW.WeatherMode = s
 	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
-	SW.ResetSnowTextureSettings()
 
 	---------------------------------------------
 	---------------------------------------------
@@ -246,8 +245,6 @@ hook.Add( "PostCleanupMap" , "SWCleanupReset" , function()
 
 	SW.SetWeather("")
 
-	SW.ResetSnowTextureSettings()
-
 	if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sv_init - PostCleanupMap - Reset to defaults") end
 
 end)
@@ -267,12 +264,18 @@ function SW.Think()
 
 			SW.SetWeather( table.Random( SW.AutoWeatherTypes ) )
 			SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstop") * 60 * 60, GetConVarNumber("sw_autoweather_maxstop") * 60 * 60 )
+			-- SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstop") * 60, GetConVarNumber("sw_autoweather_maxstop") * 60 )
 			SW.GetCurrentWeather().Advisory = -1
+
+			if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sv_init::SW.Think::AutoWeather Started") end
 
 		else
 
 			SW.SetWeather( "" )
 			SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
+			-- SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 , GetConVarNumber("sw_autoweather_maxstart") * 60 )
+
+			if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sv_init::SW.Think::AutoWeather Stopped") end
 
 		end
 
@@ -437,7 +440,6 @@ function SW.PostInitEntity()
 	end
 
 	SW.LoadWeathers()
-	SW.ResetSnowTextureSettings()
 
 end
 hook.Add( "InitPostEntity", "SW.PostInitEntity", SW.PostInitEntity )
