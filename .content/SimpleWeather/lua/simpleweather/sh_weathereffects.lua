@@ -927,7 +927,7 @@ SW.SnowTextureSettings = {
 	{ "blend/blend_conf_acliffgrass" , 2 },
 
 	-- { "cs_assault/pavement001a" , 1 },
-	-- { "cs_havana/ground01grass" , 1 },
+	{ "cs_havana/ground01grass" , 1 },
 	{ "cs_havana/groundd01" , 1 },
 	{ "customtext/gc textures/blends/grass_dirt_blend04" , 1 },
 
@@ -935,7 +935,6 @@ SW.SnowTextureSettings = {
 	{ "de_cbble/grassdirt_blend" , 1 },
 	{ "de_cbble/grassfloor01" , 1 },
 	{ "de_chateau/brusha" , 1 },
-	-- { "de_chateau/bush01a" , 3 },
 	{ "de_chateau/groundd" , 1 },
 	{ "de_chateau/groundd_blend" , 1 },
 	{ "de_chateau/groundl" , 1 },
@@ -1192,6 +1191,7 @@ SW.SnowTextureSettings = {
 	{ "unioncity2/floors/parkdirttograss" , 2 },
 
 	-- Things to hide
+	-- { "de_chateau/bush01a" , 3 },
 	-- { "models/cliffs/ferns01" , 3 },
 	-- { "models/props_foliage/bush" , 3 },
 	-- { "models/props_foliage/grass_clusters" , 3 },
@@ -1222,13 +1222,15 @@ SW.SnowModelSettings = {
 SW.SnowSettings = { "simpleweather/textures/snow_0_01" , "simpleweather/textures/snow_0_01_normal" , "snow" , ""}
 
 -- The reset table. Don't fucking touch!
-SW.TextureResets = { }
+SW.SnowTextureResets = { }
+SW.SnowModelResets = { }
 
 function SW.ResetSnowTextureSettings()
-	
-	for k, originals in pairs( SW.TextureResets ) do
+
+	for k, originals in pairs( SW.SnowTextureResets ) do
 
 		local m = Material( k )
+
 		if originals[1] then
 			m:SetTexture( "$basetexture", originals[1] )
 		end
@@ -1245,10 +1247,21 @@ function SW.ResetSnowTextureSettings()
 			m:SetTexture( "$bumpmap2", originals[4] )
 		end
 
-		-- if GetConVarNumber("sw_debug") == 1 then PrintTable( SW.TextureResets ) end
-		
 	end
-	
+
+	for k, originals in pairs( SW.SnowModelResets ) do
+
+		local m = Material( k )
+
+		if originals[1] then
+			m:SetTexture( "$basetexture", originals[1] )
+		end
+
+	end
+
+	table.Empty( SW.SnowTextureResets )
+	table.Empty( SW.SnowModelResets )
+
 end
 
 -- function SW.CheckSnowTexture( mat, mattype, norm )
@@ -1261,7 +1274,7 @@ end
 
 function SW.SetSnowTextureSettings()
 
-	if GetConVarNumber("sw_func_textures") != 1 then return end
+	if GetConVarNumber("sw_func_textures") != 1 or CLIENT then return end
 
 	for k, modelTexture in pairs( SW.SnowModelSettings ) do
 
@@ -1269,7 +1282,7 @@ function SW.SetSnowTextureSettings()
 
 		local m = Material( originalMaterial )
 
-		if( !SW.TextureResets[originalMaterial] ) then
+		if( !SW.SnowModelResets[originalMaterial] ) then
 
 			local t1 = m:GetTexture( "$basetexture" )
 
@@ -1285,7 +1298,7 @@ function SW.SetSnowTextureSettings()
 		if ( m_replacement:GetTexture( "$basetexture" ) == nil ) then print( "[SW] Snow Replacement $basetexture: " .. tostring( m_replacement ) .. " is not valid." ) return end
 		m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
 
-		SW.TextureResets[originalMaterial] = { o_t1 }
+		SW.SnowModelResets[originalMaterial] = { o_t1 }
 
 		-- if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sh_weathereffects::SW.SetSnowTextureSettings::Model Relacement::" .. tostring(m) .. " is now " .. tostring(m_replacement) ) end
 
@@ -1293,11 +1306,11 @@ function SW.SetSnowTextureSettings()
 
 	for k, v in pairs( SW.SnowTextureSettings ) do
 
-		local originalMaterial = string.lower( v[1] )
+		originalMaterial = string.lower( v[1] )
 
 		local m = Material( originalMaterial )
 
-		if( !SW.TextureResets[originalMaterial] ) then
+		if( !SW.SnowTextureResets[originalMaterial] ) then
 			local t1 = m:GetTexture( "$basetexture" )
 			local t2 = m:GetTexture( "$basetexture2" )
 			local b1 = m:GetTexture( "$bumpmap" )
@@ -1319,7 +1332,7 @@ function SW.SetSnowTextureSettings()
 				o_b2 = string.lower( b2:GetName() )
 			end
 
-			SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 }
+			SW.SnowTextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 }
 
 		end
 
@@ -1334,7 +1347,6 @@ function SW.SetSnowTextureSettings()
 		end
 
 		if v[2] == 1 then
-
 
 			m:SetTexture( "$basetexture", SW.SnowSettings[1] )
 			m:SetTexture( "$bumpmap", SW.SnowSettings[2] )
@@ -1361,7 +1373,7 @@ function SW.SetSnowTextureSettings()
 
 				local m = Material( v )
 
-				if( !SW.TextureResets[v] ) then
+				if( !SW.SnowTextureResets[v] ) then
 					local t1 = m:GetTexture( "$basetexture" )
 					local t2 = m:GetTexture( "$basetexture2" )
 
@@ -1374,12 +1386,11 @@ function SW.SetSnowTextureSettings()
 						m2 = string.lower( t2:GetName() )
 					end
 
-					SW.TextureResets[v] = { m1, m2 }
+					SW.SnowTextureResets[v] = { m1, m2 }
 
 				end
 
 				m:SetTexture( "$basetexture", SW.SnowSettings[1] )
-				-- m:SetTexture( "$surfaceprop", SW.SnowSettings[3] )
 
 				materialSwap = {}
 
@@ -1391,7 +1402,7 @@ function SW.SetSnowTextureSettings()
 
 end
 
-function SW.PlayerFootstep( ply, pos, foot, sound, vol, filt )
+function SW.SnowPlayerFootstep( ply, pos, foot, sound, vol, filt )
 
 	local w = SW:GetCurrentWeather()
 
@@ -1417,4 +1428,4 @@ function SW.PlayerFootstep( ply, pos, foot, sound, vol, filt )
 	end
 
 end
-hook.Add( "PlayerFootstep", "SW.PlayerFootstep", SW.PlayerFootstep )
+hook.Add( "PlayerFootstep", "SW.SnowPlayerFootstep", SW.SnowPlayerFootstep )

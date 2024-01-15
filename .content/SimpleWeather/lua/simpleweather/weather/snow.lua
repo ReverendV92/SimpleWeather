@@ -4,7 +4,6 @@ WEATHER.ID = "snow"
 WEATHER.ConVar = { "sw_snow" , "Snow" }
 WEATHER.Sound = ""
 WEATHER.WindScale = 1
--- WEATHER.ParticleSystem = "v92_weather_snow"
 
 WEATHER.FogStart = -512
 WEATHER.FogEnd = 2048
@@ -23,12 +22,6 @@ function WEATHER:Think()
 end
 
 function WEATHER:OnStart()
-
-	-- if SERVER then
-
-		-- return false
-
-	-- end
 
 	SW.SetSnowTextureSettings()
 
