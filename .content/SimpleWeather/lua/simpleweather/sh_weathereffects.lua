@@ -927,11 +927,11 @@ SW.SnowTextureSettings = {
 	{ "blend/blend_conf_acliffgrass" , 2 },
 
 	-- { "cs_assault/pavement001a" , 1 },
-	{ "cs_havana/ground01grass" , 1 },
+	-- { "cs_havana/ground01grass" , 1 },
 	{ "cs_havana/groundd01" , 1 },
 	{ "customtext/gc textures/blends/grass_dirt_blend04" , 1 },
 
-	{ "de_aztec/ground02_blend_nobump" , 1 },
+	-- { "de_aztec/ground02_blend_nobump" , 1 },
 	{ "de_cbble/grassdirt_blend" , 1 },
 	{ "de_cbble/grassfloor01" , 1 },
 	{ "de_chateau/brusha" , 1 },
@@ -1191,20 +1191,6 @@ SW.SnowTextureSettings = {
 	{ "unioncity2/floors/parkcobbles" , 1 },
 	{ "unioncity2/floors/parkdirttograss" , 2 },
 
-	-- Unique replacements
-	{ "models/props_foliage/arbre01" , 1 , "models/props_foliage/arbre01_snow" },
-	{ "models/props_foliage_gs/arbre01" , 1 , "models/props_foliage/arbre01_snow" },
-	{ "models/fork/tree_pine04_lowdetail_cluster" , 1 , "models/props_foliage/arbre01_snow" },
-	{ "models/fork_gs/tree_pine04_lowdetail_cluster" , 1 , "models/props_foliage/arbre01_snow" },
-	-- { "models/fork/tree_pine04_lowdetail_cluster_card" , 1 , "models/props_foliage/tree_pine_cards_01_snow" }, -- needs custom texture
-	-- { "models/fork_gs/tree_pine04_lowdetail_cluster_card" , 1 , "models/props_foliage/tree_pine_cards_01_snow" }, -- needs custom texture
-	{ "models/props_foliage/arbre01_b" , 1 , "models/props_foliage/arbre01_b_snow" },
-	{ "models/props_foliage/hedge_128" , 1 , "models/props_foliage/hedgesnow_128" },
-	{ "models/props_foliage_gs/hedge_128" , 1 , "models/props_foliage/hedgesnow_128" },
-	{ "models/props_foliage/tree_pine_cards_01" , 1 , "models/props_foliage/tree_pine_cards_01_snow" },
-	-- { "apehouse/nolight_skybox_farms_summer" , 1 , "xmas_apehouse/skybox_farms_winter_nolights" }, -- gm_apehouse
-	-- { "apehouse/mountain_blend" , 0 , "xmas_apehouse/snow_mountain_blend" }, -- gm_apehouse
-
 	-- Things to hide
 	-- { "models/cliffs/ferns01" , 3 },
 	-- { "models/props_foliage/bush" , 3 },
@@ -1212,6 +1198,24 @@ SW.SnowTextureSettings = {
 	-- { "models/props_foliage/grass3" , 3 },
 	-- { "models/props_foliage/rocks_vegetation" , 3 },
 	-- { "models/props_forest/fern01" , 3 },
+
+}
+
+SW.SnowModelSettings = {
+
+	-- { "apehouse/nolight_skybox_farms_summer" , "xmas_apehouse/skybox_farms_winter_nolights" }, -- gm_apehouse
+	-- { "apehouse/mountain_blend" , 0 , "xmas_apehouse/snow_mountain_blend" }, -- gm_apehouse
+	-- { "models/fork/tree_pine04_lowdetail_cluster_card" , "models/props_foliage/tree_pine_cards_01_snow" }, -- needs custom texture
+	-- { "models/fork_gs/tree_pine04_lowdetail_cluster_card" , "models/props_foliage/tree_pine_cards_01_snow" }, -- needs custom texture
+
+	{ "models/props_foliage/arbre01" , "models/props_foliage/arbre01_snow" },
+	{ "models/props_foliage_gs/arbre01" , "models/props_foliage/arbre01_snow" },
+	{ "models/fork/tree_pine04_lowdetail_cluster" , "models/props_foliage/arbre01_snow" },
+	{ "models/fork_gs/tree_pine04_lowdetail_cluster" , "models/props_foliage/arbre01_snow" },
+	{ "models/props_foliage/arbre01_b" , "models/props_foliage/arbre01_b_snow" },
+	{ "models/props_foliage/hedge_128" , "models/props_foliage/hedgesnow_128" },
+	{ "models/props_foliage_gs/hedge_128" , "models/props_foliage/hedgesnow_128" },
+	{ "models/props_foliage/tree_pine_cards_01" , "models/props_foliage/tree_pine_cards_01_snow" }
 
 }
 
@@ -1223,40 +1227,73 @@ SW.TextureResets = { }
 function SW.ResetSnowTextureSettings()
 	
 	for k, originals in pairs( SW.TextureResets ) do
-		
+
 		local m = Material( k )
 		if originals[1] then
 			m:SetTexture( "$basetexture", originals[1] )
 		end
+
 		if originals[2] then
 			m:SetTexture( "$basetexture2", originals[2] )
 		end
+
 		if originals[3] then
 			m:SetTexture( "$bumpmap", originals[3] )
 		end
+
 		if originals[4] then
 			m:SetTexture( "$bumpmap2", originals[4] )
 		end
+
+		-- if GetConVarNumber("sw_debug") == 1 then PrintTable( SW.TextureResets ) end
 		
 	end
 	
 end
 
-function SW.CheckSnowTexture( mat, mattype, norm )
+-- function SW.CheckSnowTexture( mat, mattype, norm )
 
-	if( norm:Dot( Vector( 0, 0, 1 ) ) < 0.99 ) then return end
+	-- if( norm:Dot( Vector( 0, 0, 1 ) ) < 0.99 ) then return end
 
-	SW.SetSnowTextureSettings()
+	-- SW.SetSnowTextureSettings()
 	
-end
+-- end
 
 function SW.SetSnowTextureSettings()
 
 	if GetConVarNumber("sw_func_textures") != 1 then return end
 
+	for k, modelTexture in pairs( SW.SnowModelSettings ) do
+
+		local originalMaterial = string.lower( modelTexture[1] )
+
+		local m = Material( originalMaterial )
+
+		if( !SW.TextureResets[originalMaterial] ) then
+
+			local t1 = m:GetTexture( "$basetexture" )
+
+			if t1 and t1 != "" then
+				o_t1 = string.lower( t1:GetName() )
+			end
+
+		end
+
+		local replacement = string.lower( modelTexture[2] )
+		local m_replacement = Material( replacement )
+
+		if ( m_replacement:GetTexture( "$basetexture" ) == nil ) then print( "[SW] Snow Replacement $basetexture: " .. tostring( m_replacement ) .. " is not valid." ) return end
+		m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
+
+		SW.TextureResets[originalMaterial] = { o_t1 }
+
+		-- if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sh_weathereffects::SW.SetSnowTextureSettings::Model Relacement::" .. tostring(m) .. " is now " .. tostring(m_replacement) ) end
+
+	end
+
 	for k, v in pairs( SW.SnowTextureSettings ) do
 
-		originalMaterial = string.lower( v[1] )
+		local originalMaterial = string.lower( v[1] )
 
 		local m = Material( originalMaterial )
 
@@ -1282,36 +1319,7 @@ function SW.SetSnowTextureSettings()
 				o_b2 = string.lower( b2:GetName() )
 			end
 
-			
-		end
-
-		if v[3] then
-
-			local replacement = string.lower( v[3] )
-			local m_replacement = Material( replacement )
-
-			if v[2] == 0 then
-
-				if ( m_replacement:GetTexture( "$basetexture" ) == nil ) then print( "[SW] Snow Replacement $basetexture: " .. tostring( m_replacement ) .. " is not valid." ) return end
-				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
-				if ( m_replacement:GetTexture( "$basetexture2" ) == nil ) then print( "[SW] Snow Replacement $basetexture2: " .. tostring( m_replacement ) .. " is not valid." ) return end
-				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
-
-			end
-
-			if v[2] == 1 then
-
-				if ( m_replacement:GetTexture( "$basetexture" ) == nil ) then print( "[SW] Snow Replacement $basetexture: " .. tostring( m_replacement ) .. " is not valid." ) return end
-				m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
-
-			end
-
-			if v[2] == 2 then
-
-				if ( m_replacement:GetTexture( "$basetexture2" ) == nil ) then print( "[SW] Snow Replacement $basetexture2: " .. tostring( m_replacement ) .. " is not valid." ) return end
-				m:SetTexture( "$basetexture2", m_replacement:GetTexture( "$basetexture2" ) )
-
-			end
+			SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 }
 
 		end
 
