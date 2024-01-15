@@ -63,7 +63,8 @@ SW.NextRandomWeather = math.Rand( GetConVarNumber("sw_autoweather_minstart") * 6
 
 function SW.SetWeather( s )
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	SW.WeatherMode = s
 	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
@@ -172,6 +173,8 @@ function SW.SetWeather( s )
 			RadioModels:EmitSound( SW.GetCurrentWeather().Broadcast )
 		end
 
+		if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sv_init - SW.SetWeather - EAS Radios Added") end
+
 	end
 
 	---------------------------------------------
@@ -186,6 +189,8 @@ function SW.SetWeather( s )
 		if IsValid(v) then
 
 			SafeRemoveEntity(v)
+
+			if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sv_init - SW.SetWeather - Removed old SW particle systems") end
 
 		end
 
@@ -203,6 +208,8 @@ function SW.SetWeather( s )
 
 		SW.ParticleSys:Spawn()
 		SW.ParticleSys:Activate()
+
+		if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sv_init - SW.SetWeather - Added new SW particle systems") end
 
 	end
 
@@ -241,11 +248,14 @@ hook.Add( "PostCleanupMap" , "SWCleanupReset" , function()
 
 	SW.ResetSnowTextureSettings()
 
+	if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sv_init - PostCleanupMap - Reset to defaults") end
+
 end)
 
 function SW.Think()
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then 
 
 		return
 
@@ -360,7 +370,8 @@ hook.Add( "Think", "SW.Think", SW.Think )
 
 function SW.PlayerInitialSpawn( ply )
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then 
 
 		return
 
@@ -380,7 +391,7 @@ function SW.PlayerInitialSpawn( ply )
 			net.WriteUInt( SW.FogSettings["g"], 8 )
 			net.WriteUInt( SW.FogSettings["b"], 8 )
 		net.Send( ply )
-		
+
 	end
 
 	if( SW.SkyboxFogSettings and GetConVarNumber("sw_func_fog") == 1 ) then
@@ -401,7 +412,8 @@ hook.Add( "PlayerInitialSpawn", "SW.PlayerInitialSpawn", SW.PlayerInitialSpawn )
 
 function SW.Initialize()
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then
 
 		return
 
@@ -432,7 +444,8 @@ hook.Add( "InitPostEntity", "SW.PostInitEntity", SW.PostInitEntity )
 
 function SW.Move( ply, mv )
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then
 
 		return
 
@@ -473,7 +486,8 @@ end
 
 function meta:IsOutside()
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then 
 
 		return
 

@@ -140,7 +140,8 @@ util.AddNetworkString( "SW.nOpenConfigWindow" )
 
 function SW.UpdateLightStyle( strLightStyle )
 
-	if table.HasValue( SW.MapBlacklist, string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then 
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then
 
 		return 
 
@@ -173,7 +174,8 @@ end
 
 function SW.InitDayNight()
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if GetConVarNumber("sw_func_skybox") == 1 then
 
@@ -215,7 +217,8 @@ function SW.InitPostEntity()
 
 	end
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then
 
 		return
 

@@ -111,7 +111,8 @@ SW.Emitter3D = nil
 
 function SW.Think()
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then
 
 		return
 
@@ -465,7 +466,8 @@ function SW.DrawHUD()
 
 	-- If the map is blacklisted...
 	-- or SimpleWeather is disabled...
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then
 
 		-- Don't run
 		return 
@@ -615,7 +617,8 @@ SW.HUDLightning = { }
 
 function SW.HUDPaint()
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then
 
 		return
 
@@ -686,7 +689,8 @@ SW.ScreenspaceMul = 0
 
 function SW.RenderScreenspaceEffects()
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then
 
 		return
 
@@ -739,7 +743,8 @@ hook.Add( "RenderScreenspaceEffects", "SW.RenderScreenspaceEffects", SW.RenderSc
 
 function SW.InitPostEntity()
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then 
 
 		return
 

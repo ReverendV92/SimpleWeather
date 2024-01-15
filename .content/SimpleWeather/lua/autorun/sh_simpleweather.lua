@@ -23,11 +23,7 @@ SW.AutoWeatherTypes = {
 local IsSinglePlayer = game.SinglePlayer()
 
 -- What maps to not run the skybox functions on
-SW.MapBlacklist = { 
-	"rp_bad_map_name_here",
-	"gm_another_bad_map",
-	"map_that_you_dont_want_sw_on" ,
- 
+SW.MapBlacklist = {  
 	-- A short list I know of to get you started -V92
 	-- Ideally, keep them alphabetical to preserve your sanity.
 	"act_airport" , -- Indoor
@@ -153,6 +149,7 @@ end
 ----------------------------------------
 ----------------------------------------
 
+CreateConVar( "sw_debug" , 0 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Enable SimpleWeather debug mode to print verbose info to console." , 0 , 1 )
 CreateConVar( "sw_func_master" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Enable SimpleWeather mod." , 0 , 1 )
 CreateConVar( "sw_func_lighting" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Enable map lighting updates.\nTurn this off if the map's a night map already!" , 0 , 1 )
 CreateConVar( "sw_func_sun" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Enable sun moving through the sky." , 0 , 1 )
@@ -298,8 +295,10 @@ local function Weather( ply, cmd, args )
 		return
 	end
 
-	if( CLIENT ) then return end
-	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	if CLIENT then return end
+
+	-- if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if( ply and ply:IsValid( ) and !ply:IsAdmin( ) ) then
 
@@ -329,7 +328,8 @@ end
 concommand.Add( "sw_weather", Weather, function( )
 
 	--if( CLIENT ) then return end
-	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return { } end
+	-- if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return { } end
+	if GetConVarNumber("sw_func_master") != 1 then return { } end
 
 	local tab = { }
 
@@ -370,7 +370,8 @@ local function SetTime( ply, cmd, args )
 	end
 
 	if( CLIENT ) then return end
-	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	-- if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if( ply and ply:IsValid() and !ply:IsAdmin() ) then
 
