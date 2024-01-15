@@ -1265,10 +1265,6 @@ function SW.SetSnowTextureSettings()
 			local t2 = m:GetTexture( "$basetexture2" )
 			local b1 = m:GetTexture( "$bumpmap" )
 			local b2 = m:GetTexture( "$bumpmap2" )
-			-- local dtp = m:GetTexture( "%detailtype" )
-
-			local o_t1, o_t2, o_b1, o_b2
-			-- local o_t1, o_t2, o_b1, o_b2, o_dtp
 
 			if t1 and t1 != "" then
 				o_t1 = string.lower( t1:GetName() )
@@ -1286,14 +1282,7 @@ function SW.SetSnowTextureSettings()
 				o_b2 = string.lower( b2:GetName() )
 			end
 
-			-- todo: can detailprops even be hard-removed at runtime?
-			-- use cl_detaildist as a backup?
-			-- if( dtp and dtp != "" ) then
-				-- o_dtp = string.lower( dtp:GetName() )
-			-- end
-
-			SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 }
-			-- SW.TextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 , o_dtp }
+			
 		end
 
 		if v[3] then
