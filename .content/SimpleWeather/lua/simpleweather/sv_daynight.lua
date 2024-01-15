@@ -410,8 +410,6 @@ function SW.DayNightThink()
 
 	end
 
-	-- bumping a few lines to debug
-
 	local strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
 
 	if SW.WeatherMode != "" then
