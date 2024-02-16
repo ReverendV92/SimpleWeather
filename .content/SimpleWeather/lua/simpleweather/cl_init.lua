@@ -120,15 +120,15 @@ function SW.Think()
 
 	if LocalPlayer():GetViewEntity() == LocalPlayer() then
 
-		local s = hook.Call( "CalcView", GAMEMODE, LocalPlayer(), LocalPlayer():EyePos(), LocalPlayer():EyeAngles(), 75 )
-		if s and s.origin and s.angles then
+		-- local s = hook.Call( "CalcView", GAMEMODE, LocalPlayer(), LocalPlayer():EyePos(), LocalPlayer():EyeAngles(), 75 )
+		-- if s and s.origin and s.angles then
 
-			SW.ViewPos = s.origin
-			SW.ViewAng = s.angles
+			-- SW.ViewPos = s.origin
+			-- SW.ViewAng = s.angles
 
-		end
+		-- end
 
-	else
+	-- else
 
 		SW.ViewPos = LocalPlayer():GetViewEntity():GetPos()
 		SW.ViewAng = LocalPlayer():GetViewEntity():GetAngles()
