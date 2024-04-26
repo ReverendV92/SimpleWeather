@@ -550,6 +550,7 @@ if CLIENT then
 						["sw_func_precip"] = "1" ,
 						["sw_func_textures"] = "1" ,
 						["sw_func_maplogic"] = "1" ,
+						["sw_hud_toggle"] = "1" ,
 						["sw_weather_eas"] = "1" ,
 						["sw_weather_announcement"] = "1" ,
 						["sw_light_day_brightness"] = "25" ,
@@ -567,6 +568,7 @@ if CLIENT then
 						["sw_func_precip"] = "0" ,
 						["sw_func_textures"] = "0" ,
 						["sw_func_maplogic"] = "0" ,
+						["sw_hud_toggle"] = "0" ,
 						["sw_weather_eas"] = "0" ,
 						["sw_weather_announcement"] = "0" ,
 					}
@@ -583,6 +585,7 @@ if CLIENT then
 					"sw_func_wind" ,
 					"sw_func_precip" ,
 					"sw_func_maplogic" ,
+					"sw_hud_toggle" ,
 					"sw_weather_eas" ,
 					"sw_weather_announcement" ,
 					"sw_light_day_brightness" ,
