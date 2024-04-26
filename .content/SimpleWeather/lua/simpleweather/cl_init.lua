@@ -474,6 +474,14 @@ function SW.DrawHUD()
 
 	end
 
+	-- If the admin HUD toggle is off...
+	if GetConVarNumber("sw_hud_toggle") != 1 then
+
+		-- Don't run
+		return
+
+	end
+
 	-- If show HUD...
 	if GetConVarNumber("sw_cl_hud_toggle") == 1 then
 

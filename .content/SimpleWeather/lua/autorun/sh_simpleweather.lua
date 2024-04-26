@@ -162,6 +162,8 @@ CreateConVar( "sw_func_maplogic" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(
 CreateConVar( "sw_func_particle_type" , 0 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Should weather use PCF (1) or Lua effects (0)? Affects all weather variants. PCF is more efficient, while Lua effects are more reliable." , 0 , 1 )
 -- CreateConVar( "sw_func_waterdarken" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Should water fog be darkened to match lighting?" , 0 , 1 )
 
+CreateConVar( "sw_hud_toggle", 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Admin override for SimpleWeather HUD." , 0 , 1 )
+	
 CreateConVar( "sw_autoweather" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , 0 , 1 )
 CreateConVar( "sw_autoweather_minstart" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , 0 , 16 )
 CreateConVar( "sw_autoweather_maxstart" , 3 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Maximum time in hours before weather begins." , 0 , 16 )
@@ -622,6 +624,9 @@ if CLIENT then
 
 			SW.CheckBoxNet(Panel, "Emergency Alerts", "sw_weather_eas")
 			Panel:ControlHelp( "Toggle radio models playing the EAS broadcasting tones when severe weather starts." , {} )
+
+			SW.CheckBoxNet(Panel, "HUD Override Toggle", "sw_hud_toggle")
+			Panel:ControlHelp( "Admin override to disable HUD on clients, regardless of settings." , {} )
 
 			SW.CheckBoxNet(Panel, "Text Alerts", "sw_weather_announcement")
 			Panel:ControlHelp( "Allow client chat messages when severe weather starts." , {} )
