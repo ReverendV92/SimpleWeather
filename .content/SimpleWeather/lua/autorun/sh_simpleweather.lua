@@ -1761,7 +1761,6 @@ if SERVER then
 
 end
 
-
 ------------------------------
 -- The following fixes some displacement errors Valve made
 ------------------------------

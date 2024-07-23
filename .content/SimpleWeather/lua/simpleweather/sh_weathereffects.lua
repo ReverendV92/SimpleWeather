@@ -917,6 +917,7 @@ end
 -- 2: replacement method (0=replace both, 1=only $basetexture, 2=only $basetexture2, 3=make invisible)
 -- 3: material to replace with
 ------------------------------------------------------------
+
 SW.SnowTextureSettings = {
 
 	{ "ajacks/ajacks_grass-dirt01" , 1 },
@@ -1263,6 +1264,7 @@ function SW.ResetSnowTextureSettings()
 	table.Empty( SW.SnowModelResets )
 
 end
+hook.Add( "InitPostEntity", "SW.ResetSnowTextureSettings", SW.ResetSnowTextureSettings )
 
 -- function SW.CheckSnowTexture( mat, mattype, norm )
 
