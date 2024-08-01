@@ -380,6 +380,12 @@ function SW.PlayerInitialSpawn( ply )
 
 	end
 
+	if GetConVarNumber("sw_func_skybox") != 0 then
+
+		RunConsoleCommand( "sv_skyname", "painted" )
+
+	end
+
 	net.Start( "SW.nSetWeather" )
 		net.WriteString( SW.WeatherMode )
 	net.Send( ply )
@@ -416,20 +422,18 @@ hook.Add( "PlayerInitialSpawn", "SW.PlayerInitialSpawn", SW.PlayerInitialSpawn )
 function SW.Initialize()
 
 	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then
-
-		return
-
+	if GetConVarNumber("sw_func_master") == 0 then 
+		return 
 	end
 
-	-- SW.InitDayNight( )
+	SW.InitDayNight( )
 
 end
 hook.Add( "Initialize", "SW.Initialize", SW.Initialize )
 
--- function SW.InitDayNight()
+function SW.InitDayNight()
 
--- end
+end
 
 function SW.PostInitEntity()
 
@@ -443,11 +447,7 @@ function SW.PostInitEntity()
 		end
 	end
 
-	if GetConVarNumber("sw_func_skybox") != 0 then
-
-		RunConsoleCommand( "sv_skyname", "painted" )
-
-	end
+	SW.InitDayNight( )
 
 	SW.LoadWeathers()
 
