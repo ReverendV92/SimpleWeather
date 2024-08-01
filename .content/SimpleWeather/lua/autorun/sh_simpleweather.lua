@@ -1765,6 +1765,7 @@ end
 -- The following fixes some displacement errors Valve made
 ------------------------------
 
+SW.TextureResets = { }
 function SW.DisplacementFixes()
 
 	if string.lower( game.GetMap() ) == "de_port" then
@@ -1877,3 +1878,4 @@ function SW.DisplacementFixes()
 
 end
 hook.Add( "InitPostEntity", "SW.DisplacementFixes", SW.DisplacementFixes )
+hook.Add( "PostCleanupMap", "SW.DisplacementFixes", SW.DisplacementFixes )

@@ -172,19 +172,6 @@ function SW.UpdateLightStyle( strLightStyle )
 
 end
 
-function SW.InitDayNight()
-
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then return end
-	if GetConVarNumber("sw_func_master") != 1 then return end
-
-	if GetConVarNumber("sw_func_skybox") == 1 then
-
-		RunConsoleCommand( "sv_skyname", "painted" )
-
-	end
-
-end
-
 function SW.InitPostEntity()
 
 	-- Find any existing env_wind entities

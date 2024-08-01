@@ -422,15 +422,19 @@ function SW.Initialize()
 
 	end
 
-	SW.InitDayNight( )
+	-- SW.InitDayNight( )
 
 end
 hook.Add( "Initialize", "SW.Initialize", SW.Initialize )
 
+-- function SW.InitDayNight()
+
+-- end
+
 function SW.PostInitEntity()
 
 	SW.raincount = ents.FindByClass( "func_precipitation" )
-	print(SW.raincount)
+	-- print("SW RainCount: " .. #SW.raincount)
 
 	if GetConVarNumber("sw_func_precip") != 0 then
 		SW.FuncPrecip = ents.FindByClass( "func_precipitation" )
@@ -439,10 +443,17 @@ function SW.PostInitEntity()
 		end
 	end
 
+	if GetConVarNumber("sw_func_skybox") != 0 then
+
+		RunConsoleCommand( "sv_skyname", "painted" )
+
+	end
+
 	SW.LoadWeathers()
 
 end
 hook.Add( "InitPostEntity", "SW.PostInitEntity", SW.PostInitEntity )
+hook.Add( "PostCleanupMap", "SW.PostInitEntity", SW.PostInitEntity )
 
 function SW.Move( ply, mv )
 
