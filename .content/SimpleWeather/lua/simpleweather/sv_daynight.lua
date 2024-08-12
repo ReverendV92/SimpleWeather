@@ -28,9 +28,9 @@ SW.SkyColors[SW_TIME_DAWN] = {
 }
 
 SW.SkyColors[SW_TIME_AFTERNOON] = {
-	["TopColor"]		= Vector( 0.24 , 0.61 , 1 ) ,
+	["TopColor"]		= Vector( 0.04 , 0.28 , 0.53 ) ,
 	["BottomColor"]		= Vector( 0.6 , 0.9 , 1 ) ,
-	["FadeBias"]		= 0.27 ,
+	["FadeBias"]		= 0.2 ,
 	["HDRScale"]		= 0.66 ,
 	["DuskIntensity"]	= 0 ,
 	["DuskScale"]		= 0.54 ,
@@ -42,7 +42,7 @@ SW.SkyColors[SW_TIME_AFTERNOON] = {
 SW.SkyColors[SW_TIME_DUSK] = {
 	["TopColor"]		= Vector( 0.45 , 0.55 , 1 ) ,
 	["BottomColor"]		= Vector( 0.91 , 0.64 , 0.05 ) ,
-	["FadeBias"]		= 0.61 ,
+	["FadeBias"]		= 0.3 ,
 	["HDRScale"]		= 0.66 ,
 	["DuskIntensity"]	= 1.56 ,
 	["DuskScale"]		= 0.54 ,
@@ -54,7 +54,7 @@ SW.SkyColors[SW_TIME_DUSK] = {
 SW.SkyColors[SW_TIME_NIGHT] = {
 	["TopColor"]		= Vector( 0 , 0.01 , 0.02 ) ,
 	["BottomColor"]		= Vector( 0 , 0 , 0 ) ,
-	["FadeBias"]		= 0.82 ,
+	["FadeBias"]		= 0.2 ,
 	["HDRScale"]		= 0.66 ,
 	["DuskIntensity"]	= 0 ,
 	["DuskScale"]		= 0.54 ,
@@ -62,6 +62,7 @@ SW.SkyColors[SW_TIME_NIGHT] = {
 	["SunSize"]			= 2 ,
 	["SunColor"]		= Vector( 0.2 , 0.1 , 0 )
 }
+
 SW.SkyColors[SW_TIME_WEATHER] = {
 	["TopColor"]		= Vector( 0.34 , 0.34 , 0.34 ) ,
 	["BottomColor"]		= Vector( 0.19 , 0.19 , 0.19 ) ,
@@ -204,19 +205,19 @@ function SW.InitPostEntity()
 
 	end
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then
-
-		return
-
-	end
-
 	SW.LightEnvironment = ents.FindByClass( "light_environment" )[1]
 	SW.EnvSun = ents.FindByClass( "env_sun" )[1]
 	SW.SkyPaint = ents.FindByClass( "env_skypaint" )[1]
 	SW.EnvFog = ents.FindByClass( "env_fog_controller" )[1]
 	SW.SkyCam = ents.FindByClass( "sky_camera" )[1]
 	SW.UpdateLightStyle( SW_LIGHT_NIGHT )
+
+	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
+	if GetConVarNumber("sw_func_master") != 1 then
+
+		return
+
+	end
 
 	if GetConVarNumber("sw_func_fog") == 1 then
 
@@ -402,7 +403,7 @@ function SW.DayNightThink()
 
 	local strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
 
-	if SW.WeatherMode != "" then
+	if SW.WeatherMode != "" and SW.GetCurrentWeather().DefaultSky != true then
 
 		strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
@@ -457,38 +458,20 @@ function SW.DayNightThink()
 
 		SW.LastTimePeriod = SW_TIME_DUSK
 
-	elseif SW.Time < 18 then
+	elseif SW.Time <= 18 then
 
 		if( SW.LastTimePeriod != SW_TIME_DAWN ) then
 
+			SW.SkyPaint:SetStarTexture( "skybox/clouds" )
+			SW.SkyPaint:SetStarLayers( 1 )
+			SW.SkyPaint:SetStarScale( 1 )
+			SW.SkyPaint:SetStarFade( 0.4 )
+			SW.SkyPaint:SetStarSpeed( 0.03 )
+
 			if( GetConVarNumber("sw_func_maplogic") == 1 ) then
 
-				for _, v in pairs( ents.FindByName( "dawn" ) ) do
-
-					v:Fire( "Trigger" )
-
-				end
-
-				for _, v in pairs( ents.FindByName( "day_events" ) ) do
-
-					v:Fire( "Trigger" )
-
-				end
-
-				if( string.lower( game.GetMap() ) == "rp_harbor2ocean_catalyst2_v3" ) then
-
-					for _, v in pairs( ents.FindByName( "amblol2" ) ) do v:Fire( "TurnOn" ) end
-					for _, v in pairs( ents.FindByName( "1" ) ) do v:Fire( "TurnOn" ) end
-					for _, v in pairs( ents.FindByName( "lamps`" ) ) do v:Fire( "TurnOn" ) end
-
-				end
-
-				if( string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
-
-					for _, v in pairs( ents.FindByName( "ocrp_sun" ) ) do v:Fire( "TurnOn" ) end
-					for _, v in pairs( ents.FindByName( "ocrp_lights`" ) ) do v:Fire( "TurnOn" ) end
-
-				end
+				-- Run the dawn map logic (1)
+				SW.MapLogic( 1 )
 
 			end
 
@@ -502,34 +485,16 @@ function SW.DayNightThink()
 
 		if SW.LastTimePeriod != SW_TIME_DUSK then
 
+			SW.SkyPaint:SetStarTexture( "skybox/starfield" )
+			SW.SkyPaint:SetStarScale( 0.5 )
+			SW.SkyPaint:SetStarFade( 1.5 )
+			-- SW.SkyPaint:SetStarSpeed( GetConVarNumber("sw_time_speed_stars") )
+			SW.SkyPaint:SetStarSpeed( 0.01 )
+
 			if GetConVarNumber("sw_func_maplogic") == 1 then
 
-				for _, v in pairs( ents.FindByName( "dusk" ) ) do
-
-					v:Fire( "Trigger" )
-
-				end
-
-				for _, v in pairs( ents.FindByName( "night_events" ) ) do
-
-					v:Fire( "Trigger" )
-
-				end
-
-				if string.lower( game.GetMap() ) == "rp_harbor2ocean_catalyst2_v3" then
-
-					for _, v in pairs( ents.FindByName( "amblol2" ) ) do v:Fire( "TurnOff" ) end
-					for _, v in pairs( ents.FindByName( "1" ) ) do v:Fire( "TurnOff" ) end
-					for _, v in pairs( ents.FindByName( "lamps`" ) ) do v:Fire( "TurnOff" ) end
-
-				end
-
-				if( string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
-
-					for _, v in pairs( ents.FindByName( "ocrp_sun" ) ) do v:Fire( "TurnOff" ) end
-					for _, v in pairs( ents.FindByName( "ocrp_lights`" ) ) do v:Fire( "TurnOff" ) end
-
-				end
+				-- Run the dusk map logic (2)
+				SW.MapLogic( 2 )
 
 			end
 
@@ -551,7 +516,7 @@ function SW.DayNightThink()
 			local skypaintend
 			local skypaintlerp = 1
 			
-			if( SW.WeatherMode != "" and !SW.GetCurrentWeather().DefaultSky ) then
+			if( SW.WeatherMode != "" and SW.GetCurrentWeather().DefaultSky != true ) then
 				
 				if( SW.Time >= 20 or SW.Time <= 4 ) then
 					
@@ -576,9 +541,9 @@ function SW.DayNightThink()
 					skypaintlerp = ( SW.Time - 18 ) / 2
 					
 				end
-				
+
 				if( SW.GetCurrentWeather().FogColor ) then
-					
+
 					local c = SW.GetCurrentWeather().FogColor
 					
 					if( skypaintend == SW_TIME_WEATHER ) then
@@ -588,18 +553,18 @@ function SW.DayNightThink()
 					if( skypaintstart == SW_TIME_WEATHER ) then
 						skypaintstart = SW_TIME_FOG
 					end
+
+					-- SW.SkyPaint:SetStarTexture( "skybox/clouds" )
+					-- SW.SkyPaint:SetStarScale( 1 )
+					-- SW.SkyPaint:SetStarFade( 0 )
+					-- SW.SkyPaint:SetStarSpeed( 0.03 )
+
+				-- else
 					
-					SW.SkyPaint:SetStarTexture( "skybox/clouds" )
-					SW.SkyPaint:SetStarScale( 1 )
-					SW.SkyPaint:SetStarFade( 0 )
-					SW.SkyPaint:SetStarSpeed( 0.03 )
-					
-				else
-					
-					SW.SkyPaint:SetStarTexture( "skybox/clouds" )
-					SW.SkyPaint:SetStarScale( 1 )
-					SW.SkyPaint:SetStarFade( 0.4 )
-					SW.SkyPaint:SetStarSpeed( 0.03 )
+					-- SW.SkyPaint:SetStarTexture( "skybox/clouds" )
+					-- SW.SkyPaint:SetStarScale( 1 )
+					-- SW.SkyPaint:SetStarFade( 0.4 )
+					-- SW.SkyPaint:SetStarSpeed( 0.03 )
 					
 				end
 				
@@ -646,12 +611,13 @@ function SW.DayNightThink()
 					skypaintend = SW_TIME_NIGHT
 					
 				end
-				
-				SW.SkyPaint:SetStarTexture( "skybox/starfield" )
-				SW.SkyPaint:SetStarScale( 0.5 )
-				SW.SkyPaint:SetStarFade( 1.5 )
-				SW.SkyPaint:SetStarSpeed( GetConVarNumber("sw_time_speed_stars") )
-				
+
+				-- SW.SkyPaint:SetStarTexture( "skybox/starfield" )
+				-- SW.SkyPaint:SetStarScale( 0.5 )
+				-- SW.SkyPaint:SetStarFade( 1.5 )
+				-- SW.SkyPaint:SetStarSpeed( GetConVarNumber("sw_time_speed_stars") )
+				-- SW.SkyPaint:SetStarSpeed( 0.01 )
+
 			end
 			
 			local values = { }
@@ -737,7 +703,7 @@ function SW.SetTime( t )
 
 	local strLightStyle = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
-	if( SW.WeatherMode != "" ) then
+	if( SW.WeatherMode != "" and SW.GetCurrentWeather().DefaultSky != true ) then
 
 		strLightStyle = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
