@@ -243,9 +243,7 @@ CreateConVar( "sw_hail_delayoffset" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , 
 CreateConVar( "sw_hail_lifetime" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Time for hail to fade after hitting the ground. -1 for never (not recommended)." , -1 , 30 )
 CreateConVar( "sw_hail_drag" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of drag to add to the hail. More = slower decent." , 0 , 20 )
 
-SW.HailClassName = "sw_hail"
-
-function SW.HailThink()
+function SW.HailThink( hailEnt )
 
 	if CLIENT then
 
@@ -279,7 +277,7 @@ function SW.HailThink()
 
 		local hp = table.Random( SW.SkyPositionsTall )
 
-		local HailENT = ents.Create( SW.HailClassName )
+		local HailENT = ents.Create( hailEnt )
 		HailENT:SetPos( hp - Vector( 0 , 0 , 100 ) )
 		HailENT:DrawShadow( false )
 		HailENT:SetMaterial( "ice" )
@@ -685,12 +683,11 @@ CreateConVar( "sw_meteor_delay" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(IN
 CreateConVar( "sw_meteor_delayoffset" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between meteor spawns." , 1 , 30 )
 CreateConVar( "sw_meteor_lifetime" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Time for meteor shards to fade after hitting the ground. -1 for never (not recommended)." , -1 , 30 )
 CreateConVar( "sw_meteor_drag" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of drag to add to the meteors. More = slower decent." , 0 , 50 )
+CreateConVar( "sw_meteor_small_drag" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of drag to add to small meteors. More = slower decent." , 0 , 50 )
 CreateConVar( "sw_meteor_fancyfx" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Show fancy effects for meteors." , 0 , 1 )
 CreateConVar( "sw_meteor_whoosh" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Meteors play a sound before impact." , 0 , 1 )
 
-SW.MeteorClassName = "sw_meteor"
-
-function SW.MeteorThink()
+function SW.MeteorThink( metEnt )
 
 	if CLIENT then
 
@@ -728,7 +725,7 @@ function SW.MeteorThink()
 
 		local hp = table.Random( SW.SkyPositionsTall )
 
-		local MeteorENT = ents.Create( SW.MeteorClassName )
+		local MeteorENT = ents.Create( metEnt )
 		MeteorENT:SetPos( hp - Vector( 0 , 0 , 100 ) ) -- bbox is 140, 140, 140 x -140, -140, -140
 		MeteorENT:Spawn()
 		MeteorENT:Activate()
@@ -1398,14 +1395,14 @@ function SW.SetSnowTextureSettings()
 			end
 
 			if b1 and b1 != "error" then
-				print(tostring(o_b1))
+				-- print(tostring(o_b1))
 				o_b1 = string.lower( b1:GetName() )
 			else
 				o_b1 = string.lower( "dev/bump_normal" )
 			end
 
 			if b2 and b2 != "error"  then
-				print(tostring(o_b2))
+				-- print(tostring(o_b2))
 				o_b2 = string.lower( b2:GetName() )
 			else
 				o_b2 = string.lower( "dev/bump_normal" )
