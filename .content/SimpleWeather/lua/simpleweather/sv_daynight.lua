@@ -462,11 +462,7 @@ function SW.DayNightThink()
 
 		if( SW.LastTimePeriod != SW_TIME_DAWN ) then
 
-			SW.SkyPaint:SetStarTexture( "skybox/clouds" )
-			SW.SkyPaint:SetStarLayers( 1 )
-			SW.SkyPaint:SetStarScale( 1 )
-			SW.SkyPaint:SetStarFade( 0.4 )
-			SW.SkyPaint:SetStarSpeed( 0.03 )
+			SW.SkyOverlayUpdates( 1 )
 
 			if( GetConVarNumber("sw_func_maplogic") == 1 ) then
 
@@ -485,11 +481,7 @@ function SW.DayNightThink()
 
 		if SW.LastTimePeriod != SW_TIME_DUSK then
 
-			SW.SkyPaint:SetStarTexture( "skybox/starfield" )
-			SW.SkyPaint:SetStarScale( 0.5 )
-			SW.SkyPaint:SetStarFade( 1.5 )
-			-- SW.SkyPaint:SetStarSpeed( GetConVarNumber("sw_time_speed_stars") )
-			SW.SkyPaint:SetStarSpeed( 0.01 )
+			SW.SkyOverlayUpdates( 2 )
 
 			if GetConVarNumber("sw_func_maplogic") == 1 then
 
@@ -523,18 +515,18 @@ function SW.DayNightThink()
 					skypaintstart = SW_TIME_WEATHER_NIGHT
 					skypaintend = SW_TIME_WEATHER_NIGHT
 					
-				elseif( SW.Time < 6 ) then
+				elseif( SW.Time <= 6 ) then
 					
 					skypaintstart = SW_TIME_WEATHER_NIGHT
 					skypaintend = SW_TIME_WEATHER
 					skypaintlerp = ( SW.Time - 4 ) / 2
 					
-				elseif( SW.Time < 18 ) then
+				elseif( SW.Time <= 18 ) then
 					
 					skypaintstart = SW_TIME_WEATHER
 					skypaintend = SW_TIME_WEATHER
 					
-				elseif( SW.Time < 20 ) then
+				elseif( SW.Time <= 20 ) then
 					
 					skypaintstart = SW_TIME_WEATHER
 					skypaintend = SW_TIME_WEATHER_NIGHT
@@ -547,59 +539,51 @@ function SW.DayNightThink()
 					local c = SW.GetCurrentWeather().FogColor
 					
 					if( skypaintend == SW_TIME_WEATHER ) then
+
 						skypaintend = SW_TIME_FOG
+
 					end
 					
 					if( skypaintstart == SW_TIME_WEATHER ) then
+
 						skypaintstart = SW_TIME_FOG
+
 					end
 
-					-- SW.SkyPaint:SetStarTexture( "skybox/clouds" )
-					-- SW.SkyPaint:SetStarScale( 1 )
-					-- SW.SkyPaint:SetStarFade( 0 )
-					-- SW.SkyPaint:SetStarSpeed( 0.03 )
-
-				-- else
-					
-					-- SW.SkyPaint:SetStarTexture( "skybox/clouds" )
-					-- SW.SkyPaint:SetStarScale( 1 )
-					-- SW.SkyPaint:SetStarFade( 0.4 )
-					-- SW.SkyPaint:SetStarSpeed( 0.03 )
-					
 				end
 				
 			else
 				
-				if( SW.Time < 4 ) then
+				if( SW.Time <= 4 ) then
 					
 					skypaintstart = SW_TIME_NIGHT
 					skypaintend = SW_TIME_NIGHT
 					
-				elseif( SW.Time < 6 ) then
+				elseif( SW.Time <= 6 ) then
 					
 					skypaintstart = SW_TIME_NIGHT
 					skypaintend = SW_TIME_DAWN
 					skypaintlerp = ( SW.Time - 4 ) / 2
 					
-				elseif( SW.Time < 10 ) then
+				elseif( SW.Time <= 10 ) then
 					
 					skypaintstart = SW_TIME_DAWN
 					skypaintend = SW_TIME_AFTERNOON
 					skypaintlerp = ( SW.Time - 6 ) / 4
 					
-				elseif( SW.Time < 18 ) then
+				elseif( SW.Time <= 18 ) then
 					
 					skypaintstart = SW_TIME_AFTERNOON
 					skypaintend = SW_TIME_AFTERNOON
 					skypaintlerp = 1
 					
-				elseif( SW.Time < 20 ) then
+				elseif( SW.Time <= 20 ) then
 					
 					skypaintstart = SW_TIME_AFTERNOON
 					skypaintend = SW_TIME_DUSK
 					skypaintlerp = ( SW.Time - 18 ) / 2
 					
-				elseif( SW.Time < 22 ) then
+				elseif( SW.Time <= 22 ) then
 					
 					skypaintstart = SW_TIME_DUSK
 					skypaintend = SW_TIME_NIGHT
@@ -612,12 +596,6 @@ function SW.DayNightThink()
 					
 				end
 
-				-- SW.SkyPaint:SetStarTexture( "skybox/starfield" )
-				-- SW.SkyPaint:SetStarScale( 0.5 )
-				-- SW.SkyPaint:SetStarFade( 1.5 )
-				-- SW.SkyPaint:SetStarSpeed( GetConVarNumber("sw_time_speed_stars") )
-				-- SW.SkyPaint:SetStarSpeed( 0.01 )
-
 			end
 			
 			local values = { }
@@ -629,35 +607,50 @@ function SW.DayNightThink()
 				values.BottomColor = Vector( c.r / 255, c.g / 255, c.b / 255 )
 				
 			else
-				
+
+				-- New
+				-- values.TopColor = SW.SkyColors[skypaintstart].TopColor:Lerp( SW.SkyColors[skypaintend].TopColor, skypaintlerp )
+				-- values.BottomColor = SW.SkyColors[skypaintstart].BottomColor:Lerp( SW.SkyColors[skypaintend].BottomColor, skypaintlerp )
+
+				-- Old
 				values.TopColor = Vector()
 				values.TopColor.x = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].TopColor.r, SW.SkyColors[skypaintend].TopColor.r )
 				values.TopColor.y = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].TopColor.g, SW.SkyColors[skypaintend].TopColor.g )
 				values.TopColor.z = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].TopColor.b, SW.SkyColors[skypaintend].TopColor.b )
-				
+
 				values.BottomColor = Vector()
 				values.BottomColor.x = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].BottomColor.r, SW.SkyColors[skypaintend].BottomColor.r )
 				values.BottomColor.y = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].BottomColor.g, SW.SkyColors[skypaintend].BottomColor.g )
 				values.BottomColor.z = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].BottomColor.b, SW.SkyColors[skypaintend].BottomColor.b )
-				
+
 			end
-			
+
+			-- New
+			-- values.FadeBias = SW.SkyColors[skypaintstart].FadeBias:Lerp( SW.SkyColors[skypaintend].FadeBias, skypaintlerp )
+			-- values.HDRScale = SW.SkyColors[skypaintstart].HDRScale:Lerp( SW.SkyColors[skypaintend].HDRScale, skypaintlerp )
+			-- values.DuskIntensity = SW.SkyColors[skypaintstart].DuskIntensity:Lerp( SW.SkyColors[skypaintend].DuskIntensity, skypaintlerp )
+			-- values.DuskScale = SW.SkyColors[skypaintstart].DuskScale:Lerp( SW.SkyColors[skypaintend].DuskScale, skypaintlerp )
+			-- values.DuskColor = SW.SkyColors[skypaintstart].DuskColor:Lerp( SW.SkyColors[skypaintend].DuskColor, skypaintlerp )
+			-- values.SunColor = SW.SkyColors[skypaintstart].SunColor:Lerp( SW.SkyColors[skypaintend].SunColor, skypaintlerp )
+			-- values.SunSize = SW.SkyColors[skypaintstart].SunSize:Lerp( SW.SkyColors[skypaintend].SunSize, skypaintlerp )
+
+			-- Old
 			values.FadeBias = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].FadeBias, SW.SkyColors[skypaintend].FadeBias )
 			values.HDRScale = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].HDRScale, SW.SkyColors[skypaintend].HDRScale )
 			
 			values.DuskIntensity = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].DuskIntensity, SW.SkyColors[skypaintend].DuskIntensity )
 			values.DuskScale = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].DuskScale, SW.SkyColors[skypaintend].DuskScale )
-			
+
 			values.DuskColor = Vector()
 			values.DuskColor.x = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].DuskColor.r, SW.SkyColors[skypaintend].DuskColor.r )
 			values.DuskColor.y = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].DuskColor.g, SW.SkyColors[skypaintend].DuskColor.g )
 			values.DuskColor.z = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].DuskColor.b, SW.SkyColors[skypaintend].DuskColor.b )
-			
+
 			values.SunColor = Vector()
 			values.SunColor.x = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].SunColor.r, SW.SkyColors[skypaintend].SunColor.r )
 			values.SunColor.y = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].SunColor.g, SW.SkyColors[skypaintend].SunColor.g )
 			values.SunColor.z = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].SunColor.b, SW.SkyColors[skypaintend].SunColor.b )
-			
+
 			values.SunSize = Lerp( skypaintlerp, SW.SkyColors[skypaintstart].SunSize, SW.SkyColors[skypaintend].SunSize )
 			
 			SW.SkyPaint:SetTopColor( values.TopColor )
@@ -728,5 +721,35 @@ end
 function SW.PauseTime( b )
 
 	ConVar("sw_time_pause"):SetBool( b )
+
+end
+
+function SW.SkyOverlayUpdates( int )
+
+	-- 1=Dawn
+	if int == 1 then
+
+		SW.SkyPaint:SetStarTexture( "skybox/clouds" )
+		SW.SkyPaint:SetStarLayers( 1 )
+		SW.SkyPaint:SetStarScale( 1 )
+		SW.SkyPaint:SetStarFade( 0.4 )
+		SW.SkyPaint:SetStarSpeed( 0.03 )
+
+		-- todo: env_sun sprite to sun
+
+	end
+
+	-- 2=Dusk
+	if int == 2 then
+
+		SW.SkyPaint:SetStarTexture( "skybox/starfield" )
+		SW.SkyPaint:SetStarScale( 0.5 )
+		SW.SkyPaint:SetStarFade( 1.5 )
+		-- SW.SkyPaint:SetStarSpeed( GetConVarNumber("sw_time_speed_stars") )
+		SW.SkyPaint:SetStarSpeed( 0.01 )
+
+		-- todo: env_sun sprite to moon
+
+	end
 
 end

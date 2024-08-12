@@ -1514,6 +1514,7 @@ hook.Add( "PlayerFootstep", "SW.SnowPlayerFootstep", SW.SnowPlayerFootstep )
 -- Map-Specific Logic
 function SW.MapLogic( int )
 
+	-- 1=Dawn
 	if int == 1 then
 
 		for _, v in pairs( ents.FindByName( "dawn" ) ) do
@@ -1555,6 +1556,7 @@ function SW.MapLogic( int )
 
 	end
 
+	-- 2=Dusk
 	if int == 2 then
 
 		for _, v in pairs( ents.FindByName( "dusk" ) ) do
