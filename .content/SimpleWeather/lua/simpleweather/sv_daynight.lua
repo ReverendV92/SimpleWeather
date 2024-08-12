@@ -462,14 +462,7 @@ function SW.DayNightThink()
 
 		if( SW.LastTimePeriod != SW_TIME_DAWN ) then
 
-			SW.SkyOverlayUpdates( 1 )
-
-			if( GetConVarNumber("sw_func_maplogic") == 1 ) then
-
-				-- Run the dawn map logic (1)
-				SW.MapLogic( 1 )
-
-			end
+			SW.DNCUpdate( 1 )
 
 			hook.Call( "WeatherDay", GAMEMODE )
 
@@ -481,14 +474,7 @@ function SW.DayNightThink()
 
 		if SW.LastTimePeriod != SW_TIME_DUSK then
 
-			SW.SkyOverlayUpdates( 2 )
-
-			if GetConVarNumber("sw_func_maplogic") == 1 then
-
-				-- Run the dusk map logic (2)
-				SW.MapLogic( 2 )
-
-			end
+			SW.DNCUpdate( 2 )
 
 			hook.Call( "WeatherNight", GAMEMODE )
 
@@ -724,10 +710,17 @@ function SW.PauseTime( b )
 
 end
 
-function SW.SkyOverlayUpdates( int )
+function SW.DNCUpdate( int )
 
 	-- 1=Dawn
 	if int == 1 then
+
+		if( GetConVarNumber("sw_func_maplogic") == 1 ) then
+
+			-- Run the DAWN map logic (1)
+			SW.MapLogic( 1 )
+
+		end
 
 		SW.SkyPaint:SetStarTexture( "skybox/clouds" )
 		SW.SkyPaint:SetStarLayers( 1 )
@@ -742,6 +735,13 @@ function SW.SkyOverlayUpdates( int )
 	-- 2=Dusk
 	if int == 2 then
 
+		if( GetConVarNumber("sw_func_maplogic") == 1 ) then
+
+			-- Run the DUSK map logic (2)
+			SW.MapLogic( 2 )
+
+		end
+
 		SW.SkyPaint:SetStarTexture( "skybox/starfield" )
 		SW.SkyPaint:SetStarScale( 0.5 )
 		SW.SkyPaint:SetStarFade( 1.5 )
@@ -749,6 +749,95 @@ function SW.SkyOverlayUpdates( int )
 		SW.SkyPaint:SetStarSpeed( 0.01 )
 
 		-- todo: env_sun sprite to moon
+
+	end
+
+end
+
+-- Map-Specific Logic
+function SW.MapLogic( int )
+
+	-- 1=Dawn
+	if int == 1 then
+
+		for _, v in pairs( ents.FindByName( "dawn" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_flatgrass_redux" ) then
+
+			for _, v in pairs( ents.FindByName( "dnc_toggle" ) ) do
+
+				v:Fire( "FireUser2" )
+
+			end
+
+		end
+
+		for _, v in pairs( ents.FindByName( "day_events" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_harbor2ocean_catalyst2_v3" ) then
+
+			for _, v in pairs( ents.FindByName( "amblol2" ) ) do v:Fire( "TurnOn" ) end
+			for _, v in pairs( ents.FindByName( "1" ) ) do v:Fire( "TurnOn" ) end
+			for _, v in pairs( ents.FindByName( "lamps`" ) ) do v:Fire( "TurnOn" ) end
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
+
+			for _, v in pairs( ents.FindByName( "ocrp_sun" ) ) do v:Fire( "TurnOn" ) end
+			for _, v in pairs( ents.FindByName( "ocrp_lights`" ) ) do v:Fire( "TurnOn" ) end
+
+		end
+
+	end
+
+	-- 2=Dusk
+	if int == 2 then
+
+		for _, v in pairs( ents.FindByName( "dusk" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		for _, v in pairs( ents.FindByName( "night_events" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_flatgrass_redux" ) then
+
+			for _, v in pairs( ents.FindByName( "dnc_toggle" ) ) do
+
+				v:Fire( "FireUser1" )
+
+			end
+
+		end
+
+		if string.lower( game.GetMap() ) == "rp_harbor2ocean_catalyst2_v3" then
+
+			for _, v in pairs( ents.FindByName( "amblol2" ) ) do v:Fire( "TurnOff" ) end
+			for _, v in pairs( ents.FindByName( "1" ) ) do v:Fire( "TurnOff" ) end
+			for _, v in pairs( ents.FindByName( "lamps`" ) ) do v:Fire( "TurnOff" ) end
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
+
+			for _, v in pairs( ents.FindByName( "ocrp_sun" ) ) do v:Fire( "TurnOff" ) end
+			for _, v in pairs( ents.FindByName( "ocrp_lights`" ) ) do v:Fire( "TurnOff" ) end
+
+		end
 
 	end
 
