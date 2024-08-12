@@ -136,6 +136,14 @@ function SW.SetWeather( s )
 			table.insert( RadioModelTable , v )
 		end
 
+		-- Find the HL2 vehicles
+		for k , v in pairs( ents.FindByClass( "prop_vehicle_jeep" ) ) do
+			table.insert( RadioModelTable , v )
+		end
+		for k , v in pairs( ents.FindByClass( "prop_vehicle_airboat" ) ) do
+			table.insert( RadioModelTable , v )
+		end
+
 		-- Find the CS_Office radio
 		for k , v in pairs( ents.FindByModel( "models/props/cs_office/radio.mdl" ) ) do
 			table.insert( RadioModelTable , v )
