@@ -394,7 +394,6 @@ function SW.DayNightThink()
 
 	SW.UpdateLightStyle( strLightStyle )
 
-	-- if GetConVarNumber("sw_func_sun") == 1 and SW.EnvSun and SW.EnvSun:IsValid() then
 	if GetConVarNumber("sw_func_sun") == 1 then
 
 		if( !SW.NextSunUpdate or CurTime() > SW.NextSunUpdate ) then
@@ -468,7 +467,7 @@ function SW.DayNightThink()
 
 	end
 
-	if( GetConVarNumber("sw_func_skybox") == 1 and SW.SkyPaint and SW.SkyPaint:IsValid() ) then
+	if GetConVarNumber("sw_func_skybox") == 1 and IsValid(SW.SkyPaint) then
 		
 		if( !SW.NextSkyUpdate or CurTime() > SW.NextSkyUpdate ) then
 
@@ -674,11 +673,11 @@ function SW.SetTime( t )
 
 	SW.UpdateLightStyle( strLightStyle )
 
-	-- if SW.EnvSun and SW.EnvSun:IsValid() then
+	if IsValid(SW.EnvSun) then
 
 		SW.EnvSun:SetKeyValue( "sun_dir", "1 0 0" )
 
-	-- end
+	end
 
 end
 

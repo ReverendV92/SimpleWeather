@@ -1791,6 +1791,7 @@ function SW.PostInitMapFixes()
 
 	if string.lower( game.GetMap() ) == "de_port" then
 
+	-- Valve thought it would be funny to paint the alpha on a non-blend texture causing it to purple out when you snow it up
 		local materialSwap = {
 			"nature/blendrockdirt008d",
 		}
