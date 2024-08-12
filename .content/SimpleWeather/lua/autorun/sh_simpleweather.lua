@@ -1776,7 +1776,18 @@ end
 ------------------------------
 
 SW.TextureResets = { }
-function SW.DisplacementFixes()
+function SW.PostInitMapFixes()
+
+	-- Some maps have a proprietary jank method of day-night control we need to remove
+	if( string.lower( game.GetMap() ) == "rp_evocity_v33x" or string.lower( game.GetMap() ) == "rp_evocity_v4b1" or string.lower( game.GetMap() ) == "rp_evocity2_v5p" or string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
+
+		for _, v in pairs( ents.FindByName( "daynight_brush" ) ) do
+
+			v:Remove()
+
+		end
+
+	end
 
 	if string.lower( game.GetMap() ) == "de_port" then
 
@@ -1887,5 +1898,5 @@ function SW.DisplacementFixes()
 	end
 
 end
-hook.Add( "InitPostEntity", "SW.DisplacementFixes", SW.DisplacementFixes )
-hook.Add( "PostCleanupMap", "SW.DisplacementFixes", SW.DisplacementFixes )
+hook.Add( "InitPostEntity", "SW.PostInitMapFixes", SW.PostInitMapFixes )
+hook.Add( "PostCleanupMap", "SW.PostInitMapFixes", SW.PostInitMapFixes )
