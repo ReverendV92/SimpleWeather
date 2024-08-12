@@ -191,7 +191,7 @@ CreateConVar( "sw_time_real" , 0 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL
 CreateConVar( "sw_time_real_offset" , 0 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(INT) If realtime is on, add this many timezones.\nFor example, if the server was GMT and you set this to -5, it'd be EST ingame." , -12 , 12 )
 CreateConVar( "sw_time_speed_day" , 0.01 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Multiplier of time during the day.\nMake this bigger for time to go faster, and smaller for time to go slower." , 0 , 1 )
 CreateConVar( "sw_time_speed_night" , 0.02 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Multiplier of time during the night.\nMake this bigger for time to go faster, and smaller for time to go slower." , 0 , 1 )
-CreateConVar( "sw_time_speed_stars" , 0.01 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Set the rotation speed of stars" , 0.01 , 5 )
+-- CreateConVar( "sw_time_speed_stars" , 0.01 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Set the rotation speed of stars" , 0.01 , 5 )
 
 -- CreateConVar( "sw_time_dawn" , 6 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(INT) Hour to consider Dawn." , 0 , 23 )
 -- CreateConVar( "sw_time_afternoon" , 12 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(INT) Hour to consider Afternoon." , 0 , 23 )
@@ -1300,6 +1300,7 @@ if CLIENT then
 						["sw_meteor_lifetime"] = "2",
 						["sw_meteor_whoosh"] = "1",
 						["sw_meteor_drag"] = "10",
+						["sw_meteor_small_drag"] = "1",
 						["sw_meteor_fancyfx"] = "1",
 					},
 					["hardcore"] = {
@@ -1308,6 +1309,7 @@ if CLIENT then
 						["sw_meteor_lifetime"] = "2",
 						["sw_meteor_whoosh"] = "1",
 						["sw_meteor_drag"] = "0",
+						["sw_meteor_small_drag"] = "0",
 						["sw_meteor_fancyfx"] = "1",
 					},
 					["potato"] = {
@@ -1316,6 +1318,7 @@ if CLIENT then
 						["sw_meteor_lifetime"] = "0",
 						["sw_meteor_whoosh"] = "0",
 						["sw_meteor_drag"] = "10",
+						["sw_meteor_small_drag"] = "2",
 						["sw_meteor_fancyfx"] = "0",
 					}
 				},
@@ -1324,10 +1327,14 @@ if CLIENT then
 					"sw_meteor_delayoffset",
 					"sw_meteor_lifetime",
 					"sw_meteor_drag",
+					"sw_meteor_small_drag",
 					"sw_meteor_whoosh",
 					"sw_meteor_fancyfx",
 				}
 			} )
+
+			Panel:AddControl( "button" , { ["Label"] = "Start Meteor Shower" , ["Command"] = "sw_weather meteorshower" } )
+			Panel:ControlHelp( "Meteor Shower.\nClear skies.\nMeteor strike will cause slight damage." , {} )
 
 			Panel:AddControl( "button" , { ["Label"] = "Start Meteor Storm" , ["Command"] = "sw_weather meteor" } )
 			Panel:ControlHelp( "Meteor Storm.\nOvercast skies.\nMeteor strike will cause significant damage." , {} )
@@ -1345,6 +1352,7 @@ if CLIENT then
 
 			--Panel:AddControl( "slider" , { ["Label"] = "Meteor Drag" , ["Command"] = "sw_meteor_drag" , ["Min"] = "0" , ["Max"] = "50" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Meteor Drag", "sw_meteor_drag", "0", "50", "int")
+			SW.NumSliderNet(Panel, "Meteor Shower Drag", "sw_meteor_small_drag", "0", "50", "int")
 			Panel:ControlHelp( "Amount of drag to add to the meteors. Higher = slower decent." )
 
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Impact Sounds" , ["Command"] = "sw_meteor_whoosh" } )
@@ -1449,7 +1457,7 @@ if CLIENT then
 						["sw_time_real_offset"] = "0" ,
 						["sw_time_speed_day"] = "0.01" ,
 						["sw_time_speed_night"] = "0.02" ,
-						["sw_time_speed_stars"] = "0.01" ,
+						-- ["sw_time_speed_stars"] = "0.01" ,
 
 					},
 
@@ -1458,7 +1466,7 @@ if CLIENT then
 						["sw_time_pause"] = "1" ,
 						["sw_time_start"] = "0" ,
 						["sw_settime"] = "0" ,
-						["sw_time_speed_stars"] = "0.01" ,
+						-- ["sw_time_speed_stars"] = "0.01" ,
 
 					},
 
@@ -1481,7 +1489,7 @@ if CLIENT then
 					"sw_time_real_offset" ,
 					"sw_time_speed_day" ,
 					"sw_time_speed_night" ,
-					"sw_time_speed_stars" ,
+					-- "sw_time_speed_stars" ,
 
 				}
 
@@ -1503,8 +1511,8 @@ if CLIENT then
 			SW.NumSliderNet(Panel, "Day Speed", "sw_time_speed_day", "0.01", "0.2", "float")
 			SW.NumSliderNet(Panel, "Night Speed", "sw_time_speed_night", "0.01", "0.2", "float")
 
-			SW.NumSliderNet(Panel, "Star Rotate Speed", "sw_time_speed_stars", "0.01", "3", "float")
-			Panel:ControlHelp( "Rate at which stars rotate at night." , {} )
+			-- SW.NumSliderNet(Panel, "Star Rotate Speed", "sw_time_speed_stars", "0.01", "3", "float")
+			-- Panel:ControlHelp( "Rate at which stars rotate at night." , {} )
 
 			-- There's some jank ass math involved with this, so for now it's not enabled -V92
 
@@ -1667,6 +1675,7 @@ if CLIENT then
 		rng:AddSpacer( )
 
 		rng:AddOption( "Acid Rain", function( ) RunConsoleCommand( "sw_weather" , "acidrain" ) end )
+		rng:AddOption( "Meteor Shower", function( ) RunConsoleCommand( "sw_weather" , "meteorshower" ) end )
 		rng:AddOption( "Meteor Storm", function( ) RunConsoleCommand( "sw_weather" , "meteor" ) end )
 
 		m:AddOption( "Stop Current Weather", function( ) RunConsoleCommand( "sw_stopweather" ) end )
@@ -1701,6 +1710,7 @@ if CLIENT then
 		rng:AddSpacer( )
 
 		SW.AddCVarNet( rng, "Acid Rain", "sw_acidrain" , "1" , "0" )
+		SW.AddCVarNet( rng, "Meteor Shower", "sw_meteorshower" , "1" , "0" )
 		SW.AddCVarNet( rng, "Meteor Storm", "sw_meteor" , "1" , "0" )
 
 	end )
