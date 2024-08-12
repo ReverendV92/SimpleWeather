@@ -10,8 +10,10 @@ WEATHER.Icon = Material( "icon16/sport_shuttlecock.png" )
 WEATHER.Advisory = 3
 WEATHER.Broadcast = Sound("SW.EAS.Alert")
 
+local SpecialEntity = "sw_meteor"
+
 function WEATHER:Think()
 
-	SW.MeteorThink()
+	SW.MeteorThink( SpecialEntity )
 
 end
