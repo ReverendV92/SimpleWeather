@@ -1,4 +1,3 @@
-
 -- oh god oh fuck oh man this file is DOGSHIT
 -- there is SO MUCH SPAGHETTI CODE
 
@@ -141,7 +140,6 @@ util.AddNetworkString( "SW.nOpenConfigWindow" )
 
 function SW.UpdateLightStyle( strLightStyle )
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
 	if GetConVarNumber("sw_func_master") != 1 then
 
 		return 
@@ -179,7 +177,7 @@ function SW.InitPostEntity()
 	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
 	
 	-- If we didn't find an env_wind or it isn't valid, create one
-	if !SW.EnvWind or !SW.EnvWind:IsValid() then
+	if !IsValid(SW.EnvWind) then
 
 		SW.EnvWind = ents.Create( "env_wind" )
 		SW.EnvWind:Spawn()
@@ -205,90 +203,10 @@ function SW.InitPostEntity()
 
 	end
 
-	SW.LightEnvironment = ents.FindByClass( "light_environment" )[1]
-	SW.EnvSun = ents.FindByClass( "env_sun" )[1]
 	SW.SkyPaint = ents.FindByClass( "env_skypaint" )[1]
-	SW.EnvFog = ents.FindByClass( "env_fog_controller" )[1]
-	SW.SkyCam = ents.FindByClass( "sky_camera" )[1]
-	SW.UpdateLightStyle( SW_LIGHT_NIGHT )
-
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then
-
-		return
-
-	end
-
-	if GetConVarNumber("sw_func_fog") == 1 then
-
-		if SW.EnvFog and SW.EnvFog:IsValid() then
-
-			local tab = SW.EnvFog:GetSaveTable()
-
-			SW.FogSettings = { }
-			SW.FogSettings["FogStart"] = math.Round( tonumber( tab.fogstart ) )
-			SW.FogSettings["FogEnd"] = math.Round( tonumber( tab.fogend ) )
-			SW.FogSettings["MaxDensity"] = tonumber( tab.fogmaxdensity )
-
-			local col = string.Explode( " ", tab.fogcolor )
-
-			SW.FogSettings["r"] = tonumber( col[1] )
-			SW.FogSettings["g"] = tonumber( col[2] )
-			SW.FogSettings["b"] = tonumber( col[3] )
-
-		end
-
-		if SW.SkyCam and SW.SkyCam:IsValid() then
-
-			local tab = SW.SkyCam:GetSaveTable()
-
-			SW.SkyboxFogSettings = { }
-			SW.SkyboxFogSettings["FogStart"] = math.Round( tonumber( tab.fogstart ) )
-			SW.SkyboxFogSettings["FogEnd"] = math.Round( tonumber( tab.fogend ) )
-			SW.SkyboxFogSettings["MaxDensity"] = tonumber( tab.fogmaxdensity )
-
-			local col = string.Explode( " ", tab.fogcolor )
-
-			SW.SkyboxFogSettings["r"] = tonumber( col[1] )
-			SW.SkyboxFogSettings["g"] = tonumber( col[2] )
-			SW.SkyboxFogSettings["b"] = tonumber( col[3] )
-
-		end
-
-	end
-
-	if GetConVarNumber("sw_func_sun") == 1 then
-
-		if SW.EnvSun and SW.EnvSun:IsValid() then
-
-			SW.EnvSun:SetKeyValue( "sun_dir", "1 0 0" )
-
-			-- SW.EnvSun = ents.Create("env_sun")
-			-- SW.EnvSun:Spawn()
-			-- SW.EnvSun:Activate()
-
-		-- else
-
-			-- local tab = SW.EnvSun:GetSaveTable()
-
-			-- SW.EnvSun:SetKeyValue( "angles" , tab["angles"] )
-			-- SW.EnvSun:SetKeyValue( "hdrcolorscale" , tab["hdrcolorscale"] )
-			-- SW.EnvSun:SetKeyValue( "material" , tostring( tab["material"] ) )
-			-- SW.EnvSun:SetKeyValue( "overlaycolor" , tab["overlaycolor"] )
-			-- SW.EnvSun:SetKeyValue( "overlaymaterial" , tostring( tab["overlaymaterial"] ) )
-			-- SW.EnvSun:SetKeyValue( "overlaysize" , tonumber( tab["overlaysize"] ) )
-			-- SW.EnvSun:SetKeyValue( "pitch" , tonumber( tab["pitch"] ) )
-			-- SW.EnvSun:SetKeyValue( "rendercolor" , tab["rendercolor"] )
-			-- SW.EnvSun:SetKeyValue( "size" , tonumber( tab["size"] ) )
-			-- SW.EnvSun:SetKeyValue( "use_angles" , tobool( tab["use_angles"] ) )
-
-		end
-
-	end
-
 	if GetConVarNumber("sw_func_skybox") == 1 then
 
-		if !SW.SkyPaint or !SW.SkyPaint:IsValid() then
+		if !IsValid(SW.SkyPaint) then
 
 			SW.SkyPaint = ents.Create("env_skypaint")
 			SW.SkyPaint:Spawn()
@@ -319,16 +237,81 @@ function SW.InitPostEntity()
 
 	end
 
-	-- Some maps have a proprietary jank method of day-night control we need to remove
-	if( string.lower( game.GetMap() ) == "rp_evocity_v33x" or string.lower( game.GetMap() ) == "rp_evocity_v4b1" or string.lower( game.GetMap() ) == "rp_evocity2_v5p" or string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
+	SW.EnvSun = ents.FindByClass( "env_sun" )[1]
+	if GetConVarNumber("sw_func_sun") == 1 and IsValid(SW.EnvSun) then
 
-		for _, v in pairs( ents.FindByName( "daynight_brush" ) ) do
+		SW.EnvSun:SetKeyValue( "sun_dir", "1 0 0" )
 
-			v:Remove()
+		-- local tab = SW.EnvSun:GetSaveTable()
+
+		-- SW.EnvSun:SetKeyValue( "angles" , tab["angles"] )
+		-- SW.EnvSun:SetKeyValue( "hdrcolorscale" , tab["hdrcolorscale"] )
+		-- SW.EnvSun:SetKeyValue( "material" , tostring( tab["material"] ) )
+		-- SW.EnvSun:SetKeyValue( "overlaycolor" , tab["overlaycolor"] )
+		-- SW.EnvSun:SetKeyValue( "overlaymaterial" , tostring( tab["overlaymaterial"] ) )
+		-- SW.EnvSun:SetKeyValue( "overlaysize" , tonumber( tab["overlaysize"] ) )
+		-- SW.EnvSun:SetKeyValue( "pitch" , tonumber( tab["pitch"] ) )
+		-- SW.EnvSun:SetKeyValue( "rendercolor" , tab["rendercolor"] )
+		-- SW.EnvSun:SetKeyValue( "size" , tonumber( tab["size"] ) )
+		-- SW.EnvSun:SetKeyValue( "use_angles" , tobool( tab["use_angles"] ) )
+
+	else
+
+		SW.EnvSun = ents.Create("env_sun")
+		SW.EnvSun:Spawn()
+		SW.EnvSun:Activate()
+
+	end
+
+	SW.LightEnvironment = ents.FindByClass( "light_environment" )[1]
+	
+	SW.EnvFog = ents.FindByClass( "env_fog_controller" )[1]
+	SW.SkyCam = ents.FindByClass( "sky_camera" )[1]
+	if GetConVarNumber("sw_func_fog") == 1 then
+
+		if IsValid(SW.EnvFog) then
+
+			local tab = SW.EnvFog:GetSaveTable()
+
+			SW.FogSettings = { }
+			SW.FogSettings["FogStart"] = math.Round( tonumber( tab.fogstart ) )
+			SW.FogSettings["FogEnd"] = math.Round( tonumber( tab.fogend ) )
+			SW.FogSettings["MaxDensity"] = tonumber( tab.fogmaxdensity )
+
+			local col = string.Explode( " ", tab.fogcolor )
+
+			SW.FogSettings["r"] = tonumber( col[1] )
+			SW.FogSettings["g"] = tonumber( col[2] )
+			SW.FogSettings["b"] = tonumber( col[3] )
+
+		end
+
+		if IsValid(SW.SkyCam) then
+
+			local tab = SW.SkyCam:GetSaveTable()
+
+			SW.SkyboxFogSettings = { }
+			SW.SkyboxFogSettings["FogStart"] = math.Round( tonumber( tab.fogstart ) )
+			SW.SkyboxFogSettings["FogEnd"] = math.Round( tonumber( tab.fogend ) )
+			SW.SkyboxFogSettings["MaxDensity"] = tonumber( tab.fogmaxdensity )
+
+			local col = string.Explode( " ", tab.fogcolor )
+
+			SW.SkyboxFogSettings["r"] = tonumber( col[1] )
+			SW.SkyboxFogSettings["g"] = tonumber( col[2] )
+			SW.SkyboxFogSettings["b"] = tonumber( col[3] )
 
 		end
 
 	end
+
+	SW.UpdateLightStyle( SW_LIGHT_NIGHT )
+
+	-- if GetConVarNumber("sw_func_master") != 1 then
+
+		-- return
+
+	-- end
 
 end
 hook.Add( "InitPostEntity", "SW.InitPostEntity", SW.InitPostEntity )
@@ -411,7 +394,8 @@ function SW.DayNightThink()
 
 	SW.UpdateLightStyle( strLightStyle )
 
-	if GetConVarNumber("sw_func_sun") == 1 and SW.EnvSun and SW.EnvSun:IsValid() then
+	-- if GetConVarNumber("sw_func_sun") == 1 and SW.EnvSun and SW.EnvSun:IsValid() then
+	if GetConVarNumber("sw_func_sun") == 1 then
 
 		if( !SW.NextSunUpdate or CurTime() > SW.NextSunUpdate ) then
 
@@ -690,11 +674,11 @@ function SW.SetTime( t )
 
 	SW.UpdateLightStyle( strLightStyle )
 
-	if SW.EnvSun and SW.EnvSun:IsValid() then
+	-- if SW.EnvSun and SW.EnvSun:IsValid() then
 
 		SW.EnvSun:SetKeyValue( "sun_dir", "1 0 0" )
 
-	end
+	-- end
 
 end
 
