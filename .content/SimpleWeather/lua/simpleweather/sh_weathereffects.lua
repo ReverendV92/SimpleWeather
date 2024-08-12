@@ -1510,3 +1510,90 @@ function SW.SnowPlayerFootstep( ply, pos, foot, sound, vol, filt )
 
 end
 hook.Add( "PlayerFootstep", "SW.SnowPlayerFootstep", SW.SnowPlayerFootstep )
+
+-- Map-Specific Logic
+function SW.MapLogic( int )
+
+	if int == 1 then
+
+		for _, v in pairs( ents.FindByName( "dawn" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_flatgrass_redux" ) then
+
+			for _, v in pairs( ents.FindByName( "dnc_toggle" ) ) do
+
+				v:Fire( "FireUser2" )
+
+			end
+
+		end
+
+		for _, v in pairs( ents.FindByName( "day_events" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_harbor2ocean_catalyst2_v3" ) then
+
+			for _, v in pairs( ents.FindByName( "amblol2" ) ) do v:Fire( "TurnOn" ) end
+			for _, v in pairs( ents.FindByName( "1" ) ) do v:Fire( "TurnOn" ) end
+			for _, v in pairs( ents.FindByName( "lamps`" ) ) do v:Fire( "TurnOn" ) end
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
+
+			for _, v in pairs( ents.FindByName( "ocrp_sun" ) ) do v:Fire( "TurnOn" ) end
+			for _, v in pairs( ents.FindByName( "ocrp_lights`" ) ) do v:Fire( "TurnOn" ) end
+
+		end
+
+	end
+
+	if int == 2 then
+
+		for _, v in pairs( ents.FindByName( "dusk" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		for _, v in pairs( ents.FindByName( "night_events" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_flatgrass_redux" ) then
+
+			for _, v in pairs( ents.FindByName( "dnc_toggle" ) ) do
+
+				v:Fire( "FireUser1" )
+
+			end
+
+		end
+
+		if string.lower( game.GetMap() ) == "rp_harbor2ocean_catalyst2_v3" then
+
+			for _, v in pairs( ents.FindByName( "amblol2" ) ) do v:Fire( "TurnOff" ) end
+			for _, v in pairs( ents.FindByName( "1" ) ) do v:Fire( "TurnOff" ) end
+			for _, v in pairs( ents.FindByName( "lamps`" ) ) do v:Fire( "TurnOff" ) end
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_cosmoscity_v1b" ) then
+
+			for _, v in pairs( ents.FindByName( "ocrp_sun" ) ) do v:Fire( "TurnOff" ) end
+			for _, v in pairs( ents.FindByName( "ocrp_lights`" ) ) do v:Fire( "TurnOff" ) end
+
+		end
+
+	end
+
+end
