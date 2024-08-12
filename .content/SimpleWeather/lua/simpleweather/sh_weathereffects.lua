@@ -1021,6 +1021,11 @@ SW.SnowTextureSettings = {
 	{ "maps/terrain/blend_grass_dirt_1024_era1_detail" , 1 },
 	{ "maps/terrain/sand01a_mino" , 1 },
 
+	-- rp_trainingcenter
+	{ "trainingyard/dirtroad" , 2 },
+	{ "trainingyard/newsandblend" , 2 },
+	{ "trainingyard/newdirtblend" , 0 },
+
 	-- gm_kleinercomcenter
 	{ "maps/gm_kleinercomcenter/nature/comc_grassmudblend_nodetail_wvt_patch" , 1 },
 	{ "maps/gm_kleinercomcenter/nature/comc_grassmudblend_wvt_patch" , 1 },
