@@ -10,7 +10,6 @@ WEATHER.ParticleSystem = "v92_weather_storm"
 WEATHER.Raindrops = true
 WEATHER.RaindropMinDelay = 0.05
 WEATHER.RaindropMaxDelay = 0.2
-WEATHER.Lightning = true
 
 WEATHER.FogStart = 0
 WEATHER.FogEnd = 1024

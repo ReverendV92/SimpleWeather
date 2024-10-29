@@ -6,8 +6,6 @@ WEATHER.Sound = ""
 WEATHER.WindScale = 1
 WEATHER.ShowEnvSun = false
 
-WEATHER.Lightning = true
-
 WEATHER.FogStart = 0
 WEATHER.FogEnd = 2048
 WEATHER.FogMaxDensity = 0.6
