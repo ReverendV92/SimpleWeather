@@ -4,6 +4,7 @@ WEATHER.ID = "hail"
 WEATHER.ConVar = { "sw_hail" , "Hail" }
 WEATHER.Sound = ""
 WEATHER.WindScale = 1
+WEATHER.ShowEnvSun = false
 
 WEATHER.FogStart = 0
 WEATHER.FogEnd = 2048

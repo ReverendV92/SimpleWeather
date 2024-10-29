@@ -4,6 +4,7 @@ WEATHER.ID = "blizzard"
 WEATHER.ConVar = { "sw_blizzard", "Blizzard" }
 WEATHER.Sound = "wind"
 WEATHER.WindScale = 2
+WEATHER.ShowEnvSun = false
 -- WEATHER.ParticleSystem = "v92_weather_blizzard"
 
 WEATHER.FogStart = -256

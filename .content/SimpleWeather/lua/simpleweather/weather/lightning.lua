@@ -4,6 +4,7 @@ WEATHER.ID = "lightning"
 WEATHER.ConVar = { "sw_lightning", "Lightning" }
 WEATHER.Sound = ""
 WEATHER.WindScale = 1
+WEATHER.ShowEnvSun = false
 
 WEATHER.Lightning = true
 

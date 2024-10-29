@@ -4,6 +4,7 @@ WEATHER.ID = "overcast"
 WEATHER.ConVar = { "sw_overcast", "Overcast" }
 WEATHER.Sound = ""
 WEATHER.WindScale = 1
+WEATHER.ShowEnvSun = false
 WEATHER.ParticleSystem = ""
 
 WEATHER.FogStart = 0

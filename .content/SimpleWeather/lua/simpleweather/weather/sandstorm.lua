@@ -4,6 +4,7 @@ WEATHER.ID = "sandstorm"
 WEATHER.ConVar = { "sw_sandstorm", "Sandstorm" }
 WEATHER.Sound = "wind"
 WEATHER.WindScale = 3
+WEATHER.ShowEnvSun = true
 
 WEATHER.FogStart = 0
 WEATHER.FogEnd = 768

@@ -4,6 +4,7 @@ WEATHER.ID = "thunderstorm"
 WEATHER.ConVar = { "sw_thunderstorm", "Thunderstorm" }
 WEATHER.Sound = "rain"
 WEATHER.WindScale = 3
+WEATHER.ShowEnvSun = false
 WEATHER.ParticleSystem = "v92_weather_storm"
 
 WEATHER.Raindrops = true

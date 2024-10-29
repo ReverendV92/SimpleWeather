@@ -4,6 +4,7 @@ WEATHER.ID = "snow"
 WEATHER.ConVar = { "sw_snow" , "Snow" }
 WEATHER.Sound = ""
 WEATHER.WindScale = 1
+WEATHER.ShowEnvSun = false
 
 WEATHER.FogStart = -512
 WEATHER.FogEnd = 2048

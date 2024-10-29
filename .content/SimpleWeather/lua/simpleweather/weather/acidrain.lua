@@ -4,6 +4,7 @@ WEATHER.ID = "acidrain"
 WEATHER.ConVar = { "sw_acidrain" , "Acid Rain" }
 WEATHER.Sound = "rain"
 WEATHER.WindScale = 1
+WEATHER.ShowEnvSun = false
 WEATHER.ParticleSystem = "v92_weather_rain"
 
 WEATHER.Raindrops = true

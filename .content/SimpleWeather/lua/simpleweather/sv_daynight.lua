@@ -387,14 +387,14 @@ function SW.DayNightThink()
 
 		if( !SW.NextSunUpdate or CurTime() > SW.NextSunUpdate ) then
 
-			if( SW.Time > 4 and SW.Time < 20 and SW.WeatherMode == "" ) then
+			if( SW.Time > 4 and SW.Time < 20 and SW.GetCurrentWeather().ShowEnvSun != false ) then
 
 				local mul = 1 - ( SW.Time - 4 ) / 16
 				SW.EnvSun:SetKeyValue( "sun_dir", tostring( Angle( -180 * mul, 20, 0 ):Forward() ) )
 
 			end
 
-			if( SW.WeatherMode != "" or SW.Time < 4 or SW.Time > 20 ) then
+			if( SW.GetCurrentWeather().ShowEnvSun == false or SW.Time < 4 or SW.Time > 20 ) then
 
 				if !SW.EnvSun.Off then
 

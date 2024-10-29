@@ -4,6 +4,7 @@ WEATHER.ID = "smog"
 WEATHER.ConVar = { "sw_smog", "Smog" }
 WEATHER.Sound = ""
 WEATHER.WindScale = 1
+WEATHER.ShowEnvSun = true
 
 WEATHER.FogStart = 0
 WEATHER.FogEnd = 512
