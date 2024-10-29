@@ -4,6 +4,7 @@ WEATHER.ID = "heavystorm"
 WEATHER.ConVar = { "sw_heavystorm", "Heavy Storm" }
 WEATHER.Sound = "rain"
 WEATHER.WindScale = 3
+WEATHER.ShowEnvSun = false
 WEATHER.ParticleSystem = "v92_weather_storm"
 
 WEATHER.Raindrops = true
@@ -32,11 +33,13 @@ WEATHER.Icon = Material( "icon16/weather_lightning.png" )
 WEATHER.Advisory = 3
 WEATHER.Broadcast = Sound("SW.EAS.Alert")
 
+local SpecialEntity = "sw_hail"
+
 function WEATHER:Think()
 
 	SW.RainThink()
 	SW.LightningThink()
-	SW.HailThink()
+	SW.HailThink( SpecialEntity )
 
 end
 
