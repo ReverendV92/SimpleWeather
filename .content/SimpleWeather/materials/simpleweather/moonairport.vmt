@@ -1,0 +1,7 @@
+unlitgeneric
+{
+	$basetexture simpleweather/moonairport
+	$translucent 1
+	$color2 "[ 0.85 0.85 0.85 ]"
+	$nofog 1
+}
