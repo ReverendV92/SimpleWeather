@@ -165,10 +165,10 @@ CreateConVar( "sw_func_particle_type" , 0 , { FCVAR_ARCHIVE , FCVAR_REPLICATED }
 CreateConVar( "sw_hud_toggle", 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Admin override for SimpleWeather HUD." , 0 , 1 )
 	
 CreateConVar( "sw_autoweather" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Enable auto-weather starting." , 0 , 1 )
-CreateConVar( "sw_autoweather_minstart" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather begins." , 0 , 16 )
-CreateConVar( "sw_autoweather_maxstart" , 3 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Maximum time in hours before weather begins." , 0 , 16 )
-CreateConVar( "sw_autoweather_minstop" , 0.2 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Minimum time in hours before weather stops." , 0 , 16 )
-CreateConVar( "sw_autoweather_maxstop" , 8 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Maximum time in hours before weather stops." , 0 , 16 )
+CreateConVar( "sw_autoweather_minstart" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Minimum time in real-world minutes before weather begins." , 0 , 16 )
+CreateConVar( "sw_autoweather_maxstart" , 3 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Maximum time in real-world minutes before weather begins." , 0 , 16 )
+CreateConVar( "sw_autoweather_minstop" , 0.2 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Minimum time in real-world minutes before weather stops." , 0 , 16 )
+CreateConVar( "sw_autoweather_maxstop" , 8 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Maximum time in real-world minutes before weather stops." , 0 , 16 )
 
 CreateConVar( "sw_weather_eas" , 1 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Toggle radio models playing the EAS broadcasting tones when severe weather starts." , 0 , 1 )
 CreateConVar( "sw_weather_alwaysoutside" , 0 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Should players be considered outside at all times?\n(ie. if you want snow in an indoor map) " , 0 , 1 )
@@ -793,6 +793,8 @@ if CLIENT then
 			Panel:ControlHelp( "Blizzard.\nOvercast skies. Hampers visibility and hearing." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Acid Rain" , ["Command"] = "sw_weather acidrain" } )
 			Panel:ControlHelp( "Acid Rain.\nOvercast skies. Hampers visibility.\nInflicts DOT due to caustic rain." , {} )
+			Panel:AddControl( "button" , { ["Label"] = "Start Meteor Shower" , ["Command"] = "sw_weather meteorshower" } )
+			Panel:ControlHelp( "Meteor Shower.\nClear skies.\nMeteor strike will cause slight damage." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Meteor Storm" , ["Command"] = "sw_weather meteor" } )
 			Panel:ControlHelp( "Meteor Storm.\nOvercast skies.\nMeteor strike will cause significant damage." , {} )
 
@@ -879,11 +881,11 @@ if CLIENT then
 			SW.CheckBoxNet(Panel, "Auto-Weather", "sw_autoweather")
 			Panel:ControlHelp( "Random weathers start over time." , {} )
 
-			Panel:Help( "Minimum and maximum time before a weather will start." , {} )
+			Panel:Help( "Minimum and maximum time in real-world minutes before a weather will start." , {} )
 			SW.NumSliderNet(Panel, "Min. Before Start", "sw_autoweather_minstart", "0", "8", "int")
 			SW.NumSliderNet(Panel, "Max Before Start", "sw_autoweather_maxstart", "1", "8", "int")
 
-			Panel:Help( "Minimum and maximum time before a weather will stop." , {} )
+			Panel:Help( "Minimum and maximum time in real-world minutes before a weather will stop." , {} )
 			SW.NumSliderNet(Panel, "Min. Before Stopping", "sw_autoweather_minstop", "0", "8", "int")
 			SW.NumSliderNet(Panel, "Max Before Stopping", "sw_autoweather_maxstop", "1", "8", "int")
 
@@ -1299,7 +1301,6 @@ if CLIENT then
 						["sw_meteor_lifetime"] = "2",
 						["sw_meteor_whoosh"] = "1",
 						["sw_meteor_drag"] = "10",
-						["sw_meteor_small_drag"] = "1",
 						["sw_meteor_fancyfx"] = "1",
 					},
 					["hardcore"] = {
@@ -1308,7 +1309,6 @@ if CLIENT then
 						["sw_meteor_lifetime"] = "2",
 						["sw_meteor_whoosh"] = "1",
 						["sw_meteor_drag"] = "0",
-						["sw_meteor_small_drag"] = "0",
 						["sw_meteor_fancyfx"] = "1",
 					},
 					["potato"] = {
@@ -1317,7 +1317,6 @@ if CLIENT then
 						["sw_meteor_lifetime"] = "0",
 						["sw_meteor_whoosh"] = "0",
 						["sw_meteor_drag"] = "10",
-						["sw_meteor_small_drag"] = "2",
 						["sw_meteor_fancyfx"] = "0",
 					}
 				},
@@ -1326,7 +1325,6 @@ if CLIENT then
 					"sw_meteor_delayoffset",
 					"sw_meteor_lifetime",
 					"sw_meteor_drag",
-					"sw_meteor_small_drag",
 					"sw_meteor_whoosh",
 					"sw_meteor_fancyfx",
 				}
@@ -1351,7 +1349,6 @@ if CLIENT then
 
 			--Panel:AddControl( "slider" , { ["Label"] = "Meteor Drag" , ["Command"] = "sw_meteor_drag" , ["Min"] = "0" , ["Max"] = "50" , ["Type"] = "int" } )
 			SW.NumSliderNet(Panel, "Meteor Drag", "sw_meteor_drag", "0", "50", "int")
-			SW.NumSliderNet(Panel, "Meteor Shower Drag", "sw_meteor_small_drag", "0", "50", "int")
 			Panel:ControlHelp( "Amount of drag to add to the meteors. Higher = slower decent." )
 
 			--Panel:AddControl( "checkbox" , { ["Label"] = "Impact Sounds" , ["Command"] = "sw_meteor_whoosh" } )

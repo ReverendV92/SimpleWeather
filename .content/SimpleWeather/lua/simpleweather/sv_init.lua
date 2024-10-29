@@ -67,7 +67,7 @@ function SW.SetWeather( s )
 	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	SW.WeatherMode = s
-	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
+	SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 )
 
 	---------------------------------------------
 	---------------------------------------------
@@ -269,7 +269,7 @@ function SW.ThinkSV()
 		if SW.WeatherMode == "" then
 
 			SW.SetWeather( table.Random( SW.AutoWeatherTypes ) )
-			SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstop") * 60 * 60, GetConVarNumber("sw_autoweather_maxstop") * 60 * 60 )
+			SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstop") * 60, GetConVarNumber("sw_autoweather_maxstop") * 60 )
 			-- SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstop") * 60, GetConVarNumber("sw_autoweather_maxstop") * 60 )
 			SW.GetCurrentWeather().Advisory = -1
 
