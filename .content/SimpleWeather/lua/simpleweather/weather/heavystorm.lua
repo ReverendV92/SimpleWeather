@@ -16,6 +16,17 @@ WEATHER.FogEnd = 1024
 WEATHER.FogMaxDensity = 0.8
 WEATHER.FogColor = Color( 100 , 100 , 100 , 255 )
 
+-- WEATHER.SkyColorTop = Color( 25 , 25 , 25 )
+-- WEATHER.SkyColorBottom = Color( 25 , 50 , 75 )
+-- WEATHER.SkyFadeBias = 0.3
+-- WEATHER.SkyHDRScale = 0.66
+
+-- WEATHER.SkyOverlayTexture = "skybox/clouds"
+-- WEATHER.SkyOverlayLayers = 3
+-- WEATHER.SkyOverlayScale = 3
+-- WEATHER.SkyOverlayFade = 5
+-- WEATHER.SkyOverlaySpeed = 0.05
+
 WEATHER.Announcement = "A Severe Storm is approaching the area.\nLightning storms, hail damage, torrential rain, and extreme winds are predicted.\nShelter and restriction of non-essential travel are strongly encouraged.\nAdvisory Level: 3"
 WEATHER.Icon = Material( "icon16/weather_lightning.png" )
 WEATHER.Advisory = 3

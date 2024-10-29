@@ -1,3 +1,6 @@
+
+AddCSLuaFile()
+
 SW_TIME_DAWN = 6
 SW_TIME_AFTERNOON = 12
 SW_TIME_DUSK = 18
@@ -5,6 +8,7 @@ SW_TIME_NIGHT = 24
 
 SW_TIME_WEATHER = 1
 SW_TIME_WEATHER_NIGHT = 2
+SW_TIME_FOG = 3
 
 SW.TimePeriod = SW_TIME_DUSK
 
@@ -63,7 +67,8 @@ net.Receive( "SW.nSetTime", SW.nSetTime )
 
 function SW.DayNightThink()
 
-	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if( !system.HasFocus() ) then
 
@@ -123,8 +128,9 @@ end
 
 function SW.SetupWorldFog()
 
-	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 or GetConVarNumber("sw_func_fog") == 0 then return false end
-	
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
+
 	if( SW.GetCurrentWeather().FogColor ) then
 		
 		local w = SW.GetCurrentWeather()
@@ -157,8 +163,9 @@ hook.Add( "SetupWorldFog", "SW.SetupWorldFog", SW.SetupWorldFog )
 
 function SW.SetupSkyboxFog( scale )
 
-	if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 or GetConVarNumber("sw_func_fog") == 0 then return end
-	
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
+
 	if( SW.GetCurrentWeather().FogColor ) then
 		
 		local w = SW.GetCurrentWeather()

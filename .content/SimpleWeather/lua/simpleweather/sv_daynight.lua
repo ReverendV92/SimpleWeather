@@ -140,11 +140,8 @@ util.AddNetworkString( "SW.nOpenConfigWindow" )
 
 function SW.UpdateLightStyle( strLightStyle )
 
-	if GetConVarNumber("sw_func_master") != 1 then
-
-		return 
-
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if GetConVarNumber("sw_func_lighting") == 1 and SW.LastLightStyle != strLightStyle then
 
@@ -171,11 +168,12 @@ function SW.UpdateLightStyle( strLightStyle )
 
 end
 
-function SW.InitPostEntity()
+function SW.InitPostEntitySV()
 
+	print("InitPostEntity")
 	-- Find any existing env_wind entities
 	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
-	
+
 	-- If we didn't find an env_wind or it isn't valid, create one
 	if !IsValid(SW.EnvWind) then
 
@@ -206,7 +204,7 @@ function SW.InitPostEntity()
 	SW.SkyPaint = ents.FindByClass( "env_skypaint" )[1]
 	if GetConVarNumber("sw_func_skybox") == 1 then
 
-		if !IsValid(SW.SkyPaint) then
+		if !SW.SkyPaint or !SW.SkyPaint:IsValid() then
 
 			SW.SkyPaint = ents.Create("env_skypaint")
 			SW.SkyPaint:Spawn()
@@ -307,14 +305,8 @@ function SW.InitPostEntity()
 
 	SW.UpdateLightStyle( SW_LIGHT_NIGHT )
 
-	-- if GetConVarNumber("sw_func_master") != 1 then
-
-		-- return
-
-	-- end
-
 end
-hook.Add( "InitPostEntity", "SW.InitPostEntity", SW.InitPostEntity )
+hook.Add( "InitPostEntity", "SW.InitPostEntitySV", SW.InitPostEntitySV )
 
 ------------------------------
 ------------------------------
@@ -331,13 +323,10 @@ end
 
 function SW.DayNightThink()
 
-	if table.HasValue( SW.MapBlacklist, string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	
-		return
-		
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
-	if( GetConVarNumber("sw_time_pause") == 0 ) then
+	if GetConVarNumber("sw_time_pause") == 0 then
 
 		if( SW.Time >= 20 or SW.Time < 4 ) then
 
@@ -468,17 +457,17 @@ function SW.DayNightThink()
 	end
 
 	if GetConVarNumber("sw_func_skybox") == 1 and IsValid(SW.SkyPaint) then
-		
+
 		if( !SW.NextSkyUpdate or CurTime() > SW.NextSkyUpdate ) then
 
 			SW.NextSkyUpdate = CurTime() + GetConVarNumber("sw_perf_updatedelay_sky")
-			
+
 			local skypaintstart
 			local skypaintend
 			local skypaintlerp = 1
 			
 			if( SW.WeatherMode != "" and SW.GetCurrentWeather().DefaultSky != true ) then
-				
+		
 				if( SW.Time >= 20 or SW.Time <= 4 ) then
 					
 					skypaintstart = SW_TIME_WEATHER_NIGHT
@@ -522,7 +511,7 @@ function SW.DayNightThink()
 				end
 				
 			else
-				
+
 				if( SW.Time <= 4 ) then
 					
 					skypaintstart = SW_TIME_NIGHT
@@ -570,7 +559,7 @@ function SW.DayNightThink()
 			local values = { }
 			
 			if( skypaintstart == SW_TIME_FOG ) then
-				
+		
 				local c = SW.GetCurrentWeather().FogColor
 				values.TopColor = Vector( c.r / 255, c.g / 255, c.b / 255 )
 				values.BottomColor = Vector( c.r / 255, c.g / 255, c.b / 255 )
@@ -693,6 +682,7 @@ function SW.PauseTime( b )
 
 end
 
+-- Day and Night Swap Functions
 function SW.DNCUpdate( int )
 
 	-- 1=Dawn

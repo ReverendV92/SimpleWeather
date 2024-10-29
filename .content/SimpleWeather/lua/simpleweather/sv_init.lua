@@ -59,11 +59,11 @@ function SW.GetCurrentWeather()
 end
 
 SW.WeatherMode = ""
-SW.NextRandomWeather = math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
+SW.NextRandomWeather = math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 )
 
 function SW.SetWeather( s )
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then return end
+	-- If SimpleWeather is disabled...
 	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	SW.WeatherMode = s
@@ -249,7 +249,7 @@ end
 util.AddNetworkString( "SW.nSetWeather" )
 util.AddNetworkString( "SW.nRedownloadLightmaps" )
 
-hook.Add( "PostCleanupMap" , "SWCleanupReset" , function() 
+hook.Add( "PostCleanupMap" , "SW.CleanupReset" , function() 
 
 	SW.SetWeather("")
 
@@ -257,14 +257,12 @@ hook.Add( "PostCleanupMap" , "SWCleanupReset" , function()
 
 end)
 
-function SW.Think()
+function SW.ThinkSV()
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then 
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
-		return
-
-	end
+	SW.DayNightThink()
 
 	if GetConVarNumber("sw_autoweather") != 0 and CurTime() > SW.NextRandomWeather then
 
@@ -280,7 +278,7 @@ function SW.Think()
 		else
 
 			SW.SetWeather( "" )
-			SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 * 60 )
+			SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60, GetConVarNumber("sw_autoweather_maxstart") * 60 )
 			-- SW.NextRandomWeather = CurTime() + math.Rand( GetConVarNumber("sw_autoweather_minstart") * 60 , GetConVarNumber("sw_autoweather_maxstart") * 60 )
 
 			if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sv_init::SW.Think::AutoWeather Stopped") end
@@ -294,8 +292,6 @@ function SW.Think()
 		SW.GetCurrentWeather():Think()
 
 	end
-
-	SW.DayNightThink()
 
 	----------------------------------------
 	----------------------------------------
@@ -375,18 +371,13 @@ function SW.Think()
 		end
 
 	end
-
 end
-hook.Add( "Think", "SW.Think", SW.Think )
+hook.Add( "Think", "SW.ThinkSV", SW.ThinkSV )
 
 function SW.PlayerInitialSpawn( ply )
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then 
-
-		return
-
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if GetConVarNumber("sw_func_skybox") != 0 then
 
@@ -427,23 +418,7 @@ function SW.PlayerInitialSpawn( ply )
 end
 hook.Add( "PlayerInitialSpawn", "SW.PlayerInitialSpawn", SW.PlayerInitialSpawn )
 
-function SW.Initialize()
-
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") == 0 then 
-		return 
-	end
-
-	SW.InitDayNight( )
-
-end
-hook.Add( "Initialize", "SW.Initialize", SW.Initialize )
-
-function SW.InitDayNight()
-
-end
-
-function SW.PostInitEntity()
+function SW.PostInitEntitySV()
 
 	SW.raincount = ents.FindByClass( "func_precipitation" )
 	-- print("SW RainCount: " .. #SW.raincount)
@@ -455,22 +430,16 @@ function SW.PostInitEntity()
 		end
 	end
 
-	SW.InitDayNight( )
-
 	SW.LoadWeathers()
 
 end
-hook.Add( "InitPostEntity", "SW.PostInitEntity", SW.PostInitEntity )
-hook.Add( "PostCleanupMap", "SW.PostInitEntity", SW.PostInitEntity )
+hook.Add( "InitPostEntity", "SW.PostInitEntitySV", SW.PostInitEntitySV )
+hook.Add( "PostCleanupMap", "SW.PostInitEntitySV", SW.PostInitEntitySV )
 
 function SW.Move( ply, mv )
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then
-
-		return
-
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if SW.GetCurrentWeather().Move then
 		
@@ -486,7 +455,9 @@ local meta = FindMetaTable( "Player" )
 
 function emeta:IsOutside()
 
-	if GetConVarNumber("sw_func_master") != 1 then return false end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
+
 	if GetConVarNumber("sw_weather_alwaysoutside") == 1 then return true end
 	
 	local trace = { }
@@ -507,12 +478,8 @@ end
 
 function meta:IsOutside()
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then 
-
-		return
-
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if GetConVarNumber("sw_weather_alwaysoutside") == 1 then 
 

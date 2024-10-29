@@ -360,6 +360,7 @@ concommand.Add( "sw_stopweather" , StopWeather , function( ) return { } end , "S
 
 local function SetTime( ply, cmd, args )
 
+	if GetConVarNumber("sw_func_master") != 1 then return end
 	if( not IsSinglePlayer and CLIENT) then
 		if not LocalPlayer():IsAdmin() then return end
 
@@ -371,9 +372,7 @@ local function SetTime( ply, cmd, args )
 		return
 	end
 
-	if( CLIENT ) then return end
-	-- if( table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) ) or GetConVarNumber("sw_func_master") != 1 then return end
-	if GetConVarNumber("sw_func_master") != 1 then return end
+	if CLIENT then return end
 
 	if( ply and ply:IsValid() and !ply:IsAdmin() ) then
 

@@ -128,13 +128,13 @@ end
 function SW.InitDayNight()
 	
 	if( table.HasValue( SW.MapBlacklist, string.lower( game.GetMap() ) ) ) then return end
-	
+
 	if( SW.UpdateSkybox ) then
-		
+
 		RunConsoleCommand( "sv_skyname", "painted" );
-		
+
 	end
-	
+
 end
 
 function SW.InitPostEntity()

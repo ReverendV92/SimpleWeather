@@ -58,12 +58,28 @@ function SW.GetCurrentWeather()
 
 end
 
-function SW.Initialize()
+function SW.InitializeCL()
 
 	SW.LoadWeathers()
 
 end
-hook.Add( "Initialize" , "SW.Initialize" , SW.Initialize )
+hook.Add( "Initialize" , "SW.InitializeCL" , SW.InitializeCL )
+
+function SW.InitPostEntityCL()
+
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
+
+	render.RedownloadAllLightmaps()
+
+	if GetConVarNumber("sw_cl_startupdisplay") == 1 then
+
+		chat.AddText( Color( 255, 255, 255, 255 ), "This server is running ", Color( 76, 128, 255, 255 ), "SimpleWeather", Color( 255, 255, 255, 255 ), ". Check the ", Color( 76, 128, 255, 255 ), "Options Panels" , Color( 255, 255, 255, 255 ), " to edit the configuration." )
+
+	end
+
+end
+hook.Add( "InitPostEntity", "SW.InitPostEntityCL", SW.InitPostEntityCL )
 
 SW.WeatherMode = ""
 SW.CurrentParticles = 0
@@ -109,14 +125,10 @@ end
 SW.Emitter2D = nil
 SW.Emitter3D = nil
 
-function SW.Think()
+function SW.ThinkCL()
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then
-
-		return
-
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if LocalPlayer():GetViewEntity() == LocalPlayer() then
 
@@ -237,7 +249,7 @@ function SW.Think()
 	SW.DayNightThink()
 
 end
-hook.Add( "Think", "SW.Think", SW.Think )
+hook.Add( "Think", "SW.ThinkCL", SW.ThinkCL )
 
 SW.Sound = nil
 
@@ -421,11 +433,8 @@ end
 
 function SW.Lightning( vol, a, far )
 
-	if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 or SERVER then
-
-		return
-
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	if GetConVarNumber( "sw_playsounds" ) == 0 then
 
@@ -464,15 +473,8 @@ surface.CreateFont( "SW.ClockFont" , {
 
 function SW.DrawHUD()
 
-	-- If the map is blacklisted...
-	-- or SimpleWeather is disabled...
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then
-
-		-- Don't run
-		return 
-
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	-- If the admin HUD toggle is off...
 	if GetConVarNumber("sw_hud_toggle") != 1 then
@@ -625,12 +627,8 @@ SW.HUDLightning = { }
 
 function SW.HUDPaint()
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then
-
-		return
-
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	for k, v in pairs( SW.HUDLightning ) do
 
@@ -697,12 +695,8 @@ SW.ScreenspaceMul = 0
 
 function SW.RenderScreenspaceEffects()
 
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then
-
-		return
-
-	end
+	-- If SimpleWeather is disabled...
+	if GetConVarNumber("sw_func_master") != 1 then return end
 
 	local indoorc = true
 
@@ -748,23 +742,3 @@ function SW.RenderScreenspaceEffects()
 
 end
 hook.Add( "RenderScreenspaceEffects", "SW.RenderScreenspaceEffects", SW.RenderScreenspaceEffects )
-
-function SW.InitPostEntity()
-
-	-- if table.HasValue( SW.MapBlacklist , string.lower( game.GetMap() ) ) or GetConVarNumber("sw_func_master") != 1 then
-	if GetConVarNumber("sw_func_master") != 1 then 
-
-		return
-
-	end
-
-	render.RedownloadAllLightmaps()
-
-	if GetConVarNumber("sw_cl_startupdisplay") == 1 then
-
-		chat.AddText( Color( 255, 255, 255, 255 ), "This server is running ", Color( 76, 128, 255, 255 ), "SimpleWeather", Color( 255, 255, 255, 255 ), ". Check the ", Color( 76, 128, 255, 255 ), "Options Panels" , Color( 255, 255, 255, 255 ), " to edit the configuration." )
-
-	end
-
-end
-hook.Add( "InitPostEntity", "SW.InitPostEntity", SW.InitPostEntity )
