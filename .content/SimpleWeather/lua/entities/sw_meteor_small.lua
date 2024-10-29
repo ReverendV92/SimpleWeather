@@ -33,17 +33,16 @@ function ENT:Initialize( )
 	-- self:PrecacheGibs( )
 	-- Gibbed = false
 
-	self.DieTime = CurTime() + 60 -- No meteor should last longer than this!!
+	self.DieTime = CurTime() + 8 -- No meteor should last longer than this!!
 
 	local phys = self:GetPhysicsObject( )
 
 	if phys and phys:IsValid( ) then
 
 		phys:Wake( )
-
-		-- phys:AddAngleVelocity( Vector( math.random( -100 , 100 ), math.random( -100 , 100 ), math.random( -100 , 100 ) ) )
-		phys:AddAngleVelocity( Vector( math.random( -100 , 100 ), math.random( -100 , 100 ), math.random( -1 , 1 ) ) )
-		phys:SetDragCoefficient( GetConVarNumber("sw_meteor_small_drag") )
+		phys:EnableDrag( false )
+		phys:AddVelocity( Vector( math.random( -100 , 100 ), math.random( -100 , 100 ), math.random( -1 , 1 ) ) )
+		phys:AddAngleVelocity( Vector( math.random( -100 , 100 ), math.random( -100 , 100 ), math.random( -150 , -50 ) ) )
 
 	else -- Why does this happen? They should never spawn in the skybox...
 

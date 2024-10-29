@@ -683,7 +683,6 @@ CreateConVar( "sw_meteor_delay" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(IN
 CreateConVar( "sw_meteor_delayoffset" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Delay variance between meteor spawns." , 1 , 30 )
 CreateConVar( "sw_meteor_lifetime" , 2 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Time for meteor shards to fade after hitting the ground. -1 for never (not recommended)." , -1 , 30 )
 CreateConVar( "sw_meteor_drag" , 10 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of drag to add to the meteors. More = slower decent." , 0 , 50 )
-CreateConVar( "sw_meteor_small_drag" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(INT) Amount of drag to add to small meteors. More = slower decent." , 0 , 50 )
 CreateConVar( "sw_meteor_fancyfx" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Show fancy effects for meteors." , 0 , 1 )
 CreateConVar( "sw_meteor_whoosh" , 1 , { FCVAR_ARCHIVE, FCVAR_REPLICATED } , "(BOOL) Meteors play a sound before impact." , 0 , 1 )
 
