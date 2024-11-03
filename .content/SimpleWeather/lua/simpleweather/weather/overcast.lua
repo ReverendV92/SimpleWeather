@@ -5,6 +5,7 @@ WEATHER.ConVar = { "sw_overcast", "Overcast" }
 WEATHER.Sound = ""
 WEATHER.WindScale = 1
 WEATHER.ShowEnvSun = false
+WEATHER.ShowStars = false
 WEATHER.ParticleSystem = ""
 
 WEATHER.FogStart = 0

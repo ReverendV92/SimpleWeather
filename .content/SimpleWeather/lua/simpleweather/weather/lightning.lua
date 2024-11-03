@@ -5,6 +5,7 @@ WEATHER.ConVar = { "sw_lightning", "Lightning" }
 WEATHER.Sound = ""
 WEATHER.WindScale = 1
 WEATHER.ShowEnvSun = false
+WEATHER.ShowStars = false
 
 WEATHER.FogStart = 0
 WEATHER.FogEnd = 2048

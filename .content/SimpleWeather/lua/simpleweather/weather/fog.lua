@@ -4,6 +4,7 @@ WEATHER.ID = "fog"
 WEATHER.ConVar = { "sw_fog", "Fog" }
 WEATHER.Sound = ""
 WEATHER.WindScale = 1
+WEATHER.ShowStars = true
 
 WEATHER.FogStart = 0
 WEATHER.FogEnd = 1024

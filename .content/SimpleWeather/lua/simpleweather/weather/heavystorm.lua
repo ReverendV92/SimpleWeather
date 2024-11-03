@@ -5,6 +5,7 @@ WEATHER.ConVar = { "sw_heavystorm", "Heavy Storm" }
 WEATHER.Sound = "rain"
 WEATHER.WindScale = 3
 WEATHER.ShowEnvSun = false
+WEATHER.ShowStars = false
 WEATHER.ParticleSystem = "v92_weather_storm"
 
 WEATHER.Raindrops = true
