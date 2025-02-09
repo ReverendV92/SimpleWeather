@@ -15,6 +15,11 @@ SW.TimePeriod = SW_TIME_DUSK
 SW.CurFogDensity = 1
 
 SW.Time = GetConVarNumber("sw_time_start")
+if SW.Time == -1 then
+
+	SW.Time = math.Rand( 0 , 23 )
+
+end
 
 function SW.nInitFogSettings( len )
 
