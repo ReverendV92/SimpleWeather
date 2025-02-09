@@ -1,7 +1,13 @@
 -- oh god oh fuck oh man this file is DOGSHIT
 -- there is SO MUCH SPAGHETTI CODE
 
+
 SW.Time = GetConVarNumber("sw_time_start")
+if SW.Time == -1 then
+
+	SW.Time = math.Rand( 0 , 23 )
+
+end
 
 SW_TIME_DAWN = 6
 SW_TIME_AFTERNOON = 12
@@ -170,7 +176,6 @@ end
 
 function SW.InitPostEntitySV()
 
-	print("InitPostEntity")
 	-- Find any existing env_wind entities
 	SW.EnvWind = ents.FindByClass( "env_wind" )[1]
 
@@ -739,6 +744,12 @@ function SW.MapLogic( int )
 
 		end
 
+		for _, v in pairs( ents.FindByName( "day_events" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
 		if( string.lower( game.GetMap() ) == "rp_flatgrass_redux" ) then
 
 			for _, v in pairs( ents.FindByName( "dnc_toggle" ) ) do
@@ -746,12 +757,6 @@ function SW.MapLogic( int )
 				v:Fire( "FireUser2" )
 
 			end
-
-		end
-
-		for _, v in pairs( ents.FindByName( "day_events" ) ) do
-
-			v:Fire( "Trigger" )
 
 		end
 

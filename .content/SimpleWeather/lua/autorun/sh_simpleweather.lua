@@ -186,7 +186,7 @@ CreateConVar( "sw_fog_speed" , 0.01 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(F
 ----------------------------------------
 
 CreateConVar( "sw_time_pause" , 0 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Change the passage of time on or off." , 0 , 1 )
-CreateConVar( "sw_time_start" , 10 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(INT) Set start time." , 0 , 23 )
+CreateConVar( "sw_time_start" , 10 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(INT) Set start time." , -1 , 23 )
 CreateConVar( "sw_time_real" , 0 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(BOOL) Set real-time on or off." , 0 , 1 )
 CreateConVar( "sw_time_real_offset" , 0 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(INT) If realtime is on, add this many timezones.\nFor example, if the server was GMT and you set this to -5, it'd be EST ingame." , -12 , 12 )
 CreateConVar( "sw_time_speed_day" , 0.01 , { FCVAR_ARCHIVE , FCVAR_REPLICATED } , "(FLOAT) Multiplier of time during the day.\nMake this bigger for time to go faster, and smaller for time to go slower." , 0 , 1 )
@@ -1494,8 +1494,8 @@ if CLIENT then
 			SW.CheckBoxNet(Panel, "Pause Time", "sw_time_pause")
 			Panel:ControlHelp( "Pause the current time." , {} )
 
-			SW.NumSliderNet(Panel, "Start Time", "sw_time_start", "0", "23", "int")
-			Panel:ControlHelp( "Time the server will start at on load." , {} )
+			SW.NumSliderNet(Panel, "Start Time", "sw_time_start", "-1", "23", "int")
+			Panel:ControlHelp( "Time the server will start at on load. Set to -1 for random." , {} )
 
 			SW.CheckBoxNet(Panel, "Real-Time Clock", "sw_time_real")
 			Panel:ControlHelp( "Use the system clock time instead." , {} )
