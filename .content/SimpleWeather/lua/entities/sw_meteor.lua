@@ -258,13 +258,18 @@ function ENT:PhysicsCollide( data, phys )
 		self:EmitSound( Sound("weapons/mortar/mortar_explode" .. math.random( 1 , 3 ) .. ".wav") , 140 , math.random( 90 , 110 ) , 1 , CHAN_BODY )
 
 		-- Not that great. Redo?
-		-- self:GibBreakClient( Vector( 50 , 50 , 50 ) )
+		self:GibBreakClient( Vector( 50 , 50 , 50 ) )
 
 		local craterENT = ents.Create("prop_dynamic")
 		craterENT:SetPos( tr.HitPos )
 		craterENT:SetModel( Model("models/simpleweather/crater.mdl") )
 		craterENT:SetColor( Color( 75 , 75 , 75 ) )
 		craterENT:DrawShadow( false )
+		craterENT:SetGravity( 999 )
+		craterENT:SetMoveType( MOVETYPE_FLYGRAVITY )
+		craterENT:SetSolid( SOLID_NONE )
+		craterENT:SetCollisionBounds( Vector( -1 , -1 , -1 ) , Vector( 1 , 1 , 1 ) )
+		craterENT:SetCollisionGroup( COLLISION_GROUP_WORLD )
 		craterENT:Spawn()
 		craterENT:Activate()
 
