@@ -710,13 +710,25 @@ function SW.DNCUpdate( int )
 
 	end
 
-	-- 2=Dusk
+	-- 2=Noon
 	if int == 2 then
 
 		if( GetConVarNumber("sw_func_maplogic") == 1 ) then
 
-			-- Run the DUSK map logic (2)
+			-- Run the NOON map logic (2)
 			SW.MapLogic( 2 )
+
+		end
+
+	end
+
+	-- 2=Dusk
+	if int == 3 then
+
+		if( GetConVarNumber("sw_func_maplogic") == 1 ) then
+
+			-- Run the DUSK map logic (3)
+			SW.MapLogic( 3 )
 
 		end
 
@@ -727,6 +739,18 @@ function SW.DNCUpdate( int )
 		SW.SkyPaint:SetStarSpeed( 0.01 )
 
 		-- todo: env_sun sprite to moon
+
+	end
+
+	-- 4=Midnight
+	if int == 4 then
+
+		if( GetConVarNumber("sw_func_maplogic") == 1 ) then
+
+			-- Run the MIDNIGHT map logic (4)
+			SW.MapLogic( 4 )
+
+		end
 
 	end
 
@@ -777,8 +801,25 @@ function SW.MapLogic( int )
 
 	end
 
-	-- 2=Dusk
+	-- 2=Noon
 	if int == 2 then
+
+		for _, v in pairs( ents.FindByName( "noon" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		for _, v in pairs( ents.FindByName( "noon_events" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+	end
+
+	-- 3=Dusk
+	if int == 3 then
 
 		for _, v in pairs( ents.FindByName( "dusk" ) ) do
 
@@ -814,6 +855,23 @@ function SW.MapLogic( int )
 
 			for _, v in pairs( ents.FindByName( "ocrp_sun" ) ) do v:Fire( "TurnOff" ) end
 			for _, v in pairs( ents.FindByName( "ocrp_lights`" ) ) do v:Fire( "TurnOff" ) end
+
+		end
+
+	end
+
+	-- 4=Midnight
+	if int == 4 then
+
+		for _, v in pairs( ents.FindByName( "midnight" ) ) do
+
+			v:Fire( "Trigger" )
+
+		end
+
+		for _, v in pairs( ents.FindByName( "midnight_events" ) ) do
+
+			v:Fire( "Trigger" )
 
 		end
 
