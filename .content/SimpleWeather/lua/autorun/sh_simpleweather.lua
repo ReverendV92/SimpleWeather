@@ -13,6 +13,7 @@ SW.AutoWeatherTypes = {
 	-- "meteor" ,
 	"overcast" ,
 	"rain" ,
+	"fograin" ,
 	-- "sandstorm" ,
 	-- "smog" ,
 	-- "snow" ,
@@ -779,6 +780,8 @@ if CLIENT then
 			Panel:ControlHelp( "Overcast skies." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Rain" , ["Command"] = "sw_weather rain" } )
 			Panel:ControlHelp( "Rain.\nOvercast skies." , {} )
+			Panel:AddControl( "button" , { ["Label"] = "Foggy Rain" , ["Command"] = "sw_weather fograin" } )
+			Panel:ControlHelp( "Foggy rain.\nOvercast skies, fog bank." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Thunderstorm" , ["Command"] = "sw_weather thunderstorm" } )
 			Panel:ControlHelp( "Thunderstorm.\nOvercast skies. Hampers visibility.\nLightning may strike you for significant damage." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Hail" , ["Command"] = "sw_weather hail" } )
@@ -1658,6 +1661,7 @@ if CLIENT then
 		rng:AddSpacer( )
 
 		rng:AddOption( "Rain", function( ) RunConsoleCommand( "sw_weather" , "rain" ) end )
+		rng:AddOption( "Foggy Rain", function( ) RunConsoleCommand( "sw_weather" , "fograin" ) end )
 		rng:AddOption( "Hail", function( ) RunConsoleCommand( "sw_weather" , "hail" ) end )
 		rng:AddOption( "Thunderstorm", function( ) RunConsoleCommand( "sw_weather" , "thunderstorm" ) end )
 		rng:AddOption( "Heavy Storm", function( ) RunConsoleCommand( "sw_weather" , "heavystorm" ) end )
@@ -1693,6 +1697,7 @@ if CLIENT then
 		rng:AddSpacer( )
 
 		SW.AddCVarNet( rng, "Rain", "sw_rain" , "1" , "0" )
+		SW.AddCVarNet( rng, "Foggy Rain", "sw_fograin" , "1" , "0" )
 		SW.AddCVarNet( rng, "Hail", "sw_hail" , "1" , "0" )
 		SW.AddCVarNet( rng, "Thunderstorm", "sw_thunderstorm" , "1" , "0" )
 		SW.AddCVarNet( rng, "Heavy Storm", "sw_heavystorm" , "1" , "0" )
