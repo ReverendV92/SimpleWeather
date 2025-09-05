@@ -431,33 +431,41 @@ function SW.DayNightThink()
 		hook.Call( "OnHour", GAMEMODE, t )
 	end
 
-	if SW.Time < 6 then
+	-- Run the Time Logic Functions
 
-		SW.LastTimePeriod = SW_TIME_DUSK
+	if SW.Time >= 0 and SW.Time < 6 then
 
-	elseif SW.Time <= 18 then
+		-- Run the NIGHT map logic (4)
+		SW.LastTimePeriod = SW_TIME_NIGHT
+		SW.DNCUpdate( 4 )
+		hook.Call( "WeatherDay", GAMEMODE )
 
-		if( SW.LastTimePeriod != SW_TIME_DAWN ) then
+	end
 
-			SW.DNCUpdate( 1 )
+	if SW.Time >= 6 and SW.Time < 12 then
 
-			hook.Call( "WeatherDay", GAMEMODE )
-
-		end
-
+		-- Run the DAWN map logic (1)
 		SW.LastTimePeriod = SW_TIME_DAWN
+		SW.DNCUpdate( 1 )
+		hook.Call( "WeatherDay", GAMEMODE )
 
-	else
+	end
 
-		if SW.LastTimePeriod != SW_TIME_DUSK then
+	if SW.Time >= 12 and SW.Time >= 18 then
 
-			SW.DNCUpdate( 2 )
+		-- Run the AFTERNOON map logic (2)
+		SW.LastTimePeriod = SW_TIME_AFTERNOON
+		SW.DNCUpdate( 2 )
+		hook.Call( "WeatherDay", GAMEMODE )
 
-			hook.Call( "WeatherNight", GAMEMODE )
-
-		end
-
+	end
+	
+	if SW.Time >= 18 and SW.Time < 24 then
+	
+		-- Run the DUSK map logic (3)
 		SW.LastTimePeriod = SW_TIME_DUSK
+		SW.DNCUpdate( 3 )
+		hook.Call( "WeatherDay", GAMEMODE )
 
 	end
 
