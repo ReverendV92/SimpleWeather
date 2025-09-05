@@ -10,8 +10,6 @@ SW_TIME_WEATHER = 1
 SW_TIME_WEATHER_NIGHT = 2
 SW_TIME_FOG = 3
 
-SW.TimePeriod = SW_TIME_DUSK
-
 SW.CurFogDensity = 1
 
 SW.Time = GetConVarNumber("sw_time_start")
