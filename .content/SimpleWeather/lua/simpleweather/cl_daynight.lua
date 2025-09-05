@@ -96,11 +96,17 @@ function SW.DayNightThink()
 		startdensity = GetConVarNumber("sw_fog_densitynight")
 		enddensity = GetConVarNumber("sw_fog_densitynight")
 
-	elseif( SW.Time < 6 ) then
+	-- elseif( SW.Time < 6 ) then
+
+		-- startdensity = GetConVarNumber("sw_fog_densitynight")
+		-- enddensity = GetConVarNumber("sw_fog_densityday")
+		-- lerpdensity = ( SW.Time - 4 ) / 2
+
+	elseif( SW.Time < 8 ) then
 
 		startdensity = GetConVarNumber("sw_fog_densitynight")
 		enddensity = GetConVarNumber("sw_fog_densityday")
-		lerpdensity = ( SW.Time - 4 ) / 2
+		lerpdensity = ( SW.Time - 6 ) / 2
 
 	elseif( SW.Time < 18 ) then
 

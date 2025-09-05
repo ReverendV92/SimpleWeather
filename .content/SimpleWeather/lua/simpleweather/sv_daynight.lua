@@ -393,9 +393,48 @@ function SW.DayNightThink()
 
 	end
 
-	------------------------------
+	--------------------
+	-- Map Logic Checks
+	--------------------
+	if SW.Time >= SW_TIME_NIGHT or SW.Time < SW_TIME_DAWN then
+
+		-- Run the NIGHT map logic (4)
+		SW.LastTimePeriod = SW_TIME_NIGHT
+		SW.DNCUpdate( 4 )
+		hook.Call( "WeatherDay", GAMEMODE )
+
+	end
+
+	if SW.Time >= SW_TIME_DAWN and SW.Time < SW_TIME_AFTERNOON then
+
+		-- Run the DAWN map logic (1)
+		SW.LastTimePeriod = SW_TIME_DAWN
+		SW.DNCUpdate( 1 )
+		hook.Call( "WeatherDay", GAMEMODE )
+
+	end
+
+	if SW.Time >= SW_TIME_AFTERNOON and SW.Time < SW_TIME_DUSK then
+
+		-- Run the AFTERNOON map logic (2)
+		SW.LastTimePeriod = SW_TIME_AFTERNOON
+		SW.DNCUpdate( 2 )
+		hook.Call( "WeatherDay", GAMEMODE )
+
+	end
+	
+	if SW.Time >= SW_TIME_DUSK and SW.Time < SW_TIME_NIGHT then
+	
+		-- Run the DUSK map logic (3)
+		SW.LastTimePeriod = SW_TIME_DUSK
+		SW.DNCUpdate( 3 )
+		hook.Call( "WeatherDay", GAMEMODE )
+
+	end
+
+	-----------------------
 	-- Light Style Updates
-	------------------------------
+	-----------------------
 	
 	-- Default Light Style
 	local strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
@@ -481,44 +520,6 @@ function SW.DayNightThink()
 	if t != SW.LastHookHour then
 		SW.LastHookHour = t
 		hook.Call( "OnHour", GAMEMODE, t )
-	end
-
-	-- Run the Time Logic Functions
-
-	if SW.Time >= SW_TIME_NIGHT and SW.Time < SW_TIME_DAWN then
-
-		-- Run the NIGHT map logic (4)
-		SW.LastTimePeriod = SW_TIME_NIGHT
-		SW.DNCUpdate( 4 )
-		hook.Call( "WeatherDay", GAMEMODE )
-
-	end
-
-	if SW.Time >= SW_TIME_DAWN and SW.Time < SW_TIME_AFTERNOON then
-
-		-- Run the DAWN map logic (1)
-		SW.LastTimePeriod = SW_TIME_DAWN
-		SW.DNCUpdate( 1 )
-		hook.Call( "WeatherDay", GAMEMODE )
-
-	end
-
-	if SW.Time >= SW_TIME_AFTERNOON and SW.Time >= SW_TIME_DUSK then
-
-		-- Run the AFTERNOON map logic (2)
-		SW.LastTimePeriod = SW_TIME_AFTERNOON
-		SW.DNCUpdate( 2 )
-		hook.Call( "WeatherDay", GAMEMODE )
-
-	end
-	
-	if SW.Time >= SW_TIME_DUSK and SW.Time < SW_TIME_NIGHT then
-	
-		-- Run the DUSK map logic (3)
-		SW.LastTimePeriod = SW_TIME_DUSK
-		SW.DNCUpdate( 3 )
-		hook.Call( "WeatherDay", GAMEMODE )
-
 	end
 
 	if GetConVarNumber("sw_func_skybox") == 1 and IsValid(SW.SkyPaint) then
