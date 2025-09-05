@@ -8,6 +8,10 @@ WEATHER.ShowEnvSun = false
 WEATHER.ShowStars = false
 WEATHER.ParticleSystem = "v92_weather_rain"
 
+WEATHER.Icon = Material( "icon16/weather_rain.png" )
+WEATHER.Announcement = "A Rain Shower with fog is approaching the area."
+WEATHER.Advisory = 1
+
 WEATHER.Raindrops = true
 WEATHER.RaindropMinDelay = 0.1
 WEATHER.RaindropMaxDelay = 0.4
@@ -55,10 +59,6 @@ WEATHER.SkyColorsNight = {
 	["StarFade"]		= 5 ,
 	["StarSpeed"]		= 0.05
 }
-
-WEATHER.Icon = Material( "icon16/weather_rain.png" )
-WEATHER.Announcement = "A Rain Shower with fog is approaching the area."
-WEATHER.Advisory = 1
 
 function WEATHER:Think()
 
