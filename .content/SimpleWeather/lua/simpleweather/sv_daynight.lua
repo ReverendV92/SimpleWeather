@@ -1,6 +1,8 @@
 -- oh god oh fuck oh man this file is DOGSHIT
 -- there is SO MUCH SPAGHETTI CODE
 
+-- FLOAT = RGB / 255
+-- RGB = FLOAT * 255
 
 SW.Time = GetConVarNumber("sw_time_start")
 if SW.Time == -1 then
@@ -12,7 +14,7 @@ end
 SW_TIME_DAWN = 6
 SW_TIME_AFTERNOON = 12
 SW_TIME_DUSK = 18
-SW_TIME_NIGHT = 24
+SW_TIME_NIGHT = 20
 
 SW_TIME_WEATHER = 1
 SW_TIME_WEATHER_NIGHT = 2
@@ -333,7 +335,8 @@ function SW.DayNightThink()
 
 	if GetConVarNumber("sw_time_pause") == 0 then
 
-		if( SW.Time >= 20 or SW.Time < 4 ) then
+		-- if( SW.Time >= 20 or SW.Time < 4 ) then
+		if( SW.Time >= SW_TIME_DUSK or SW.Time < SW_TIME_DAWN ) then
 
 			SW.Time = SW.Time + FrameTime() * GetConVarNumber("sw_time_speed_night")
 
@@ -368,20 +371,66 @@ function SW.DayNightThink()
 
 	local mul = 0 -- Credit to looter's atmos addon for this math
 
-	if( SW.Time >= 4 and SW.Time < 12 ) then
+	-- if( SW.Time >= 4 and SW.Time < 12 ) then
+	if( SW.Time >= SW_TIME_DAWN and SW.Time < (SW_TIME_DAWN + 2) ) then
 
-		mul = math.EaseInOut( ( SW.Time - 4 ) / 8, 0, 1 )
+		-- mul = math.EaseInOut( ( SW.Time - 4 ) / 8, 0, 1 )
+		mul = math.EaseInOut( ( SW.Time - SW_TIME_DAWN ) / ( SW_TIME_DAWN + 2 ) , 0, 1 )
 
-	elseif( SW.Time >= 12 and SW.Time < 20 ) then
+	-- elseif( SW.Time >= 12 and SW.Time < 20 ) then
+	elseif( SW.Time >= SW_TIME_DUSK and SW.Time < (SW_TIME_DUSK + 2) ) then
 
-		mul = math.EaseInOut( 1 - ( SW.Time - 12 ) / 8, 1, 0 )
+		-- mul = math.EaseInOut( 1 - ( SW.Time - 12 ) / 8, 1, 0 )
+		mul = math.EaseInOut( 1 - ( SW.Time - SW_TIME_DUSK ) / ( SW_TIME_DUSK + 2 ), 1, 0 )
+
+	else
+
+		if SW.Time >= SW_TIME_DUSK or SW.Time < SW_TIME_DAWN then
+			mul = 0
+		else
+			mul = 1
+		end
 
 	end
 
+	------------------------------
+	-- Light Style Updates
+	------------------------------
+	
+	-- Default Light Style
 	local strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
 
-	if SW.WeatherMode != "" and SW.GetCurrentWeather().DefaultSky != true then
+	-- If there is a weather and they don't use the default sky...
+	if SW.WeatherMode != "" then
 
+		-- If the weather has a custom light style...
+		if SW.GetCurrentWeather().LightStyleDay == true then
+			strWeatherLightStyleDay = SW.GetCurrentWeather().LightStyleDay
+		end
+
+		-- If the weather has a custom night light style...
+		if SW.GetCurrentWeather().LightStyleNight == true then
+			strWeatherLightStyleNight = SW.GetCurrentWeather().LightStyleNight
+		end
+
+		-- This is probably a bad way to do this, but meh
+		if SW.GetCurrentWeather().LightStyleNight == true and SW.GetCurrentWeather().LightStyleDay == true then
+
+			strLightStyle = string.char( math.Round( Lerp( mul , string.byte( strWeatherLightStyleNight ), string.byte( strWeatherLightStyleDay ) ) ) )
+
+		elseif SW.GetCurrentWeather().LightStyleNight == true and SW.GetCurrentWeather().LightStyleDay == false then
+
+			strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( strWeatherLightStyleDay ) ) ) )
+
+		elseif SW.GetCurrentWeather().LightStyleNight == false and SW.GetCurrentWeather().LightStyleDay == true then
+
+			strLightStyle = string.char( math.Round( Lerp( mul , string.byte( strWeatherLightStyleNight ), string.byte( SW_LIGHT_DAY ) ) ) )
+
+		end
+
+	else
+	
+		-- Basic old function...
 		strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
 	end
@@ -392,14 +441,17 @@ function SW.DayNightThink()
 
 		if( !SW.NextSunUpdate or CurTime() > SW.NextSunUpdate ) then
 
-			if( SW.Time > 4 and SW.Time < 20 and SW.GetCurrentWeather().ShowEnvSun != false ) then
+			-- if( SW.Time > 4 and SW.Time < 20 and SW.GetCurrentWeather().ShowEnvSun != false ) then
+			if( SW.Time > SW_TIME_DAWN and SW.Time < SW_TIME_DUSK and SW.GetCurrentWeather().ShowEnvSun != false ) then
 
-				local mul = 1 - ( SW.Time - 4 ) / 16
+				-- local mul = 1 - ( SW.Time - SW_TIME_DAWN ) / 16
+				local mul = 1 - ( SW.Time - SW_TIME_DAWN ) / ( SW_TIME_DUSK - SW_TIME_DAWN )
 				SW.EnvSun:SetKeyValue( "sun_dir", tostring( Angle( -180 * mul, 20, 0 ):Forward() ) )
 
 			end
 
-			if( SW.GetCurrentWeather().ShowEnvSun == false or SW.Time < 4 or SW.Time > 20 ) then
+			-- if( SW.GetCurrentWeather().ShowEnvSun == false or SW.Time < 4 or SW.Time > 20 ) then
+			if( SW.GetCurrentWeather().ShowEnvSun == false or SW.Time < SW_TIME_DAWN or SW.Time > SW_TIME_DUSK ) then
 
 				if !SW.EnvSun.Off then
 
@@ -433,7 +485,7 @@ function SW.DayNightThink()
 
 	-- Run the Time Logic Functions
 
-	if SW.Time >= 0 and SW.Time < 6 then
+	if SW.Time >= SW_TIME_NIGHT and SW.Time < SW_TIME_DAWN then
 
 		-- Run the NIGHT map logic (4)
 		SW.LastTimePeriod = SW_TIME_NIGHT
@@ -442,7 +494,7 @@ function SW.DayNightThink()
 
 	end
 
-	if SW.Time >= 6 and SW.Time < 12 then
+	if SW.Time >= SW_TIME_DAWN and SW.Time < SW_TIME_AFTERNOON then
 
 		-- Run the DAWN map logic (1)
 		SW.LastTimePeriod = SW_TIME_DAWN
@@ -451,7 +503,7 @@ function SW.DayNightThink()
 
 	end
 
-	if SW.Time >= 12 and SW.Time >= 18 then
+	if SW.Time >= SW_TIME_AFTERNOON and SW.Time >= SW_TIME_DUSK then
 
 		-- Run the AFTERNOON map logic (2)
 		SW.LastTimePeriod = SW_TIME_AFTERNOON
@@ -460,7 +512,7 @@ function SW.DayNightThink()
 
 	end
 	
-	if SW.Time >= 18 and SW.Time < 24 then
+	if SW.Time >= SW_TIME_DUSK and SW.Time < SW_TIME_NIGHT then
 	
 		-- Run the DUSK map logic (3)
 		SW.LastTimePeriod = SW_TIME_DUSK
@@ -478,31 +530,37 @@ function SW.DayNightThink()
 			local skypaintstart
 			local skypaintend
 			local skypaintlerp = 1
-			
+
 			if( SW.WeatherMode != "" and SW.GetCurrentWeather().DefaultSky != true ) then
 		
-				if( SW.Time >= 20 or SW.Time <= 4 ) then
+				-- DUSK to NIGHT transition
+				if( SW.Time >= SW_TIME_DUSK or SW.Time <= SW_TIME_NIGHT ) then
 					
-					skypaintstart = SW_TIME_WEATHER_NIGHT
+					skypaintstart = SW_TIME_WEATHER --_DUSK
 					skypaintend = SW_TIME_WEATHER_NIGHT
-					
-				elseif( SW.Time <= 6 ) then
-					
+					skypaintlerp = ( SW.Time - SW_TIME_DUSK ) / 2
+
+				-- NIGHT to DAWN transition
+				elseif( SW.Time <= SW_TIME_NIGHT or SW.Time <= SW_TIME_DAWN ) then
+
 					skypaintstart = SW_TIME_WEATHER_NIGHT
-					skypaintend = SW_TIME_WEATHER
-					skypaintlerp = ( SW.Time - 4 ) / 2
+					skypaintend = SW_TIME_WEATHER --_DAWN
+					skypaintlerp = ( SW.Time - SW_TIME_DAWN ) / 2
+
+				-- DAWN to AFTERNOON transition
+				elseif( SW.Time <= SW_TIME_DAWN or SW.Time <= SW_TIME_AFTERNOON ) then
+
+					skypaintstart = SW_TIME_WEATHER --_DAWN
+					skypaintend = SW_TIME_WEATHER --_AFTERNOON
+					skypaintlerp = ( SW.Time - SW_TIME_DAWN ) / 2
 					
-				elseif( SW.Time <= 18 ) then
+				-- AFTERNOON to DUSK transition
+				elseif( SW.Time <= SW_TIME_AFTERNOON or SW.Time <= SW_TIME_DUSK ) then
 					
-					skypaintstart = SW_TIME_WEATHER
-					skypaintend = SW_TIME_WEATHER
-					
-				elseif( SW.Time <= 20 ) then
-					
-					skypaintstart = SW_TIME_WEATHER
-					skypaintend = SW_TIME_WEATHER_NIGHT
-					skypaintlerp = ( SW.Time - 18 ) / 2
-					
+					skypaintstart = SW_TIME_WEATHER --_AFTERNOON
+					skypaintend = SW_TIME_WEATHER --_DUSK
+					skypaintlerp = ( SW.Time - SW_TIME_AFTERNOON ) / 2
+
 				end
 
 				if( SW.GetCurrentWeather().FogColor ) then
@@ -530,35 +588,58 @@ function SW.DayNightThink()
 					skypaintstart = SW_TIME_NIGHT
 					skypaintend = SW_TIME_NIGHT
 					
-				elseif( SW.Time <= 6 ) then
+				-- elseif( SW.Time <= 6 ) then
+					-- skypaintstart = SW_TIME_NIGHT
+					-- skypaintend = SW_TIME_DAWN
+					-- skypaintlerp = ( SW.Time - 4 ) / 2
+
+				elseif( SW.Time <= 8 ) then
 					
 					skypaintstart = SW_TIME_NIGHT
 					skypaintend = SW_TIME_DAWN
-					skypaintlerp = ( SW.Time - 4 ) / 2
+					skypaintlerp = ( SW.Time - 4 ) / 4
 					
 				elseif( SW.Time <= 10 ) then
 					
 					skypaintstart = SW_TIME_DAWN
 					skypaintend = SW_TIME_AFTERNOON
 					skypaintlerp = ( SW.Time - 6 ) / 4
-					
-				elseif( SW.Time <= 18 ) then
+
+				elseif( SW.Time <= 16 ) then
 					
 					skypaintstart = SW_TIME_AFTERNOON
 					skypaintend = SW_TIME_AFTERNOON
 					skypaintlerp = 1
-					
-				elseif( SW.Time <= 20 ) then
+
+				-- elseif( SW.Time <= 18 ) then
+
+					-- skypaintstart = SW_TIME_AFTERNOON
+					-- skypaintend = SW_TIME_AFTERNOON
+					-- skypaintlerp = 1
+
+				elseif( SW.Time <= 18 ) then
 					
 					skypaintstart = SW_TIME_AFTERNOON
 					skypaintend = SW_TIME_DUSK
-					skypaintlerp = ( SW.Time - 18 ) / 2
+					skypaintlerp = ( SW.Time - 16 ) / 2
+
+				-- elseif( SW.Time <= 20 ) then
 					
-				elseif( SW.Time <= 22 ) then
+					-- skypaintstart = SW_TIME_AFTERNOON
+					-- skypaintend = SW_TIME_DUSK
+					-- skypaintlerp = ( SW.Time - 18 ) / 2
+
+				elseif( SW.Time <= 20 ) then
 					
 					skypaintstart = SW_TIME_DUSK
 					skypaintend = SW_TIME_NIGHT
-					skypaintlerp = ( SW.Time - 20 ) / 2
+					skypaintlerp = ( SW.Time - 18 ) / 2
+
+				-- elseif( SW.Time <= 22 ) then
+
+					-- skypaintstart = SW_TIME_DUSK
+					-- skypaintend = SW_TIME_NIGHT
+					-- skypaintlerp = ( SW.Time - 20 ) / 2
 					
 				else
 					
@@ -633,7 +714,8 @@ function SW.DayNightThink()
 			SW.SkyPaint:SetDuskColor( values.DuskColor )
 			SW.SkyPaint:SetSunColor( values.SunColor )
 			
-			if( SW.Time > 4 and SW.Time < 20 and SW.Weather == "" ) then
+			-- if( SW.Time > 4 and SW.Time < 20 and SW.Weather == "" ) then
+			if( SW.Time > SW_TIME_DAWN and SW.Time < SW_TIME_DUSK and SW.Weather == "" ) then
 
 				SW.SkyPaint:SetSunSize( values.SunSize )
 
@@ -655,21 +737,55 @@ function SW.SetTime( t )
 
 	local mul = 0
 
-	if( SW.Time >= 4 and SW.Time < 12 ) then
+	if( SW.Time >= SW_TIME_DAWN and SW.Time < SW_TIME_DAWN + 2 ) then
 
-		mul = math.EaseInOut( ( SW.Time - 4 ) / 8, 0, 1 )
+		mul = math.EaseInOut( ( SW.Time - SW_TIME_DAWN ) / 8, 0, 1 )
 
-	elseif( SW.Time >= 12 and SW.Time < 20 ) then
+	elseif( SW.Time >= SW_TIME_DUSK and SW.Time < SW_TIME_DUSK + 2 ) then
 
-		mul = math.EaseInOut( 1 - ( SW.Time - 12 ) / 8, 1, 0 )
+		mul = math.EaseInOut( 1 - ( SW.Time - SW_TIME_DUSK ) / 8, 1, 0 )
 
 	end
 
-	local strLightStyle = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
+	------------------------------
+	-- Light Style Updates
+	------------------------------
+	
+	-- Default Light Style
+	local strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
 
-	if( SW.WeatherMode != "" and SW.GetCurrentWeather().DefaultSky != true ) then
+	-- If there is a weather and they don't use the default sky...
+	if SW.WeatherMode != "" then
 
-		strLightStyle = string.char( math.Round( Lerp( mul, string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
+		-- If the weather has a custom light style...
+		if SW.GetCurrentWeather().LightStyleDay == true then
+			strWeatherLightStyleDay = SW.GetCurrentWeather().LightStyleDay
+		end
+
+		-- If the weather has a custom night light style...
+		if SW.GetCurrentWeather().LightStyleNight == true then
+			strWeatherLightStyleNight = SW.GetCurrentWeather().LightStyleNight
+		end
+
+		-- This is probably a bad way to do this, but meh
+		if SW.GetCurrentWeather().LightStyleNight == true and SW.GetCurrentWeather().LightStyleDay == true then
+
+			strLightStyle = string.char( math.Round( Lerp( mul , string.byte( strWeatherLightStyleNight ), string.byte( strWeatherLightStyleDay ) ) ) )
+
+		elseif SW.GetCurrentWeather().LightStyleNight == true and SW.GetCurrentWeather().LightStyleDay == false then
+
+			strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( strWeatherLightStyleDay ) ) ) )
+
+		elseif SW.GetCurrentWeather().LightStyleNight == false and SW.GetCurrentWeather().LightStyleDay == true then
+
+			strLightStyle = string.char( math.Round( Lerp( mul , string.byte( strWeatherLightStyleNight ), string.byte( SW_LIGHT_DAY ) ) ) )
+
+		end
+
+	else
+	
+		-- Basic old function...
+		strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
 	end
 
