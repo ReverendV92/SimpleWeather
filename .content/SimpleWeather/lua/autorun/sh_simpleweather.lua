@@ -800,6 +800,8 @@ if CLIENT then
 			Panel:ControlHelp( "Meteor Shower.\nClear skies.\nMeteor strike will cause slight damage." , {} )
 			Panel:AddControl( "button" , { ["Label"] = "Meteor Storm" , ["Command"] = "sw_weather meteor" } )
 			Panel:ControlHelp( "Meteor Storm.\nOvercast skies.\nMeteor strike will cause significant damage." , {} )
+			Panel:AddControl( "button" , { ["Label"] = "Halloween" , ["Command"] = "sw_weather halloween" } )
+			Panel:ControlHelp( "Spooky.\nOvercast skies.\nTrick or treat!" , {} )
 
 		end)
 
@@ -1677,6 +1679,7 @@ if CLIENT then
 		rng:AddOption( "Acid Rain", function( ) RunConsoleCommand( "sw_weather" , "acidrain" ) end )
 		rng:AddOption( "Meteor Shower", function( ) RunConsoleCommand( "sw_weather" , "meteorshower" ) end )
 		rng:AddOption( "Meteor Storm", function( ) RunConsoleCommand( "sw_weather" , "meteor" ) end )
+		rng:AddOption( "Halloween", function( ) RunConsoleCommand( "sw_weather" , "halloween" ) end )
 
 		m:AddOption( "Stop Current Weather", function( ) RunConsoleCommand( "sw_stopweather" ) end )
 
@@ -1713,6 +1716,10 @@ if CLIENT then
 		SW.AddCVarNet( rng, "Acid Rain", "sw_acidrain" , "1" , "0" )
 		SW.AddCVarNet( rng, "Meteor Shower", "sw_meteorshower" , "1" , "0" )
 		SW.AddCVarNet( rng, "Meteor Storm", "sw_meteor" , "1" , "0" )
+
+		rng:AddSpacer( )
+
+		SW.AddCVarNet( rng, "Halloween", "sw_halloween" , "1" , "0" )
 
 	end )
 
