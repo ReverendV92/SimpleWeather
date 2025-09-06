@@ -15,22 +15,25 @@ WEATHER.Advisory = 0
 -- WEATHER.RaindropMinDelay = 0.1
 -- WEATHER.RaindropMaxDelay = 0.4
 
-WEATHER.FogStart = 512
-WEATHER.FogEnd = 2048
-WEATHER.FogMaxDensity = 0.97
-WEATHER.FogColor = Color( 14 , 127 , 6 , 255 )
+-- WEATHER.FogStart = 512
+-- WEATHER.FogEnd = 2048
+-- WEATHER.FogMaxDensity = 0.97
+-- WEATHER.FogColor = Color( 14 , 127 , 6 , 255 )
 
--- WEATHER.SkyColorTop = Color( 0 , 0 , 0 )
+WEATHER.SkyColorTop = Color( 0 , 0 , 0 )
 -- WEATHER.SkyColorBottom = Color( 12 , 127 , 5 )
--- WEATHER.SkyFadeBias = 0.25
--- WEATHER.SkyHDRScale = 0.66
+WEATHER.SkyColorBottom = Color( 0 , 0 , 0 )
+WEATHER.SkyFadeBias = 0.25
+WEATHER.SkyHDRScale = 0.66
 
 WEATHER.LightStyleDay = 8
 WEATHER.LightStyleNight = 1
 
 WEATHER.DefaultSky = {
-	["TopColor"]		= Vector( 0.0 , 0.0 , 0.0 ) ,
-	["BottomColor"]		= Vector( 0.05 , 0.05 , 0.02 ) ,
+	-- ["TopColor"]		= Vector( 0.1 , 0.15 , 0.0 ) ,
+	-- ["BottomColor"]		= Vector( 0.12 , 0.27 , 0.11 ) ,
+	["TopColor"]		= Vector( 1 , 1 , 1 ) ,
+	["BottomColor"]		= Vector( 0 , 0 , 0 ) ,
 	["FadeBias"]		= 0.25 ,
 	["HDRScale"]		= 0.66 ,
 	["DuskIntensity"]	= 0 ,
