@@ -553,9 +553,6 @@ if CLIENT then
 						["sw_hud_toggle"] = "1" ,
 						["sw_weather_eas"] = "1" ,
 						["sw_weather_announcement"] = "1" ,
-						["sw_light_day_brightness"] = "25" ,
-						["sw_light_night_brightness"] = "2" ,
-						["sw_light_storm_brightness"] = "10" ,
 					},
 
 					["disabled"] = {
@@ -588,9 +585,6 @@ if CLIENT then
 					"sw_hud_toggle" ,
 					"sw_weather_eas" ,
 					"sw_weather_announcement" ,
-					"sw_light_day_brightness" ,
-					"sw_light_night_brightness" ,
-					"sw_light_storm_brightness" ,
 
 				}
 
@@ -1459,6 +1453,9 @@ if CLIENT then
 						["sw_time_speed_day"] = "0.01" ,
 						["sw_time_speed_night"] = "0.02" ,
 						-- ["sw_time_speed_stars"] = "0.01" ,
+						["sw_light_day_brightness"] = "25" ,
+						["sw_light_night_brightness"] = "2" ,
+						["sw_light_storm_brightness"] = "10" ,
 
 					},
 
@@ -1491,6 +1488,9 @@ if CLIENT then
 					"sw_time_speed_day" ,
 					"sw_time_speed_night" ,
 					-- "sw_time_speed_stars" ,
+					"sw_light_day_brightness" ,
+					"sw_light_night_brightness" ,
+					"sw_light_storm_brightness" ,
 
 				}
 
