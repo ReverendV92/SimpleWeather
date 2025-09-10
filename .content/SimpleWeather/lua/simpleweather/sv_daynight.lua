@@ -170,6 +170,7 @@ function SW.UpdateLightStyle( strLightStyle )
 
 		end
 
+		-- print("Updating light style to: " .. strLightStyle )
 		SW.LastLightStyle = strLightStyle
 
 	end
@@ -438,6 +439,8 @@ function SW.DayNightThink()
 	
 	-- Default Light Style
 	local strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_DAY ) ) ) )
+	strWeatherLightStyleDay = SW.GetCurrentWeather().LightStyleDay or "" 
+	strWeatherLightStyleNight = SW.GetCurrentWeather().LightStyleNight or ""
 
 	-- If there is a weather and they don't use the default sky...
 	if SW.WeatherMode != "" then
@@ -455,14 +458,17 @@ function SW.DayNightThink()
 		-- This is probably a bad way to do this, but meh
 		if SW.GetCurrentWeather().LightStyleNight == true and SW.GetCurrentWeather().LightStyleDay == true then
 
+			-- print( "Weather has a custom day and night style." )
 			strLightStyle = string.char( math.Round( Lerp( mul , string.byte( strWeatherLightStyleNight ), string.byte( strWeatherLightStyleDay ) ) ) )
 
 		elseif SW.GetCurrentWeather().LightStyleNight == true and SW.GetCurrentWeather().LightStyleDay == false then
 
+			-- print( "Weather has a custom night style." )
 			strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( strWeatherLightStyleDay ) ) ) )
 
 		elseif SW.GetCurrentWeather().LightStyleNight == false and SW.GetCurrentWeather().LightStyleDay == true then
 
+			-- print( "Weather has a custom day style." )
 			strLightStyle = string.char( math.Round( Lerp( mul , string.byte( strWeatherLightStyleNight ), string.byte( SW_LIGHT_DAY ) ) ) )
 
 		end
@@ -472,6 +478,7 @@ function SW.DayNightThink()
 		-- Basic old function...
 		strLightStyle = string.char( math.Round( Lerp( mul , string.byte( SW_LIGHT_NIGHT ), string.byte( SW_LIGHT_STORM ) ) ) )
 
+		-- print("Default weather. Light style is: " .. strLightStyle )
 	end
 
 	SW.UpdateLightStyle( strLightStyle )
