@@ -13,6 +13,9 @@ WEATHER.Icon = Material( "icon16/sport_shuttlecock.png" )
 WEATHER.Advisory = 2
 -- WEATHER.Broadcast = Sound("SW.EAS.Alert")
 
+WEATHER.LightStyleDay = 8
+WEATHER.LightStyleNight = 1
+
 local SpecialEntity = "sw_meteor_small"
 
 function WEATHER:Think()
