@@ -370,7 +370,9 @@ function SW.DayNightThink()
 
 	end
 
-	local mul = 0 -- Credit to looter's atmos addon for this math
+	-- Disseminate: Credit to looter's atmos addon for this math
+	-- V92: this is a mess and I hate this
+	local mul = 0 
 
 	-- if( SW.Time >= 4 and SW.Time < 12 ) then
 	if( SW.Time >= SW_TIME_DAWN and SW.Time < (SW_TIME_DAWN + 2) ) then
