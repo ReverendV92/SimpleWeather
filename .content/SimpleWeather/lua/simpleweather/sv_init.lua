@@ -96,7 +96,7 @@ function SW.SetWeather( s )
 
 		end
 
-		SW.ResetSnowTextureSettings()
+		SW.ResetWeatherTextureSettings()
 	end
 
 	-- Run the env_wind scaling

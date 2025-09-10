@@ -31,6 +31,6 @@ end
 
 function WEATHER:OnEnd()
 
-	SW.ResetSnowTextureSettings()
+	SW.ResetWeatherTextureSettings()
 
 end

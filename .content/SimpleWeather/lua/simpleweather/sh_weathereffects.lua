@@ -745,6 +745,15 @@ end
 
 ----------------------------------------
 ----------------------------------------
+-- Halloween
+----------------------------------------
+-- TBD
+----------------------------------------
+----------------------------------------
+
+
+----------------------------------------
+----------------------------------------
 -- RAIN
 ----------------------------------------
 ----------------------------------------
@@ -913,6 +922,12 @@ end
 -- 2: replacement method (0=replace both, 1=only $basetexture, 2=only $basetexture2, 3=make invisible)
 -- 3: material to replace with
 ------------------------------------------------------------
+
+----------------------------------------
+----------------------------------------
+-- SNOW
+----------------------------------------
+----------------------------------------
 
 SW.SnowTextureSettings = {
 
@@ -1294,12 +1309,12 @@ SW.SnowModelSettings = {
 SW.SnowSettings = { "simpleweather/textures/snow_0_01" , "simpleweather/textures/snow_0_01_normal" , "snow" , ""}
 
 -- The reset table. Don't fucking touch!
-SW.SnowTextureResets = { }
-SW.SnowModelResets = { }
+SW.WeatherTextureResets = { }
+SW.WeatherModelResets = { }
 
-function SW.ResetSnowTextureSettings()
+function SW.ResetWeatherTextureSettings()
 
-	for k, originals in pairs( SW.SnowTextureResets ) do
+	for k, originals in pairs( SW.WeatherTextureResets ) do
 
 		local m = Material( k )
 
@@ -1321,7 +1336,7 @@ function SW.ResetSnowTextureSettings()
 
 	end
 
-	for k, originals in pairs( SW.SnowModelResets ) do
+	for k, originals in pairs( SW.WeatherModelResets ) do
 
 		local m = Material( k )
 
@@ -1331,11 +1346,11 @@ function SW.ResetSnowTextureSettings()
 
 	end
 
-	-- table.Empty( SW.SnowTextureResets )
-	-- table.Empty( SW.SnowModelResets )
+	-- table.Empty( SW.WeatherTextureResets )
+	-- table.Empty( SW.WeatherModelResets )
 
 end
-hook.Add( "InitPostEntity", "SW.ResetSnowTextureSettings", SW.ResetSnowTextureSettings )
+hook.Add( "InitPostEntity", "SW.ResetWeatherTextureSettings", SW.ResetWeatherTextureSettings )
 
 
 -- function SW.CheckSnowTexture( mat, mattype, norm )
@@ -1356,7 +1371,7 @@ function SW.SetSnowTextureSettings()
 
 		local m = Material( originalMaterial )
 
-		if( !SW.SnowModelResets[originalMaterial] ) then
+		if( !SW.WeatherModelResets[originalMaterial] ) then
 
 			local t1 = m:GetTexture( "$basetexture" )
 
@@ -1372,7 +1387,7 @@ function SW.SetSnowTextureSettings()
 		if ( m_replacement:GetTexture( "$basetexture" ) == nil ) then print( "[SW] Snow Replacement $basetexture: " .. tostring( m_replacement ) .. " is not valid." ) return end
 		m:SetTexture( "$basetexture", m_replacement:GetTexture( "$basetexture" ) )
 
-		SW.SnowModelResets[originalMaterial] = { o_t1 }
+		SW.WeatherModelResets[originalMaterial] = { o_t1 }
 
 		-- if GetConVarNumber("sw_debug") == 1 then print("simpleweather/sh_weathereffects::SW.SetSnowTextureSettings::Model Relacement::" .. tostring(m) .. " is now " .. tostring(m_replacement) ) end
 
@@ -1384,7 +1399,7 @@ function SW.SetSnowTextureSettings()
 
 		local m = Material( originalMaterial )
 
-		if( !SW.SnowTextureResets[originalMaterial] ) then
+		if( !SW.WeatherTextureResets[originalMaterial] ) then
 			local t1 = m:GetTexture( "$basetexture" )
 			local t2 = m:GetTexture( "$basetexture2" )
 			local b1 = m:GetTexture( "$bumpmap" )
@@ -1412,7 +1427,7 @@ function SW.SetSnowTextureSettings()
 				o_b2 = string.lower( "dev/bump_normal" )
 			end
 
-			SW.SnowTextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 }
+			SW.WeatherTextureResets[originalMaterial] = { o_t1 , o_t2 , o_b1 , o_b2 }
 
 		end
 
@@ -1453,7 +1468,7 @@ function SW.SetSnowTextureSettings()
 
 				local m = Material( v )
 
-				if( !SW.SnowTextureResets[v] ) then
+				if( !SW.WeatherTextureResets[v] ) then
 					local t1 = m:GetTexture( "$basetexture" )
 					local t2 = m:GetTexture( "$basetexture2" )
 
@@ -1466,7 +1481,7 @@ function SW.SetSnowTextureSettings()
 						m2 = string.lower( t2:GetName() )
 					end
 
-					SW.SnowTextureResets[v] = { m1, m2 }
+					SW.WeatherTextureResets[v] = { m1, m2 }
 
 				end
 
