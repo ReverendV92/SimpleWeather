@@ -8,6 +8,9 @@ WEATHER.ShowEnvSun = false
 WEATHER.ShowStars = false
 WEATHER.ParticleSystem = ""
 
+WEATHER.Announcement = "An overcast cloud front is approaching the area."
+WEATHER.Icon = Material( "icon16/weather_cloudy.png" )
+
 WEATHER.FogStart = 0
 WEATHER.FogEnd = 2048
 WEATHER.FogMaxDensity = 0.6
@@ -18,6 +21,3 @@ WEATHER.FogColor = Color( 100 , 100 , 100 , 255 )
 -- WEATHER.SkyOverlayScale = 3
 -- WEATHER.SkyOverlayFade = 5
 -- WEATHER.SkyOverlaySpeed = 0.03
-
-WEATHER.Announcement = "An overcast cloud front is approaching the area."
-WEATHER.Icon = Material( "icon16/weather_cloudy.png" )

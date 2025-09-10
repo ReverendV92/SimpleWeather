@@ -8,6 +8,11 @@ WEATHER.ShowEnvSun = false
 WEATHER.ShowStars = false
 WEATHER.ParticleSystem = "v92_weather_storm"
 
+WEATHER.Announcement = "A Severe Storm is approaching the area.\nLightning storms, hail damage, torrential rain, and extreme winds are predicted.\nShelter and restriction of non-essential travel are strongly encouraged.\nAdvisory Level: 3"
+WEATHER.Icon = Material( "icon16/weather_lightning.png" )
+WEATHER.Advisory = 3
+WEATHER.Broadcast = Sound("SW.EAS.Alert")
+
 WEATHER.Raindrops = true
 WEATHER.RaindropMinDelay = 0.05
 WEATHER.RaindropMaxDelay = 0.2
@@ -27,11 +32,6 @@ WEATHER.FogColor = Color( 100 , 100 , 100 , 255 )
 -- WEATHER.SkyOverlayScale = 3
 -- WEATHER.SkyOverlayFade = 5
 -- WEATHER.SkyOverlaySpeed = 0.05
-
-WEATHER.Announcement = "A Severe Storm is approaching the area.\nLightning storms, hail damage, torrential rain, and extreme winds are predicted.\nShelter and restriction of non-essential travel are strongly encouraged.\nAdvisory Level: 3"
-WEATHER.Icon = Material( "icon16/weather_lightning.png" )
-WEATHER.Advisory = 3
-WEATHER.Broadcast = Sound("SW.EAS.Alert")
 
 local SpecialEntity = "sw_hail"
 

@@ -26,39 +26,39 @@ WEATHER.SkyColorBottom = Color( 25 , 25 , 25 )
 WEATHER.SkyFadeBias = 0.3
 WEATHER.SkyHDRScale = 0.66
 
-WEATHER.DefaultSky = {
-	["TopColor"]		= Vector( 0.34 , 0.34 , 0.34 ) ,
-	["BottomColor"]		= Vector( 0.19 , 0.19 , 0.19 ) ,
-	["FadeBias"]		= 1 ,
-	["HDRScale"]		= 0.66 ,
-	["DuskIntensity"]	= 0 ,
-	["DuskScale"]		= 0 ,
-	["DuskColor"]		= Vector( 0 , 0 , 0 ) ,
-	["SunSize"]			= 0 ,
-	["SunColor"]		= Vector( 0 , 0 , 0 ) ,
-	["StarTexture"]		= "skybox/clouds" ,
-	["StarLayers"]		= 1 ,
-	["StarScale"]		= 3 ,
-	["StarFade"]		= 5 ,
-	["StarSpeed"]		= 0.05  
-}
+-- WEATHER.DefaultSky = {
+	-- ["TopColor"]		= Vector( 0.34 , 0.34 , 0.34 ) ,
+	-- ["BottomColor"]		= Vector( 0.19 , 0.19 , 0.19 ) ,
+	-- ["FadeBias"]		= 1 ,
+	-- ["HDRScale"]		= 0.66 ,
+	-- ["DuskIntensity"]	= 0 ,
+	-- ["DuskScale"]		= 0 ,
+	-- ["DuskColor"]		= Vector( 0 , 0 , 0 ) ,
+	-- ["SunSize"]			= 0 ,
+	-- ["SunColor"]		= Vector( 0 , 0 , 0 ) ,
+	-- ["StarTexture"]		= "skybox/clouds" ,
+	-- ["StarLayers"]		= 1 ,
+	-- ["StarScale"]		= 3 ,
+	-- ["StarFade"]		= 5 ,
+	-- ["StarSpeed"]		= 0.05  
+-- }
 
-WEATHER.SkyColorsNight = {
-	["TopColor"]		= Vector( 0.02 , 0.02 , 0.02 ) ,
-	["BottomColor"]		= Vector( 0 , 0 , 0 ) ,
-	["FadeBias"]		= 1 ,
-	["HDRScale"]		= 0.66 ,
-	["DuskIntensity"]	= 0 ,
-	["DuskScale"]		= 0 ,
-	["DuskColor"]		= Vector( 0 , 0 , 0 ) ,
-	["SunSize"]			= 0 ,
-	["SunColor"]		= Vector( 0 , 0 , 0 ) ,
-	["StarTexture"]		= "skybox/clouds" ,
-	["StarLayers"]		= 1 ,
-	["StarScale"]		= 3 ,
-	["StarFade"]		= 5 ,
-	["StarSpeed"]		= 0.05
-}
+-- WEATHER.SkyColorsNight = {
+	-- ["TopColor"]		= Vector( 0.02 , 0.02 , 0.02 ) ,
+	-- ["BottomColor"]		= Vector( 0 , 0 , 0 ) ,
+	-- ["FadeBias"]		= 1 ,
+	-- ["HDRScale"]		= 0.66 ,
+	-- ["DuskIntensity"]	= 0 ,
+	-- ["DuskScale"]		= 0 ,
+	-- ["DuskColor"]		= Vector( 0 , 0 , 0 ) ,
+	-- ["SunSize"]			= 0 ,
+	-- ["SunColor"]		= Vector( 0 , 0 , 0 ) ,
+	-- ["StarTexture"]		= "skybox/clouds" ,
+	-- ["StarLayers"]		= 1 ,
+	-- ["StarScale"]		= 3 ,
+	-- ["StarFade"]		= 5 ,
+	-- ["StarSpeed"]		= 0.05
+-- }
 
 function WEATHER:Think()
 
