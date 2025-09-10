@@ -399,6 +399,7 @@ function SW.DayNightThink()
 	--------------------
 	if SW.Time >= SW_TIME_NIGHT or SW.Time < SW_TIME_DAWN then
 
+		-- print("Map Logic: NIGHT")
 		-- Run the NIGHT map logic (4)
 		SW.LastTimePeriod = SW_TIME_NIGHT
 		SW.DNCUpdate( 4 )
@@ -408,6 +409,7 @@ function SW.DayNightThink()
 
 	if SW.Time >= SW_TIME_DAWN and SW.Time < SW_TIME_AFTERNOON then
 
+		-- print("Map Logic: DAWN")
 		-- Run the DAWN map logic (1)
 		SW.LastTimePeriod = SW_TIME_DAWN
 		SW.DNCUpdate( 1 )
@@ -417,6 +419,7 @@ function SW.DayNightThink()
 
 	if SW.Time >= SW_TIME_AFTERNOON and SW.Time < SW_TIME_DUSK then
 
+		-- print("Map Logic: AFTERNOON")
 		-- Run the AFTERNOON map logic (2)
 		SW.LastTimePeriod = SW_TIME_AFTERNOON
 		SW.DNCUpdate( 2 )
@@ -426,6 +429,7 @@ function SW.DayNightThink()
 	
 	if SW.Time >= SW_TIME_DUSK and SW.Time < SW_TIME_NIGHT then
 	
+		-- print("Map Logic: DUSK")
 		-- Run the DUSK map logic (3)
 		SW.LastTimePeriod = SW_TIME_DUSK
 		SW.DNCUpdate( 3 )
@@ -852,9 +856,15 @@ function SW.DNCUpdate( int )
 
 		end
 
+		SW.SkyPaint:SetStarTexture( "skybox/clouds" )
+		SW.SkyPaint:SetStarLayers( 1 )
+		SW.SkyPaint:SetStarScale( 1 )
+		SW.SkyPaint:SetStarFade( 0.4 )
+		SW.SkyPaint:SetStarSpeed( 0.03 )
+
 	end
 
-	-- 2=Dusk
+	-- 3=Dusk
 	if int == 3 then
 
 		if( GetConVarNumber("sw_func_maplogic") == 1 ) then
@@ -883,6 +893,14 @@ function SW.DNCUpdate( int )
 			SW.MapLogic( 4 )
 
 		end
+
+		SW.SkyPaint:SetStarTexture( "skybox/starfield" )
+		SW.SkyPaint:SetStarScale( 0.5 )
+		SW.SkyPaint:SetStarFade( 1.5 )
+		-- SW.SkyPaint:SetStarSpeed( GetConVarNumber("sw_time_speed_stars") )
+		SW.SkyPaint:SetStarSpeed( 0.01 )
+
+		-- todo: env_sun sprite to moon
 
 	end
 
@@ -948,6 +966,16 @@ function SW.MapLogic( int )
 
 		end
 
+		if( string.lower( game.GetMap() ) == "rp_flatgrass_redux" ) then
+
+			for _, v in pairs( ents.FindByName( "dnc_toggle" ) ) do
+
+				v:Fire( "FireUser2" )
+
+			end
+
+		end
+
 	end
 
 	-- 3=Dusk
@@ -1004,6 +1032,16 @@ function SW.MapLogic( int )
 		for _, v in pairs( ents.FindByName( "midnight_events" ) ) do
 
 			v:Fire( "Trigger" )
+
+		end
+
+		if( string.lower( game.GetMap() ) == "rp_flatgrass_redux" ) then
+
+			for _, v in pairs( ents.FindByName( "dnc_toggle" ) ) do
+
+				v:Fire( "FireUser1" )
+
+			end
 
 		end
 

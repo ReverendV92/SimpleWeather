@@ -1529,7 +1529,7 @@ if CLIENT then
 			-- SW.NumSliderNet(Panel, "Night Time", "sw_time_night", "0", "23", "int")
 			-- Panel:ControlHelp( "Time to consider Night." , {} )
 
-			Panel:Help( "Lighting brightness settings. Higher=brighter." , {} )
+			Panel:Help( "Lighting brightness settings. Higher=brighter. Note that these require a map change to take effect." , {} )
 			SW.NumSliderNet(Panel, "Lighting: Day", "sw_light_day_brightness", "1", "26", "int")
 			SW.NumSliderNet(Panel, "Lighting: Night", "sw_light_night_brightness", "1", "26", "int")
 			SW.NumSliderNet(Panel, "Lighting: Storm", "sw_light_storm_brightness", "1", "26", "int")
